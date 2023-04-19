@@ -33,3 +33,7 @@ def solve_optimization_problem(x0, y0):
 x_star = solve_optimization_problem(task.x, task.y)
 y_star = task.predict(x_star)
 
+import numpy as np
+
+a = np.array([2,3])
+print(a)
