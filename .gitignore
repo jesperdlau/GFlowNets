@@ -131,5 +131,3 @@ dmypy.json
 # Data
 .data/
 data/
-
-data_download.py
