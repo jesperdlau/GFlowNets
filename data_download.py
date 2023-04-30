@@ -6,7 +6,7 @@ import os
 
 # Change folder if needed
 DATA_FOLDER = "GFlowNets/data/"
-#DATA_FOLDER = "./data/"
+DATA_FOLDER = "./data/"
 
 def download(download_target, disk_target):
     response = requests.get(download_target, allow_redirects=True)
