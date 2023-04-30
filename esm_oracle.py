@@ -3,11 +3,15 @@ import torch
 
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer
 
-#tokenizer = AutoTokenizer.from_pretrained("jiuyiyuyi/esm2_t12_35M_UR50D-Fluorescence-230313")
-tokenizer = AutoTokenizer.from_pretrained("GFlowNets/data/gfp/esm_tokenizer") # Local 
+# Initial pull from huggingface
+# tokenizer = AutoTokenizer.from_pretrained("jiuyiyuyi/esm2_t12_35M_UR50D-Fluorescence-230313")
+# model = AutoModelForSequenceClassification.from_pretrained("jiuyiyuyi/esm2_t12_35M_UR50D-Fluorescence-230313")
+# tokenizer.save_pretrained("/data/gfp/esm_tokenizer")
+# model.save_pretrained("/data/gfp/esm_model")
 
-#model = AutoModelForSequenceClassification.from_pretrained("jiuyiyuyi/esm2_t12_35M_UR50D-Fluorescence-230313")
-model = AutoModelForSequenceClassification.from_pretrained("GFlowNets/data/gfp/esm_model") # Local 
+# Local 
+tokenizer = AutoTokenizer.from_pretrained("GFlowNets/data/gfp/esm_tokenizer")  
+model = AutoModelForSequenceClassification.from_pretrained("GFlowNets/data/gfp/esm_model") 
 
 
 
