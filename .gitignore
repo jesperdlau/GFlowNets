@@ -131,3 +131,6 @@ dmypy.json
 # Data
 .data/
 data/
+
+# Pytorch models
+*.pth
