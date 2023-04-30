@@ -8,12 +8,13 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, Dataset
 
 DATA_FOLDER = "GFlowNets/data/"
-#DATA_FOLDER = "./data/"
 
-# Rasmus
+# Rasmus path
 DATA_FOLDER = "data/"
+
+SEED = 42
 TRAIN_SIZE = 1/5
-EPOCHS = 20
+EPOCHS = 50
 BATCH_SIZE = 100
 LEARNING_RATE = 0.0001
 
@@ -26,7 +27,6 @@ device = (
 )
 print(f"\nUsing {device} device")
 
-SEED = 42
 
 X = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-x.npy")
 y = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-y.npy")
@@ -120,13 +120,13 @@ def test_loop(dataloader, model, loss_fn):
             test_loss += loss_fn(pred, y).item()
             # correct += (pred.argmax(1) == y).type(torch.float).sum().item()
 
-    print(f"\nMean squared error: {test_loss / size}")
+    print(f"Mean squared error: {test_loss / size}")
 
 
 def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = None):
     for epoch in range(epochs):
-        inner_train(train_DL,model,loss_fn,optimizer)
         print(f"\nEpoch number: {epoch}")
+        inner_train(train_DL,model,loss_fn,optimizer)
         test_loop(test_DL,model,loss_fn)
 
     if save_as:
@@ -144,6 +144,3 @@ if __name__ == "__main__":
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
     train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "TFBind_testmodel")
-
-    # train_loop(train_dataLoader,model,loss,opt)
-    # test_loop(test_dataLoader,model,loss)
