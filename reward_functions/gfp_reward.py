@@ -5,17 +5,17 @@ import torch.optim as optim
 # import pandas as pd
 # import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, TensorDataset
 
 DATA_FOLDER = "GFlowNets/data/"
 #DATA_FOLDER = "./data/"
 
 # Rasmus
 DATA_FOLDER = "data/"
-TRAIN_SIZE = 1/5
-EPOCHS = 50
+TRAIN_SIZE = 4/5
+EPOCHS = 30
 BATCH_SIZE = 100
-LEARNING_RATE = 0.0001
+LEARNING_RATE = 0.001
 
 
 device = (
@@ -38,17 +38,6 @@ y_train = torch.tensor(y_train, dtype=torch.float32).reshape(-1, 1)
 X_test = torch.tensor(X_test, dtype=torch.float32)
 y_test = torch.tensor(y_test, dtype=torch.float32).reshape(-1, 1)
 
-class SequenceDataset(Dataset):
-
-    def __init__(self,X,y):
-        self.X = X
-        self.y = y
-    
-    def __getitem__(self, index):
-        return self.X[index], y[index]
-    
-    def __len__(self):
-        return len(self.X)
 
 class GFPReward(nn.Module):
 
@@ -116,8 +105,8 @@ if __name__ == "__main__":
     loss = nn.MSELoss()
     opt = optim.Adam(model.parameters(), lr=LEARNING_RATE)
     
-    trainSet = SequenceDataset(X_train,y_train)
-    testSet = SequenceDataset(X_test,y_test)
+    trainSet = TensorDataset(X_train,y_train)
+    testSet = TensorDataset(X_test,y_test)
 
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
