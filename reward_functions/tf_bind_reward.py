@@ -98,7 +98,6 @@ def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = No
 
         print(f"Mean squared error: {test_loss / size}\n")
 
-
     if save_as:
         torch.save(model.state_dict(), save_as + ".pth")
 

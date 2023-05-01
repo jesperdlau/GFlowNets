@@ -25,6 +25,7 @@ device = (
     if torch.backends.mps.is_available()
     else "cpu"
 )
+
 print(f"\nUsing {device} device")
 
 SEED = 42
