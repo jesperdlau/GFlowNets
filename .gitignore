@@ -134,3 +134,13 @@ data/
 
 # Pytorch models
 *.pth
+
+
+# models saved with pickle
+*.sav
+
+
+# Grid implemenation
+GFlow_grid_RT.py
+GFlow_grid.py
+GFlow_manual.py
