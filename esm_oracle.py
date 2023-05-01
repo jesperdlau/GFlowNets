@@ -10,13 +10,15 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 # model.save_pretrained("/data/gfp/esm_model")
 
 # Local 
-tokenizer = AutoTokenizer.from_pretrained("GFlowNets/data/gfp/esm_tokenizer")  
-model = AutoModelForSequenceClassification.from_pretrained("GFlowNets/data/gfp/esm_model") 
+tokenizer = AutoTokenizer.from_pretrained("data/gfp/esm_tokenizer")  
+model = AutoModelForSequenceClassification.from_pretrained("data/gfp/esm_model") 
 
 
-
-def tokens2tokens(torch_batch):
-    pass
+def pad(input_ids):
+    # https://huggingface.co/docs/transformers/v4.28.1/en/internal/tokenization_utils#transformers.PreTrainedTokenizerBase.pad
+    return tokenizer.pad({'input_ids':input_ids}, max_length=280, padding='max_length')
+    # return tokenizer.pad({'input_ids':input_ids}, max_length=280, padding='max_length', return_tensors='pt')
+    # ex = pad([[12, 32, 1], [2,6,8,3,2]])
 
 
 def oracle(batch):
