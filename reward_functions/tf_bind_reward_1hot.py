@@ -36,7 +36,7 @@ class TFBindReward1HOT(nn.Module):
         super(TFBindReward1HOT, self).__init__()
         
         self.model = nn.Sequential(
-                nn.Linear(32, 100),
+                nn.Linear(40, 100),
                 nn.ReLU(),
                 nn.Linear(100, 100),
                 nn.ReLU(),
@@ -95,4 +95,5 @@ if __name__ == "__main__":
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
-    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "TFBind_1hot_test")
+    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "data/tf_bind_8/SIX6_REF_R1/TFBind_1hot_test")
+    print("done")
