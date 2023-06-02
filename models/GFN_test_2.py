@@ -4,8 +4,17 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.distributions.categorical import Categorical
 import tqdm
+import matplotlib.pyplot as plt
 
 
+from tf_bind_8_reward import TFBindReward1HOT
+
+# Load reward function
+reward_func = TFBindReward1HOT()
+reward_path = "data/tf_bind_8/SIX6_REF_R1/TFBind_1hot_test.pth"
+reward_func.load_state_dict(torch.load(reward_path))
+
+# 
 class GFlowNet(nn.Module):
     def __init__(self, num_hid):
         super().__init__()
@@ -39,7 +48,7 @@ sampled_sequences = []
 minibatch_loss = 0
 update_freq = 4
 
-for episode in tqdm.tqdm(range(50), ncols=40):
+for episode in tqdm.tqdm(range(1000), ncols=40):
     state = []
 
     # Predict F(s, a)
@@ -75,3 +84,13 @@ for episode in tqdm.tqdm(range(50), ncols=40):
         opt.step()
         opt.zero_grad()
         minibatch_loss = 0
+
+# Plot
+[print(seq) for seq in sampled_sequences[:10]]
+
+plt.figure(figsize=(10,3))
+plt.plot(losses)
+plt.yscale('log')
+plt.show()
+
+print()
