@@ -63,7 +63,7 @@ class TFBindReward(nn.Module):
         
     def forward(self,x):
         return self.model(x)
- 
+    
 def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = None,verbose=True):
     for epoch in range(epochs):
         size = len(train_DL.dataset)
@@ -113,3 +113,4 @@ if __name__ == "__main__":
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
     train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "TFBind_testmodel")
+

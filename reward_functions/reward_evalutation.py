@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from torch.utils.data import DataLoader, TensorDataset
 from tf_bind_reward import TFBindReward
-
+from tf_bind_reward_1hot import TFBindReward1HOT
 
 DATA_FOLDER = "GFlowNets/data/"
 
@@ -27,15 +27,11 @@ device = (
 )
 print(f"\nUsing {device} device")
 
+X_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt")
+y_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_train.pt")
+X_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt")
+y_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt")
 
-X = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-x.npy")
-y = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-y.npy")
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=TRAIN_SIZE, shuffle=True, random_state=SEED)
-X_train = torch.tensor(X_train, dtype=torch.float32)
-y_train = torch.tensor(y_train, dtype=torch.float32).reshape(-1, 1)
-X_test = torch.tensor(X_test, dtype=torch.float32)
-y_test = torch.tensor(y_test, dtype=torch.float32).reshape(-1, 1)
 
 def evaluate_model(dataloader, model, loss_fn):
     size = len(dataloader.dataset)
@@ -80,16 +76,17 @@ def plot_fit_obs(model, X, y):
     plt.show()
 
 if __name__ == "__main__":
-    loss = nn.MSELoss()
-    model_name = "TFBind_testmodel.pth"
-
-    model = TFBindReward()
-    model.load_state_dict(torch.load(model_name))
+    loss = nn.MSELoss() 
     
-    # trainSet = SequenceDataset(X_train,y_train)
+    model = TFBindReward1HOT()
+    model_name = "TFBind_1hot_test.pth"
+    
+    # model = TFBindReward()
+    # model_name = "TFBind_testmodel.pth"
+
+    model.load_state_dict(torch.load(model_name))
     testSet = TensorDataset(X_test,y_test)
 
-    # BATCH_SIZE = len(y_test)
     # train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
