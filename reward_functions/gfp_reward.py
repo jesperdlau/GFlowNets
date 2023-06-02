@@ -40,6 +40,7 @@ X_test = torch.tensor(X_test, dtype=torch.float32)
 y_test = torch.tensor(y_test, dtype=torch.float32).reshape(-1, 1)
 
 
+# Ikke one hot endnu
 class GFPReward(nn.Module):
 
     def __init__(self):
