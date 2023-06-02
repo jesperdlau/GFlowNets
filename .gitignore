@@ -135,6 +135,9 @@ data/
 # Pytorch models
 *.pth
 
+# tensors
+*.pt
+
 
 # models saved with pickle
 *.sav
