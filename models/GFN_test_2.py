@@ -20,12 +20,12 @@ class GFlowNet(nn.Module):
         super().__init__()
         self.mlp = nn.Sequential(nn.Linear(40, num_hid),
                             nn.LeakyReLU(),
-                            nn.Linear(num_hid, 5))
-        self.keys = ['X', 'A', 'C', 'G', 'T']
+                            nn.Linear(num_hid, 4))
+        self.keys = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
 
     def seq_to_one_hot(self, sequence):
         if len(sequence) > 0:
-            token = [self.keys.index(letter) for letter in sequence]
+            token = [self.keys.index(letter) + 1 for letter in sequence] # +1 Off-set so 0 is no-character
             token = np.pad(token, pad_width=(0, (8-len(sequence))), mode='constant', constant_values=[0])
             token = torch.tensor(token)
             token = F.one_hot(token, num_classes=5).flatten()
