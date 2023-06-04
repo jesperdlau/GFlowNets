@@ -64,7 +64,7 @@ for episode in tqdm.tqdm(range(1000), ncols=40):
 
         parent_edge_flow_pred = edge_flow_prediction[action]
     
-        if i == 8:
+        if i == 8: # Is this state ever reached?
             reward = reward_func(new_state)
             edge_flow_prediction = torch.zeros(5)
 
@@ -85,24 +85,6 @@ for episode in tqdm.tqdm(range(1000), ncols=40):
         opt.zero_grad()
         minibatch_loss = 0
 
-class TBModel(nn.Module):
-  def __init__(self, num_hid):
-    super().__init__()
-    # The input dimension is 6 for the 6 patches.
-    self.mlp = nn.Sequential(nn.Linear(40, num_hid), nn.LeakyReLU(),
-                             # We now output 10 numbers, 5 for P_F and 5 for P_B
-                             nn.Linear(num_hid, 10))
-    # log Z is just a single number
-    self.logZ = nn.Parameter(torch.ones(1))
-
-  def forward(self, x):
-    logits = self.mlp(x)
-    # Slice the logits, and mask invalid actions (since we're predicting 
-    # log-values), we use -100 since exp(-100) is tiny, but we don't want -inf)
-    P_F = logits[..., :5] + x * -100
-    P_B = logits[..., 5:] * x * -100
-    return P_F, P_B
-
 # Plot
 [print(seq) for seq in sampled_sequences[:10]]
 
@@ -112,3 +94,4 @@ plt.yscale('log')
 plt.show()
 
 print()
+
