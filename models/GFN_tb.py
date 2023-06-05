@@ -149,6 +149,9 @@ plt.ylabel('Total flow Total reward Delta')
 
 plt.show()
 
+print([element.item() for element in delta_reward_probs])
+print([element.item() for element in partition_total_reward_delta])
+
 print(model.logZ.exp())
 
 
