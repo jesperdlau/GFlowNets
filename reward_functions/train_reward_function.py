@@ -10,10 +10,10 @@ def set_device():
         else "cpu"
     )
 
-
 def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = None,verbose=True):
     for epoch in range(epochs):
         size = len(train_DL.dataset)
+        print(f"epoch number: {epoch}")
 
         #model trainging one epoch
         model.train()
