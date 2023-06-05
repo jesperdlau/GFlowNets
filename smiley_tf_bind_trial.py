@@ -26,13 +26,21 @@ class FlowModel(nn.Module):
     return F
 
 def parent_sequences(state):
+    z = torch.zeros(40)
+    r = torch.reshape(z,(8,5))
     parent_states = []
     parent_actions = []
-    for i in range(len(state)):
+    for i in range(len(state)-1,0,-1):
         if not torch.all(state[i].eq(torch.zeros(5))):
-            parent_states.append(state[:i+1])
             parent_actions.append(state[i])
-    return parent_states, parent_states
+            state[i] = torch.zeros(5)
+            parent_states.append(state)
+    return parent_states, parent_actions
+
+def return_index(action):
+  for i in range(len(action)):
+    if action[i] == 1:
+      return i
 
 # Instantiate model and optimizer
 F_sa = FlowModel(512)
@@ -48,8 +56,9 @@ update_freq = 4
 for episode in tqdm.tqdm(range(50000), ncols=40):
   # Each episode starts with an "empty state"
   state = torch.zeros(40)
+  state = torch.reshape(state,(8,5))
   # Predict F(s, a)
-  edge_flow_prediction = F_sa(state)
+  edge_flow_prediction = F_sa(state.flatten())
   print('edge_flow_prediction ',edge_flow_prediction)
   for t in range(8):
     # The policy is just normalizing, and gives us the probability of each action
@@ -59,25 +68,16 @@ for episode in tqdm.tqdm(range(50000), ncols=40):
     action = Categorical(probs=policy).sample() 
     print('action ', action)
     # "Go" to the next state
-    new_state = state + [sorted_keys[action]]
-    print('new_state ',new_state)
-
+    new_state = state.clone().detach()
+    new_state[t][action] = 1
     # Now we want to compute the loss, we'll first enumerate the parents
-    parent_states, parent_actions = face_parents(new_state)
-    print('parent_states ', parent_states)
-    print('parent_actions ', parent_actions)
     # And compute the edge flows F(s, a) of each parent
-    px = torch.stack([face_to_tensor(p) for p in parent_states])
-    print('px ',px)
-    pa = torch.tensor(parent_actions).long()
-    print('pa ', pa)
-    parent_edge_flow_preds = F_sa(px)[torch.arange(len(parent_states)), pa]
-    print('F_sa(px) ', F_sa(px))
-    print('[torch.arange(len(parent_states)), pa]', [torch.arange(len(parent_states)), pa])
-    print('parent_edge_flow_preds ', parent_edge_flow_preds)
+    parent_flow = F_sa(state)
+    parent_edge_flow_preds = parent_flow[action]
+
     # Now we need to compute the reward and F(s, a) of the current state,
     # which is currently `new_state`
-    if t == 2: 
+    if t == 7: 
       # If we've built a complete face, we're done, so the reward is > 0
       # (unless the face is invalid)
       reward = face_reward(new_state)
