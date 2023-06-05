@@ -29,10 +29,10 @@ if __name__ == "__main__":
         print('succesfully saved permutations!')
 
     #For loading pickle file:
-    '''
+    
     with open('permutation_values.pkl', 'rb') as fp:
         permutation_values = pickle.load(fp)
         print('Perm values')
         print(permutation_values)
-    '''
+    
 

@@ -5,9 +5,16 @@ import torch.nn.functional as F
 from torch.distributions.categorical import Categorical
 import tqdm
 import matplotlib.pyplot as plt
-
-
 from tf_bind_8_reward import TFBindReward1HOT
+import pickle
+
+with open("permutation_values.pkl", "rb") as fp:
+        permutation_values = pickle.load(fp)
+        print('Perm values')
+        print(permutation_values)
+
+total_reward = sum(permutation_values.values())
+print(total_reward)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
@@ -57,6 +64,12 @@ minibatch_loss = 0
 update_freq = 2
 
 logZs = []
+log_reward_fractions = []
+reward_fractions = []
+log_backward_probabilities = []
+delta_reward_probs = []
+partition_total_reward_delta = []
+
 for episode in tqdm.tqdm(range(50000), ncols=40):
   # Each episode starts with an "empty state"
   state = []
@@ -64,6 +77,7 @@ for episode in tqdm.tqdm(range(50000), ncols=40):
   P_F_s, P_B_s = model(model.seq_to_one_hot(state))
   total_P_F = 0
   total_P_B = 0
+
   for t in range(8):
     # Here P_F is logits, so we want the Categorical to compute the softmax for us
     cat = Categorical(logits=P_F_s)
@@ -92,7 +106,17 @@ for episode in tqdm.tqdm(range(50000), ncols=40):
   # sometimes be zero, instead of log(0) we'll clip the log-reward to -20.
   loss = (model.logZ + total_P_F - torch.log(reward).clip(-20) - total_P_B).pow(2)
   minibatch_loss += loss
-  
+
+  #Testflow: 
+
+  log_reward_fraction = torch.log(reward) / torch.log(torch.tensor(total_reward))
+  reward_fraction = reward / total_reward
+
+  proportionality = torch.abs(total_P_B - log_reward_fraction)
+
+  delta_reward_probs.append(proportionality)
+  partition_total_reward_delta.append(torch.abs(model.logZ.exp() - total_reward))
+
   # Add the face to the list, and if we are at an
   # update episode, take a gradient step.
   tb_sampled_sequences.append(state)
@@ -115,4 +139,16 @@ plt.ylabel('estimated Z')
 
 plt.show()
 
+f, ax = plt.subplots(2, 1, figsize=(10,6))
+plt.sca(ax[0])
+plt.plot([element.item() for element in delta_reward_probs])
+plt.ylabel('Reward Probability Proportionality')
+plt.sca(ax[1])
+plt.plot([element.item() for element in partition_total_reward_delta])
+plt.ylabel('Total flow Total reward Delta')
+
+plt.show()
+
 print(model.logZ.exp())
+
+
