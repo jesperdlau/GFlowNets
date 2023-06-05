@@ -8,13 +8,20 @@ import matplotlib.pyplot as plt
 from tf_bind_8_reward import TFBindReward1HOT
 import pickle
 
+device = (
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
+)
+
 with open("permutation_values.pkl", "rb") as fp:
         permutation_values = pickle.load(fp)
         print('Perm values')
         print(permutation_values)
 
 total_reward = sum(permutation_values.values())
-print(total_reward)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
@@ -55,6 +62,8 @@ class TBModel(nn.Module):
 model = TBModel(512)
 opt = torch.optim.Adam(model.parameters(),  3e-4)
 
+print(f"\nUsing {device} device")
+
 # Let's keep track of the losses and the faces we sample
 tb_losses = []
 tb_sampled_sequences = []
@@ -70,7 +79,7 @@ log_backward_probabilities = []
 delta_reward_probs = []
 partition_total_reward_delta = []
 
-for episode in tqdm.tqdm(range(50000), ncols=40):
+for episode in tqdm.tqdm(range(1000), ncols=40):
   # Each episode starts with an "empty state"
   state = []
   # Predict P_F, P_B
