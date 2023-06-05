@@ -3,8 +3,11 @@ import numpy as np
 from tqdm import tqdm
 
 # Distance measure between two sequences
-def distance(seq1,seq2):
-    return torch.mean(abs(seq1 - seq2))
+def distance(tensor1,tensor2):
+    # return torch.mean(abs(tensor1 - tensor2))
+    return torch.sum(abs(tensor1-tensor2))
+    # pdist = torch.nn.PairwiseDistance(p=2) 
+    # return pdist(tensor1,tensor2)
 
 def performance(y):
     return torch.mean(y)
@@ -30,7 +33,6 @@ def novelty(X_new, X_0):
     result /= len(X_new)
 
     return result
-
 
 if __name__ == "__main__":
     DATA_FOLDER = "GFlowNets/data/"
