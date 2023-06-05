@@ -1,6 +1,13 @@
 
 import torch
 
+def MinMaxScaler(tensor, min_,max_):
+    min_y = torch.min(tensor)
+    max_y = torch.max(tensor)
+    std = (tensor - min_y) / (max_y - min_y)
+    scaled_tensor = std * (max_ - min_) + min_
+    return scaled_tensor
+
 def set_device():
     return (
         "cuda"
