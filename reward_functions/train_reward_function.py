@@ -1,6 +1,16 @@
 
 import torch
 
+def set_device():
+    return (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
+
+
 def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = None,verbose=True):
     for epoch in range(epochs):
         size = len(train_DL.dataset)
