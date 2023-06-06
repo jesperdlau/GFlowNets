@@ -22,17 +22,18 @@ if __name__ == "__main__":
         for element in permutation:
             string_perm += str(element)
         
-        permutation_value_dictionary[string_perm] = preds[count]
+        permutation_value_dictionary[count] = string_perm
     
-    with open('permutation_values.pkl', 'wb') as fp:
+    with open('permutation_index.pkl', 'wb') as fp:
         pkl.dump(permutation_value_dictionary, fp)
         print('succesfully saved permutations!')
 
     #For loading pickle file:
-    
-    with open('permutation_values.pkl', 'rb') as fp:
+    '''
+    with open('permutation_index.pkl', 'rb') as fp:
         permutation_values = pickle.load(fp)
         print('Perm values')
         print(permutation_values)
+    '''
     
 
