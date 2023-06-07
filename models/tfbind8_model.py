@@ -19,7 +19,7 @@ class GFlowNet(nn.Module):
         return one_hot
     
     def step(self, i, state, action):
-        next_state = state
+        next_state = state.clone() # If not .clone, raises "RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation:"
         next_state[(4*i + action)] = 1.
         return next_state
     
@@ -29,7 +29,7 @@ class GFlowNet(nn.Module):
     
 if __name__ == "__main__":
     model = GFlowNet(512)
-    
+
     seq = "ACGT"
     x = model.seq_to_one_hot(seq)
     print(f"{x=}")
