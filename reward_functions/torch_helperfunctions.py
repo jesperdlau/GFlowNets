@@ -1,7 +1,8 @@
 
 import torch
+from torch.utils.data import DataLoader, TensorDataset
 
-def MinMaxScaler(tensor, min_,max_):
+def MinMaxScaler(tensor, min_:int,max_:int):
     min_y = torch.min(tensor)
     max_y = torch.max(tensor)
     std = (tensor - min_y) / (max_y - min_y)
@@ -9,15 +10,16 @@ def MinMaxScaler(tensor, min_,max_):
     return scaled_tensor
 
 def set_device():
-    return (
+    device = (
         "cuda"
         if torch.cuda.is_available()
         else "mps"
         if torch.backends.mps.is_available()
-        else "cpu"
-    )
+        else "cpu")
+    print(f"\nUsing {device} device")
+    return device
 
-def train_model(epochs, train_DL,test_DL, model, loss_fn, optimizer,save_as = None,verbose=True):
+def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_fn, optimizer,save_as = None,verbose=True):
     for epoch in range(epochs):
         size = len(train_DL.dataset)
         print(f"epoch number: {epoch}")

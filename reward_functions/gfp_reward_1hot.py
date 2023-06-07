@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from train_reward_function import train_model, set_device
+from torch_helperfunctions import train_model, set_device, MinMaxScaler
 
 class GFPReward(nn.Module):
 
@@ -34,13 +34,15 @@ if __name__ == "__main__":
 
     device = set_device()
 
-    print(f"\nUsing {device} device")
-
     X_train = torch.load(DATA_FOLDER + "gfp/gfp_1hot_X_train.pt")
     y_train = torch.load(DATA_FOLDER + "gfp/gfp_1hot_y_train.pt")
     X_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_X_test.pt")
     y_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_y_test.pt")
 
+    # normalizing y
+    y_train = MinMaxScaler(y_train,0,1)
+    y_test = MinMaxScaler(y_test,0,1)
+    
     model = GFPReward()
     loss = nn.MSELoss()
     opt = optim.Adam(model.parameters(), lr=LEARNING_RATE)
