@@ -31,11 +31,14 @@ def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update
 
     # If hot_start is true, load model and optimizer from checkpoint
     if hot_start == True:
-        checkpoint = torch.load(path)
-        model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        start_episode = checkpoint['episode']
-        losses = checkpoint['losses']
+        try:
+            checkpoint = torch.load(path)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            start_episode = checkpoint['episode']
+            losses = checkpoint['losses']
+        except:
+            print("Could not load checkpoint. Starting from scratch.")
 
     # Move model and reward function to device
     reward_func.to(device)
@@ -87,7 +90,7 @@ def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update
         total_trajectory_flow.append(sum(trajectory_flow))
         sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
 
-        print(f"{episode=}, {minibatch_loss.item()=:.2f}")
+        # print(f"{episode=}, {minibatch_loss.item()=:.2f}")
 
         # Perform training step
         if episode % update_freq == 0:
@@ -98,7 +101,7 @@ def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update
             # Update losses and reset minibatch_loss
             losses.append(minibatch_loss.item())
             minibatch_loss = 0
-            #print(f"Performed optimization step")
+            # print(f"Performed optimization step")
 
     # Save checkpoint
     if path:
