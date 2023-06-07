@@ -25,9 +25,9 @@ X_test = torch.tensor(X_test, dtype=torch.int64)
 y_test = torch.tensor(y_test, dtype=torch.float32).reshape(-1, 1)
 
 # 1hot encoding
-X_train = torch.nn.functional.one_hot(X_train,5).flatten(start_dim=1)
-X_test  = torch.nn.functional.one_hot(X_test,5).flatten(start_dim=1)
-X       = torch.nn.functional.one_hot(X,5).flatten(start_dim=1)
+X_train = torch.nn.functional.one_hot(X_train,4).flatten(start_dim=1)
+X_test  = torch.nn.functional.one_hot(X_test,4).flatten(start_dim=1)
+X       = torch.nn.functional.one_hot(X,4).flatten(start_dim=1)
 
 # correct types
 X_train = X_train.type("torch.FloatTensor")
