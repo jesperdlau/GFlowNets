@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from torch_helperfunctions import train_model, set_device
+
 
 class TFBindReward1HOT(nn.Module):
 
@@ -23,6 +23,7 @@ class TFBindReward1HOT(nn.Module):
         return self.model(x)
 
 if __name__ == "__main__":
+    from torch_helperfunctions import train_model, set_device
     DATA_FOLDER = "GFlowNets/data/"
 
     # Rasmus path
