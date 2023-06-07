@@ -1,4 +1,4 @@
-from models.MCMC_sampler import MCMCSequenceSampler
+from MCMC_sampler import MCMCSequenceSampler
 from models.random_sampler import SequenceSampler
 from tf_bind_8_oracle import tf_bind_8_oracle
 import numpy as np
@@ -12,6 +12,10 @@ with open('tests\\tf_bind_8_reward_proportionality_max_set.pkl', 'rb') as tp:
 with open('tests\\tf_bind_8_reward_proportionality_min_set.pkl', 'rb') as mp:
         reward_proportionality_min_set = pkl.load(mp)
         print('reward_proportionality_min_set')
+
+with open('tests\\permutation_index.pkl', 'rb') as mp:
+        index_to_permutation = pkl.load(mp)
+        print('Permutation Index Dictionary Loaded')        
 
 def sample_proportionality(samples):
     
@@ -35,7 +39,7 @@ def sample_proportionality(samples):
 if __name__ == "__main__":
     s = {'A':0, 'C':1, 'G':2, 'T':3}
     l = 8
-    n = 500
+    n = 100
 
     random_sampler = SequenceSampler(s, l, n)
     MCMC_sampler = MCMCSequenceSampler(s, l, n)

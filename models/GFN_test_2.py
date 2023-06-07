@@ -28,7 +28,7 @@ class GFlowNet(nn.Module):
             token = [self.keys.index(letter) + 1 for letter in sequence] # +1 Off-set so 0 is no-character
             token = np.pad(token, pad_width=(0, (8-len(sequence))), mode='constant', constant_values=[0])
             token = torch.tensor(token)
-            token = F.one_hot(token, num_classes=5).flatten()
+            token = F.one_hot(token.to(torch.int64), num_classes=5).flatten() #Changed to index tensor
             token = token.float()
         else:
             token = torch.zeros(40).float()
@@ -48,12 +48,16 @@ sampled_sequences = []
 minibatch_loss = 0
 update_freq = 4
 
-for episode in tqdm.tqdm(range(1000), ncols=40):
+terminal_rewards = []
+total_trajectory_flow = []
+
+for episode in tqdm.tqdm(range(10000), ncols=40):
     state = []
 
     # Predict F(s, a)
     edge_flow_prediction = model(model.seq_to_one_hot(state))
 
+    trajectory_flow = []
 
     for i in range(8):
         policy = edge_flow_prediction / edge_flow_prediction.sum()
@@ -63,9 +67,12 @@ for episode in tqdm.tqdm(range(1000), ncols=40):
         new_state = state + [model.keys[action]]
 
         parent_edge_flow_pred = edge_flow_prediction[action]
+
+        trajectory_flow.append(parent_edge_flow_pred)
     
-        if i == 8: # Is this state ever reached?
-            reward = reward_func(new_state)
+        if i == 7: # changed from 8
+            reward = torch.tensor(reward_func(model.seq_to_one_hot(new_state))).float()[0] #Reward to tensor rep index 1
+            terminal_rewards.append(reward)
             edge_flow_prediction = torch.zeros(5)
 
         else:
@@ -76,6 +83,8 @@ for episode in tqdm.tqdm(range(1000), ncols=40):
         minibatch_loss += flow_mismatch  # Accumulate
         # Continue iterating
         state = new_state
+
+    total_trajectory_flow.append(sum(trajectory_flow))
 
     sampled_sequences.append(state)
     if episode % update_freq == 0:
@@ -90,8 +99,22 @@ for episode in tqdm.tqdm(range(1000), ncols=40):
 
 plt.figure(figsize=(10,3))
 plt.plot(losses)
+plt.ylabel('Loss')
 plt.yscale('log')
 plt.show()
 
-print()
+plt.figure(figsize=(10,3))
+plt.plot([element.item() for element in total_trajectory_flow])
+plt.ylabel('Total Trajectory Flow for full sequences n=8')
+plt.show()
+
+delta_trajectory_flow_reward = [abs(flow.item() - reward.item()) for flow, reward in zip(total_trajectory_flow,terminal_rewards)]
+
+plt.figure(figsize=(10,3))
+plt.plot(delta_trajectory_flow_reward)
+plt.ylabel('Delta Total flow of Trajectory vs. Reward of Trajectory')
+plt.show()
+
+print(delta_trajectory_flow_reward[-10:])
+
 
