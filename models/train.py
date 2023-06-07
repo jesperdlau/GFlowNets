@@ -1,19 +1,44 @@
 from torch.distributions.categorical import Categorical
 import torch
 
-def train(model, opt, reward_func, seq_len, num_episodes, update_freq, device):
+def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, device = "cpu", path = None):
+    """
+    Trains a given model using policy gradient with a given reward function.
+
+    Args:
+    - model: a PyTorch model used for training
+    - opt: a PyTorch optimizer used for training
+    - reward_func: a function that calculates the reward for a given state
+    - seq_len: an int representing the length of each sequence
+    - num_episodes: an int representing the number of episodes to train for
+    - update_freq: an int representing the frequency of updating the model
+    - device: a PyTorch device to use for training
+
+    Returns:
+    - None
+    """
     sampled_sequences = []
     terminal_rewards = []
     total_trajectory_flow = []
 
     losses = []
     minibatch_loss = 0
+    start_episode = 0
+
+    # If path exists, load model and optimizer
+    if path:
+        checkpoint = torch.load(checkpoint)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        start_episode = checkpoint['episode']
+        minibatch_loss = checkpoint['minibatch_loss']
+        losses = checkpoint['losses']
 
     reward_func.to(device)
     model.to(device)
     model.train()
 
-    for episode in range(num_episodes):
+    for episode in range(start_episode, start_episode + num_episodes):
         # Initialize empty state (as one-hot) and trajectory flow
         state = torch.zeros(32, dtype=torch.float)
         trajectory_flow = []
@@ -60,12 +85,29 @@ def train(model, opt, reward_func, seq_len, num_episodes, update_freq, device):
             state = new_state
 
         total_trajectory_flow.append(sum(trajectory_flow))
-        sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char?
+        sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
+
+        print(f"{episode=}, {minibatch_loss=}")
 
         # Perform training step
         if episode % update_freq == 0:
             losses.append(minibatch_loss.item())
             minibatch_loss.backward()
-            opt.step()
-            opt.zero_grad()
+            optimizer.step()
+            optimizer.zero_grad()
             minibatch_loss = 0
+            print(f"Performed optimization step")
+
+    # Save checkpoint
+    #torch.save(model.state_dict(), 'model_weights.pth')
+    if path:
+        torch.save({
+                    'episode': episode,
+                    'model_state_dict': model.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'latest_minibatch_loss': minibatch_loss,
+                    'losses': losses
+                    }, path)
+        print(f"Saved model to {path}")
+
+
