@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from train_reward_function import train_model
+from torch_helperfunctions import train_model, set_device
 
 class TFBindReward1HOT(nn.Module):
 
@@ -11,7 +11,7 @@ class TFBindReward1HOT(nn.Module):
         super(TFBindReward1HOT, self).__init__()
         
         self.model = nn.Sequential(
-                nn.Linear(40, 100),
+                nn.Linear(32, 100),
                 nn.ReLU(),
                 nn.Linear(100, 100),
                 nn.ReLU(),
@@ -34,13 +34,7 @@ if __name__ == "__main__":
     BATCH_SIZE = 100
     LEARNING_RATE = 0.001
 
-    device = (
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
-    )
+    device = set_device()
     print(f"\nUsing {device} device")   
 
     X_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt")
