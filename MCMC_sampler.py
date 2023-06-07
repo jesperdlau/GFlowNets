@@ -56,15 +56,16 @@ class MCMCSequenceSampler:
         self.n = n
         self.perms = perms()  
         self.oracle = tf_bind_8_oracle()
-        self.index = len(self.perms) / 2
+        self.index = max_index()
+        self.burnin = 1000
 
     def sample(self):
 
         all_sequences = []
 
-        while len(all_sequences) <= self.n:
+        burn_in_counter = 0
 
-            all_sequences.append(string_to_list_int(self.perms[self.index]))
+        while len(all_sequences) <= self.n:
 
             mu, sigma = self.index, 100
 
@@ -84,7 +85,28 @@ class MCMCSequenceSampler:
 
             sequence_preds = {index:self.oracle.predict(list_int) for index, list_int in initial_sequences_int.items()}
 
-            self.index = max(sequence_preds, key=sequence_preds.get)   
+            p = max(sequence_preds, key=sequence_preds.get)
+
+            if string_to_list_int(self.perms[p]) not in all_sequences:
+                
+                p_likelihood = norm.pdf(p, mu, sigma)
+                c_likelihood = norm.cdf(self.index, mu, sigma)
+
+                acceptance_crit = p_likelihood / c_likelihood
+
+                random_number = random.random()
+
+                if random_number < acceptance_crit:
+
+                    self.index = p
+
+                    burn_in_counter += 1
+
+                    print(burn_in_counter)
+
+                    if burn_in_counter > self.burnin:
+                        
+                        all_sequences.append(string_to_list_int(self.perms[self.index]))
 
         return all_sequences    
         
