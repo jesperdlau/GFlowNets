@@ -14,10 +14,11 @@ from utilities.loss_plot import loss_plot
 SEQ_LEN = 8 # Shouldn't need to change
 HIDDEN_SIZE = 1024
 LEARNING_RATE = 3e-4
-NUM_EPISODES = 1000
+NUM_EPISODES = 100
 UPDATE_FREQ = 10
-PATH = "models/saved_models/test_model_1.tar"
-PLOT_PATH = "models/test_loss_plot_1.png"
+MODEL_PATH = "models/saved_models/test_model_3.tar"
+REWARD_PATH = "models/saved_models/tfbind_reward_earlystopping.pth"
+PLOT_PATH = "models/test_loss_plot_3.png" # TODO: Organize model into model folder, reward into reward folder and plot into plot folder???
 
 # Set device
 device = help.set_device()
@@ -28,14 +29,12 @@ optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
-reward_path = "models/saved_models/TFBind_1hot_test.pth"
-reward_func.load_state_dict(torch.load(reward_path))
 
 # Train model and save checkpoint to PATH
-train(model, optimizer, reward_func, SEQ_LEN, NUM_EPISODES, UPDATE_FREQ, device, PATH, hot_start=True)
+train(model, optimizer, reward_func, SEQ_LEN, NUM_EPISODES, UPDATE_FREQ, MODEL_PATH, REWARD_PATH, device, hot_start=False, verbose=True)
 
 # Plot of loss saved to PLOT_PATH
-loss_plot(PATH, save_path=PLOT_PATH)
+loss_plot(MODEL_PATH, save_path=PLOT_PATH)
 
 
 
