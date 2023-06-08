@@ -91,7 +91,7 @@ def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update
                 
             # Calculate the error
             flow_mismatch = (parent_edge_flow_pred - edge_flow_prediction.sum() - reward).pow(2)
-            minibatch_loss += flow_mismatch  # Accumulate
+            minibatch_loss += flow_mismatch.cpu()  # Accumulate
 
             # Continue iterating
             state = new_state
