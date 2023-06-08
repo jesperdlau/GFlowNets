@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     device = set_device()
     DATA_FOLDER = "data/"
-    LEARNING_RATE = 0.3
+    LEARNING_RATE = 0.4
     EVAL_METRIC = "rmse"
-    N_ESTIMATORS = 500
-    MAX_DEPTH = 6
+    N_ESTIMATORS = 400
+    MAX_DEPTH = 5
 
     VERBOSE = True
     PERFORM_GRIDSEARCH = False
@@ -58,6 +58,9 @@ if __name__ == "__main__":
     plt.ylim(0,1)
     plt.title("Plot of the fitted and observed values")
     plt.show()
+
+    model.save_model("models/xgb_gfp.txt")
+
 
 
 
