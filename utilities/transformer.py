@@ -2,7 +2,7 @@ import torch
 
 s = ['A', 'C', 'G', 'T']
 
-class transformer:
+class Transformer:
     def __init__(self, alphabet):
 
         self.alphabet = alphabet
@@ -32,7 +32,7 @@ class transformer:
         return full_tensor
 
 if __name__ == "__main__":
-    model = transformer(s)
+    model = Transformer(s)
 
     print(model.list_list_string_to_tensor_one_hot([['ACT'], ['ACT'], ['AGT']]))
     print(model.list_list_int_to_tensor_one_hot([[2,1,2,3,0,1,2,3], [2,1,2,3,0,1,2,3]]))
