@@ -134,16 +134,24 @@ data/
 
 # Pytorch models
 *.pth
+*.tar
 
 # tensors
 *.pt
 
+# Images
+*.png
+*.pdf
 
 # models saved with pickle
 *.sav
+
 
 
 # Grid implemenation
 GFlow_grid_RT.py
 GFlow_grid.py
 GFlow_manual.py
+
+
+

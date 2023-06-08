@@ -28,7 +28,7 @@ optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
-reward_path = "data/tf_bind_8/SIX6_REF_R1/TFBind_1hot_test.pth"
+reward_path = "models/saved_models/TFBind_1hot_test.pth"
 reward_func.load_state_dict(torch.load(reward_path))
 
 # Train model and save checkpoint to PATH

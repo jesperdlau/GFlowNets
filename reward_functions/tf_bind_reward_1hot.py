@@ -53,5 +53,5 @@ if __name__ == "__main__":
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
-    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "data/tf_bind_8/SIX6_REF_R1/TFBind_1hot_test")
+    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "models/saved_models/TFBind_1hot_test")
     print("done")
