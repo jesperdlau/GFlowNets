@@ -60,7 +60,9 @@ def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_
 
 def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoader, model, loss_fn, optimizer, save_as=None, verbose=True, patience=5):
     best_loss = float('inf')
+    best_epoch = 0
     counter = 0
+
 
     for epoch in range(epochs):
         size = len(train_DL.dataset)
@@ -99,13 +101,14 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
         # Check for early stopping
         if mean_squared_error < best_loss:
             best_loss = mean_squared_error
+            best_epoch = epoch
             best_model_state = model.state_dict()
             counter = 0
         else:
             counter += 1
             if counter >= patience:
                 print(f"Validation loss hasn't improved for {counter} epochs. Stopping early.")
-                print(f"Model saved after {epoch} epochs")
+                print(f"Model saved after {best_epoch} epochs")
                 break
 
     if save_as:
