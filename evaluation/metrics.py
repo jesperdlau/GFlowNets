@@ -2,7 +2,6 @@ import torch
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from itertools import combinations
-from reward_functions.torch_helperfunctions import set_device
 
 # Distance measure between two sequences
 def distance(tensor1,tensor2):
@@ -17,18 +16,18 @@ def distance_pair(pair):
 def performance(y):
     return torch.mean(y)
 
-# Giver ikke det samme som de optimerede???
-def diversity(X):
-    result = 0
-    for i in range(len(X)):
-        for j in range(len(X)):
-            if i == j:
-                continue
-            result += distance(X[i],X[j])
+# Tæller alle par to gange
+# def diversity(X):
+#     result = 0
+#     for i in range(len(X)):
+#         for j in range(len(X)):
+#             if i == j:
+#                 continue
+#             result += distance(X[i],X[j])
 
-    result /= ((len(X) * (len(X)-1)))
+#     result /= ((len(X) * (len(X)-1)))
 
-    return result
+#     return result
 
 def novelty(X_new, X_0):
     result = 0
@@ -52,7 +51,7 @@ def diversity_par(X):
     result = total_distance / (n * (n - 1))
     return result
 
-def diversity2(X):
+def diversity(X):
     comb = combinations(X,2)
     
     sum_ = sum([distance(*pair) for pair in comb])
@@ -86,8 +85,13 @@ if __name__ == "__main__":
 
     SEED = 42
 
-    device = set_device()
-    print(f"\nUsing {device} device")   
+    device = (
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu")
+    print(f"\nUsing {device} device")
 
     X_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt")
     y_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_train.pt")
