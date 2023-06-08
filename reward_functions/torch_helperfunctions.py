@@ -84,8 +84,8 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
         model.train()
         for batch, (X, y) in enumerate(train_DL):
             # Prepare data
-            X.to(device)
-            y.to(device)
+            X = X.to(device)
+            y = y.to(device)
 
             # Compute prediction and loss
             pred = model(X)
