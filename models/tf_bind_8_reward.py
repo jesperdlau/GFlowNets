@@ -5,7 +5,7 @@ class TFBindReward1HOT(nn.Module):
         super(TFBindReward1HOT, self).__init__()
         
         self.model = nn.Sequential(
-                nn.Linear(40, 100),
+                nn.Linear(32, 100),
                 nn.ReLU(),
                 nn.Linear(100, 100),
                 nn.ReLU(),
