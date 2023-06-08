@@ -138,6 +138,9 @@ data/
 # tensors
 *.pt
 
+# Images
+*.png
+*.pdf
 
 # models saved with pickle
 *.sav
@@ -147,3 +150,6 @@ data/
 GFlow_grid_RT.py
 GFlow_grid.py
 GFlow_manual.py
+
+
+
