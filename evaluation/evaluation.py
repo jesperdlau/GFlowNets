@@ -1,4 +1,4 @@
-from metrics import diversity_par, novelty, performance 
+from evaluation.metrics import diversity_par, novelty, performance 
 
 def evaluate_modelsampling(X_0,X_sampled,y_sampled, print_stats = True):
     """
@@ -27,3 +27,7 @@ def evaluate_modelsampling(X_0,X_sampled,y_sampled, print_stats = True):
         print(f"Novelty: {nov}")
     
     return perf, div, nov
+
+if __name__ == "__main__":
+    pass
+    #evaluate_modelsampling(X_train, X_sampled, y_sampled, print_stats=True)

@@ -1,5 +1,5 @@
 import numpy as np
-from data_download import DATA_FOLDER
+from preprocessing.data_download import DATA_FOLDER
 
 
 class tf_bind_8_oracle():

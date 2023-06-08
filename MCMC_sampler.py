@@ -9,7 +9,6 @@ def string_to_list_int(string):
         sequence = []
         for element in string:
             sequence.append(int(element))
-
         return sequence
     
 def list_int_to_string(list_int):
@@ -50,22 +49,19 @@ def max_index():
 
 
 class MCMCSequenceSampler:
-    def __init__(self, s, l, n):
-        self.s = s
-        self.l = l
-        self.n = n
+    def __init__(self, burnin):
+        self.burnin = burnin
         self.perms = perms()  
         self.oracle = tf_bind_8_oracle()
         self.index = max_index()
-        self.burnin = 1000
 
-    def sample(self):
+    def sample(self, n):
 
         all_sequences = []
 
         burn_in_counter = 0
 
-        while len(all_sequences) <= self.n:
+        while len(all_sequences) <= n:
 
             mu, sigma = self.index, 100
 
@@ -86,6 +82,7 @@ class MCMCSequenceSampler:
             sequence_preds = {index:self.oracle.predict(list_int) for index, list_int in initial_sequences_int.items()}
 
             p = max(sequence_preds, key=sequence_preds.get)
+            print(all_sequences)
 
             if string_to_list_int(self.perms[p]) not in all_sequences:
                 
@@ -107,15 +104,14 @@ class MCMCSequenceSampler:
                     if burn_in_counter > self.burnin:
                         
                         all_sequences.append(string_to_list_int(self.perms[self.index]))
-
+        
         return all_sequences    
         
         
 
 if __name__ == "__main__":
-    s = {'A':0, 'C':1, 'G':2, 'T':3}
-    l = 8
     n = 128
-    sampler = MCMCSequenceSampler(s, l, n)
+    burnin = 1
+    sampler = MCMCSequenceSampler(n, burnin)
     samples = sampler.sample()
     print(samples)

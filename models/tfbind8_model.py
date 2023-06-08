@@ -62,4 +62,4 @@ if __name__ == "__main__":
     
     samples = model.sample(50)
 
-    print()
+    
