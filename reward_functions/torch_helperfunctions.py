@@ -19,7 +19,7 @@ def set_device():
     print(f"\nUsing {device} device")
     return device
 
-def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_fn, optimizer,save_as = None,verbose=True):
+def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_fn, optimizer, device, save_as = None,verbose=True):
     for epoch in range(epochs):
         size = len(train_DL.dataset)
         print(f"epoch number: {epoch}")
@@ -27,6 +27,10 @@ def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_
         #model trainging one epoch
         model.train()
         for batch, (X, y) in enumerate(train_DL):
+            # Prepare data
+            X = X.to(device)
+            y = y.to(device)
+
             # Compute prediction and loss
             pred = model(X)
             loss = loss_fn(pred, y)
@@ -48,6 +52,10 @@ def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_
 
         with torch.no_grad():
             for X, y in test_DL:
+                # Prepare data
+                X = X.to(device)
+                y = y.to(device)
+
                 pred = model(X)
                 test_loss += loss_fn(pred, y).item()
                 # correct += (pred.argmax(1) == y).type(torch.float).sum().item()
@@ -55,13 +63,17 @@ def train_model(epochs:int, train_DL:DataLoader,test_DL:DataLoader, model, loss_
         print(f"Mean squared error: {test_loss / size}\n")
 
     if save_as:
-        torch.save(model.state_dict(), save_as + ".pth")
+        state_dict = {k: v.cpu() for k, v in model.state_dict().items()}
+        torch.save(state_dict, save_as + ".pth")
 
 
-def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoader, model, loss_fn, optimizer, save_as=None, verbose=True, patience=5):
+def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoader, model, loss_fn, optimizer, device, save_as=None, verbose=True, patience=5):
     best_loss = float('inf')
     best_epoch = 0
     counter = 0
+
+    model.to(device)
+    loss_fn.to(device)
 
 
     for epoch in range(epochs):
@@ -71,6 +83,10 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
         # Model training one epoch
         model.train()
         for batch, (X, y) in enumerate(train_DL):
+            # Prepare data
+            X.to(device)
+            y.to(device)
+
             # Compute prediction and loss
             pred = model(X)
             loss = loss_fn(pred, y)
@@ -92,6 +108,11 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
 
         with torch.no_grad():
             for X, y in test_DL:
+                # Prepare data
+                X = X.to(device)
+                y = y.to(device)
+
+                # Compute prediction and loss
                 pred = model(X)
                 test_loss += loss_fn(pred, y).item()
 
@@ -112,6 +133,8 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
                 break
 
     if save_as:
-        torch.save(best_model_state, save_as + ".pth")
+        #torch.save(best_model_state, save_as + ".pth")
+        state_dict = {k: v.cpu() for k, v in best_model_state.items()}
+        torch.save(state_dict, save_as + ".pth")
     else:
         model.load_state_dict(best_model_state)

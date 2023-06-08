@@ -38,7 +38,7 @@ def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, save_as = 
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
     
-    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,save_as = save_as, patience=patience, verbose=verbose)
+    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,save_as = save_as, patience=patience, verbose=verbose)
 
 def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, patience = 5, verbose = True):
     """
@@ -72,7 +72,7 @@ def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, p
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
     
-    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,save_as = save_as, patience = patience,verbose=verbose)
+    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,save_as = save_as, patience = patience,verbose=verbose)
 
 
 if __name__ == "__main__":
