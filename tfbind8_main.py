@@ -16,7 +16,7 @@ HIDDEN_SIZE = 1024
 LEARNING_RATE = 3e-4
 NUM_EPISODES = 1000
 UPDATE_FREQ = 10
-PATH = "models/test_model_1.tar"
+PATH = "models/saved_models/test_model_1.tar"
 PLOT_PATH = "models/test_loss_plot_1.png"
 
 # Set device

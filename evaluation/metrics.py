@@ -13,8 +13,8 @@ def distance(tensor1,tensor2):
 def distance_pair(pair):
     return distance(*pair)
 
-def performance(y):
-    return torch.mean(y)
+def performance(y_sampled):
+    return torch.mean(y_sampled)
 
 # Tæller alle par to gange
 # def diversity(X):
@@ -29,51 +29,51 @@ def performance(y):
 
 #     return result
 
-def novelty(X_new, X_0):
+def novelty(X_sampled, X_0):
     result = 0
-    for i in tqdm(range(len(X_new))):
-        distances = [distance(X_new[i], x) for x in X_0]    
+    for i in tqdm(range(len(X_sampled))):
+        distances = [distance(X_sampled[i], x) for x in X_0]    
         result += min(distances)
     
-    result /= len(X_new)
+    result /= len(X_sampled)
 
     return result
 
 # optimized functions:
-def diversity_par(X):
-    n = len(X)
+def diversity_par(X_sampled):
+    n = len(X_sampled)
     total_distance = 0
 
     with ThreadPoolExecutor() as executor:
-        distances = list(tqdm(executor.map(distance_pair, combinations(X, 2)), total=n*(n-1)//2))
+        distances = list(tqdm(executor.map(distance_pair, combinations(X_sampled, 2)), total=n*(n-1)//2))
 
     total_distance = sum(distances)
     result = total_distance / (n * (n - 1))
     return result
 
-def diversity(X):
-    comb = combinations(X,2)
+def diversity(X_sampled):
+    comb = combinations(X_sampled,2)
     
     sum_ = sum([distance(*pair) for pair in comb])
 
-    result = sum_ / ((len(X) * (len(X) - 1)))
+    result = sum_ / ((len(X_sampled) * (len(X_sampled) - 1)))
 
     return result
 
 # ikke hurtigere 
-def novelty2(X_new, X_0):
+def novelty2(X_sampled, X_0):
     result = 0
-    for i in tqdm(range(len(X_new))):
+    for i in tqdm(range(len(X_sampled))):
         min_distance = float('inf')
         
         for x in X_0:
-            d = distance(X_new[i], x)
+            d = distance(X_sampled[i], x)
             if d < min_distance:
                 min_distance = d
         
         result += min_distance
     
-    result /= len(X_new)
+    result /= len(X_sampled)
 
     return result
 

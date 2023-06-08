@@ -27,6 +27,9 @@ class GFlowNet(nn.Module):
         F = self.mlp(x).exp()
         return F
     
+    def sample(self):
+        pass
+    
 if __name__ == "__main__":
     model = GFlowNet(512)
 
