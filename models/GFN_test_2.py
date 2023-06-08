@@ -18,27 +18,24 @@ reward_func.load_state_dict(torch.load(reward_path))
 class GFlowNet(nn.Module):
     def __init__(self, num_hid):
         super().__init__()
-        self.mlp = nn.Sequential(nn.Linear(40, num_hid),
+        self.mlp = nn.Sequential(nn.Linear(32, num_hid),
                             nn.LeakyReLU(),
                             nn.Linear(num_hid, 4))
         self.keys = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
 
     def seq_to_one_hot(self, sequence):
-        if len(sequence) > 0:
-            token = [self.keys.index(letter) + 1 for letter in sequence] # +1 Off-set so 0 is no-character
-            token = np.pad(token, pad_width=(0, (8-len(sequence))), mode='constant', constant_values=[0])
-            token = torch.tensor(token)
-            token = F.one_hot(token.to(torch.int64), num_classes=5).flatten() #Changed to index tensor
-            token = token.float()
-        else:
-            token = torch.zeros(40).float()
-        return token
+        one_hot = torch.zeros(32, dtype=torch.float)
+        for i, letter in enumerate(sequence):
+            action = self.keys.index(letter) 
+            one_hot[(4*i + action)] = 1.
+        return one_hot
     
     def forward(self, x):
         # F = self.mlp(x).exp() * (1 - x)
         F = self.mlp(x).exp()
         return F
-    
+
+
 model = GFlowNet(512)
 opt = torch.optim.Adam(model.parameters(), 3e-4)
 
@@ -51,7 +48,7 @@ update_freq = 4
 terminal_rewards = []
 total_trajectory_flow = []
 
-for episode in tqdm.tqdm(range(10000), ncols=40):
+for episode in tqdm.tqdm(range(1000), ncols=40):
     state = []
 
     # Predict F(s, a)

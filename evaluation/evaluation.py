@@ -25,5 +25,5 @@ def evaluate_modelsampling(X_0,X_sampled,y_sampled, print_stats = True):
         print(f"Performance: {perf}")
         print(f"Diversity: {div}")
         print(f"Novelty: {nov}")
-
+    
     return perf, div, nov

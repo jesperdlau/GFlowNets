@@ -54,5 +54,5 @@ if __name__ == "__main__":
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
 
-    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "GFP_1hot")
+    train_model(EPOCHS,train_dataLoader,test_dataLoader,model,loss,opt,save_as = "models/saved_models/GFP_1hot")
 
