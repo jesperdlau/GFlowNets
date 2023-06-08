@@ -59,7 +59,7 @@ if __name__ == "__main__":
     plt.title("Plot of the fitted and observed values")
     plt.show()
 
-    model.save_model("models/xgb_gfp.txt")
+    model.save_model("models/saved_models/xgb_gfp.txt")
 
 
 
