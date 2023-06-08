@@ -27,9 +27,24 @@ class GFlowNet(nn.Module):
         F = self.mlp(x).exp()
         return F
     
-    def sample(self):
-        pass
-    
+    def sample(self, N):
+        sequences = []
+
+        for seqN in range(N):
+            sequence = torch.zeros(32, dtype=torch.float)
+            
+            for i in range(8):
+                action_distribution = self.mlp(sequence)
+                
+                action_distribution = F.softmax(action_distribution) # Ved ikke om der skal softmaxes, men ellers kan der komme negative værdier
+                action = np.random.choice(4, p=action_distribution.detach().numpy())
+                sequence = self.step(i, sequence, action)
+            
+            # sequences[seqN] = sequence.numpy()
+            sequences.append(sequence)
+        
+        return torch.stack(sequences, dim = 0)
+        
 if __name__ == "__main__":
     model = GFlowNet(512)
 
@@ -45,6 +60,6 @@ if __name__ == "__main__":
     x4 = model.step(0, x3, 2)
     print(f"{x4=}")
     
-
+    samples = model.sample(50)
 
     print()
