@@ -48,17 +48,17 @@ class GFlowNet(nn.Module):
 if __name__ == "__main__":
     model = GFlowNet(512)
 
-    # seq = "ACGT"
-    # x = model.seq_to_one_hot(seq)
-    # print(f"{x=}")
-    # x2 = model.step(5, x, 2)
-    # print(f"{x2=}")
+    seq = "ACGT"
+    x = model.seq_to_one_hot(seq)
+    print(f"{x=}")
+    x2 = model.step(5, x, 2)
+    print(f"{x2=}")
 
-    # seq2 = ""
-    # x3 = model.seq_to_one_hot(seq2)
-    # print(f"{x3=}")
-    # x4 = model.step(0, x3, 2)
-    # print(f"{x4=}")
+    seq2 = ""
+    x3 = model.seq_to_one_hot(seq2)
+    print(f"{x3=}")
+    x4 = model.step(0, x3, 2)
+    print(f"{x4=}")
     
     samples = model.sample(50)
 
