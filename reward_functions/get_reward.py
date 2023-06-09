@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
-from tf_bind_reward_1hot import TFBindReward1HOT
-from torch_helperfunctions import train_model, set_device, MinMaxScaler, train_model_earlystopping
-from gfp_reward_1hot import GFPReward
+from .tf_bind_reward_1hot import TFBindReward1HOT
+from .torch_helperfunctions import train_model, set_device, MinMaxScaler, train_model_earlystopping
+from .gfp_reward_1hot import GFPReward
 
 def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.001, 
                         n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
