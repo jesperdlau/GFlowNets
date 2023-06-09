@@ -34,8 +34,7 @@ class GFlowNet(nn.Module):
             sequence = torch.zeros(32, dtype=torch.float)
             
             for i in range(8):
-                action_distribution = self.mlp(sequence)
-                
+                action_distribution = self.mlp(sequence) #self.forward(sequence) håndterer negative værdier
                 action_distribution = F.softmax(action_distribution) # Ved ikke om der skal softmaxes, men ellers kan der komme negative værdier
                 action = np.random.choice(4, p=action_distribution.detach().numpy())
                 sequence = self.step(i, sequence, action)
