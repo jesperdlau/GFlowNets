@@ -1,9 +1,12 @@
 import torch
 from models.random_sampler import SequenceSampler
-from utilities.transformer import transformer
+from utilities.transformer import Transformer
 from evaluation.metrics import diversity, performance, diversity_par
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 import time
+from evaluation.evaluation import evaluate_modelsampling
+
+DATA_FOLDER = "data/"
 
 # Load reward function
 reward_func = TFBindReward1HOT()
@@ -16,28 +19,26 @@ s = {'A':0, 'C':1, 'G':2, 'T':3}
 l = 8
 n = 128
 
-random_sampler = SequenceSampler(s, l, n)
+random_sampler = SequenceSampler()
 
-trans = transformer(alphabet)
+trans = Transformer(alphabet)
 
-samples = random_sampler.sample()
+random_sampler = SequenceSampler()
+#MCMC_sampler = MCMCSequenceSampler(2)
 
-one_hot_samples = trans.list_list_int_to_tensor_one_hot(samples)
 
-reward_func.eval()
-with torch.no_grad():
-    y = torch.tensor([reward_func(x) for x in one_hot_samples])
+random_samples = random_sampler.sample(100)
+#MCMC_samples = MCMC_sampler.sample(SAMPLE_SIZE)
+#gflow_samples = model.sample(SAMPLE_SIZE)
 
-diverse_metric = diversity(one_hot_samples)
-diverse_par_metric = diversity_par(one_hot_samples)
+random_samples = trans.list_list_int_to_tensor_one_hot(random_samples)
+#MCMC_samples = helper.list_list_int_to_tensor_one_hot(MCMC_samples)
+#gflow_samples = helper.list_list_int_to_tensor_one_hot(gflow_samples)
 
-initial = time.time()
-print(diverse_metric)
-final = time.time()
-print('diverse: ',final - initial)
+#predict
 
-initial = time.time()
-print(diverse_par_metric)
-final = time.time()
-print('diverse_par: ',final - initial)
-print(performance(y))
+random_reward = reward_func(random_samples)
+
+X_train = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt")
+
+random_evaluation = evaluate_modelsampling(X_train,random_samples,random_reward, print_stats = True)
