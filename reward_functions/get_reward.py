@@ -6,7 +6,8 @@ from tf_bind_reward_1hot import TFBindReward1HOT
 from torch_helperfunctions import train_model, set_device, MinMaxScaler, train_model_earlystopping
 from gfp_reward_1hot import GFPReward
 
-def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
+def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.001, 
+                        n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
     """
 	Trains a TFBindReward1HOT model using the provided training and testing data. 
 
@@ -27,21 +28,20 @@ def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, n_hid = 20
     device = set_device()
     model = TFBindReward1HOT(n_hid = n_hid, n_hidden_layers = n_hidden_layers)
     loss = nn.MSELoss()
-    LEARNING_RATE = 0.001
-    BATCH_SIZE = 75
 
-    opt = optim.Adam(model.parameters(), LEARNING_RATE)
+    opt = optim.Adam(model.parameters(), learning_rate)
     
     trainSet = TensorDataset(X_train,y_train)
     testSet = TensorDataset(X_test,y_test)
     
-    train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
-    test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
+    train_dataLoader = DataLoader(trainSet,batch_size=batch_size,shuffle=True)
+    test_dataLoader =  DataLoader(testSet,batch_size=batch_size,shuffle=True)
     
     train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,
                               save_as = save_as, patience=patience, verbose=verbose)
 
-def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, patience = 5, verbose = True):
+def train_gfp_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.001, 
+                        n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
     """
     Trains a GFPReward model for a given number of epochs using the provided training and testing data. 
 
@@ -57,21 +57,19 @@ def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, p
     """
     
     device = set_device()
-    model = GFPReward()
+    model = GFPReward(n_hid = n_hid, n_hidden_layers = n_hidden_layers)
     loss = nn.MSELoss()
-    LEARNING_RATE = 0.001
-    BATCH_SIZE = 75
 
     y_train = MinMaxScaler(y_train,0,1)
     y_test = MinMaxScaler(y_test,0,1)
 
-    opt = optim.Adam(model.parameters(), LEARNING_RATE)
+    opt = optim.Adam(model.parameters(), learning_rate)
     
     trainSet = TensorDataset(X_train,y_train)
     testSet = TensorDataset(X_test,y_test)
     
-    train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
-    test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
+    train_dataLoader = DataLoader(trainSet,batch_size=batch_size,shuffle=True)
+    test_dataLoader =  DataLoader(testSet,batch_size=batch_size,shuffle=True)
     
     train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,save_as = save_as, patience = patience,verbose=verbose)
 

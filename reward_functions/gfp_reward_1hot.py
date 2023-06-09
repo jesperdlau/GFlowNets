@@ -6,17 +6,33 @@ from torch.utils.data import DataLoader, TensorDataset
 
 class GFPReward(nn.Module):
 
-    def __init__(self):
+    def __init__(self,n_hid = 2048,n_hidden_layers = 2):
         super(GFPReward, self).__init__()
+        n_actions    = 20
+        len_sequence = 237
+        len_onehot   = n_actions * len_sequence
+        
+        input_layer   = nn.Linear(len_onehot, n_hid)
+        output_layer  = nn.Linear(n_hid, 1)
+        act_func      = nn.ReLU()
+        
+        hidden_layers = []
+        for _ in range(n_hidden_layers):
+            hidden_layers.append(nn.Linear(n_hid, n_hid))
+            hidden_layers.append(act_func)
 
-        self.model = nn.Sequential(
-                nn.Linear(4740, 1000),
-                nn.ReLU(),
-                nn.Linear(1000,500),
-                nn.ReLU(),
-                nn.Linear(500, 250),
-                nn.ReLU(),
-                nn.Linear(250, 1))
+        model_architecture = [input_layer, act_func, *hidden_layers, output_layer]
+        self.model = nn.Sequential(*model_architecture)
+
+
+        # self.model = nn.Sequential(
+        #         nn.Linear(4740, 1000),
+        #         nn.ReLU(),
+        #         nn.Linear(1000,500),
+        #         nn.ReLU(),
+        #         nn.Linear(500, 250),
+        #         nn.ReLU(),
+        #         nn.Linear(250, 1))
         
     def forward(self,x):
         return self.model(x)
