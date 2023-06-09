@@ -3,7 +3,7 @@ import torch
 # Enable anomaly detection
 torch.autograd.set_detect_anomaly(True)
 
-def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False):
+def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
@@ -92,7 +92,6 @@ def train(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update
             # Calculate the error
             flow_mismatch = (parent_edge_flow_pred - edge_flow_prediction.sum() - reward).pow(2)
             minibatch_loss += flow_mismatch.cpu()  # Accumulate
-
             # Continue iterating
             state = new_state
 
