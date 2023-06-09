@@ -123,7 +123,9 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
                     'model_state_dict': model_state_dict_cpu,
                     'optimizer_state_dict': optimizer_state_dict,
                     'minibatch_loss': minibatch_loss.item(), # Is this necessary?
-                    'losses': losses
+                    'losses': losses,
+                    'n_hid': model.n_hid,
+                    'n_hidden_layers': model.n_hidden_layers
                     }, model_path)
         print(f"Saved model to {model_path}")
 
