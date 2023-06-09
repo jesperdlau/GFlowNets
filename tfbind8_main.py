@@ -42,6 +42,8 @@ optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
+reward_func.to(device)
+reward_func.load_state_dict(torch.load(REWARD_PATH, map_location=device))
 
 # Train model and save checkpoint to PATH
 train(model, optimizer, reward_func, SEQ_LEN, NUM_EPISODES, UPDATE_FREQ, MODEL_PATH, REWARD_PATH, device, hot_start=False, verbose=True)
