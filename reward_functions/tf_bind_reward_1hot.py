@@ -7,18 +7,24 @@ from torch.utils.data import DataLoader, TensorDataset
 
 class TFBindReward1HOT(nn.Module):
 
-    def __init__(self):
+    def __init__(self, n_hid = 2048, n_hidden_layers = 2):
         super(TFBindReward1HOT, self).__init__()
+        n_actions    = 4
+        len_sequence = 8
+        len_onehot   = n_actions * len_sequence
         
-        self.model = nn.Sequential(
-                nn.Linear(32, 100),
-                nn.ReLU(),
-                nn.Linear(100, 100),
-                nn.ReLU(),
-                nn.Linear(100, 100),
-                nn.ReLU(),
-                nn.Linear(100, 1))
+        input_layer   = nn.Linear(len_onehot, n_hid)
+        output_layer  = nn.Linear(n_hid, 1)
+        act_func      = nn.ReLU()
         
+        hidden_layers = []
+        for _ in range(n_hidden_layers):
+            hidden_layers.append(nn.Linear(n_hid, n_hid))
+            hidden_layers.append(act_func)
+
+        model_architecture = [input_layer, act_func, *hidden_layers, output_layer]
+        self.model = nn.Sequential(*model_architecture)
+
     def forward(self,x):
         return self.model(x)
 

@@ -6,26 +6,26 @@ from tf_bind_reward_1hot import TFBindReward1HOT
 from torch_helperfunctions import train_model, set_device, MinMaxScaler, train_model_earlystopping
 from gfp_reward_1hot import GFPReward
 
-def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, save_as = None, patience = 5, verbose = True):
+def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
     """
-    Trains a TFBindReward1HOT model using the specified training and testing sets for a specified amount of epochs.
-    
-    :param epochs: The number of times to iterate over the entire training dataset.
-    :type epochs: int
-    :param X_train: The training input data.
-    :type X_train: torch.Tensor
-    :param y_train: The training target data.
-    :type y_train: torch.Tensor
-    :param X_test: The testing input data.
-    :type X_test: torch.Tensor
-    :param y_test: The testing target data.
-    :type y_test: torch.Tensor
-    :param save_as: The name to save the trained model as. Defaults to None.
-    :type save_as: str
-    """    
+	Trains a TFBindReward1HOT model using the provided training and testing data. 
 
+	:param epochs: Number of training epochs.
+	:param X_train: Input training data.
+	:param y_train: Target training data.
+	:param X_test: Input testing data.
+	:param y_test: Target testing data.
+	:param n_hid: Number of hidden units in each hidden layer of the model. Default is 2048.
+	:param n_hidden_layers: Number of hidden layers in the model. Default is 2.
+	:param save_as: Path to save the trained model. Default is None.
+	:param patience: Number of epochs to wait before early stopping. Default is 5.
+	:param verbose: Whether to print training and validation loss during training. Default is True.
+
+	:returns: None.
+	"""
+        
     device = set_device()
-    model = TFBindReward1HOT()
+    model = TFBindReward1HOT(n_hid = n_hid, n_hidden_layers = n_hidden_layers)
     loss = nn.MSELoss()
     LEARNING_RATE = 0.001
     BATCH_SIZE = 75
@@ -38,7 +38,8 @@ def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test, save_as = 
     train_dataLoader = DataLoader(trainSet,batch_size=BATCH_SIZE,shuffle=True)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
     
-    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,save_as = save_as, patience=patience, verbose=verbose)
+    train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,
+                              save_as = save_as, patience=patience, verbose=verbose)
 
 def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, patience = 5, verbose = True):
     """
@@ -73,7 +74,6 @@ def train_gfp_reward(epochs, X_train, y_train, X_test, y_test, save_as = None, p
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
     
     train_model_earlystopping(epochs,train_dataLoader,test_dataLoader,model,loss,opt,device,save_as = save_as, patience = patience,verbose=verbose)
-
 
 if __name__ == "__main__":
     # An example of use
