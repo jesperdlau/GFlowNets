@@ -4,8 +4,9 @@ import torch.nn.functional as F
 import numpy as np
 
 class GFlowNet(nn.Module):
-    def __init__(self, num_hid, n_hidden_layers = 0):
+    def __init__(self, num_hid, n_hidden_layers = 0, model_path = None):
         super().__init__()
+        
         self.keys         = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
         self.n_actions    = 4
         self.len_sequence = 8
@@ -22,7 +23,7 @@ class GFlowNet(nn.Module):
 
         model_architecture = [input_layer, act_func, *hidden_layers, output_layer]
         self.mlp = nn.Sequential(*model_architecture)
-        
+       
     def seq_to_one_hot(self, sequence):
         one_hot = torch.zeros(self.len_onehot, dtype=torch.float)
         for i, letter in enumerate(sequence):
@@ -48,7 +49,8 @@ class GFlowNet(nn.Module):
             for i in range(self.len_sequence):
                 edge_flow_prediction = self.forward(sequence)
                 action_distribution = edge_flow_prediction / torch.sum(edge_flow_prediction) 
-                action = np.random.choice(self.n_actions, p=action_distribution.detach().numpy())
+                # action = np.random.choice(self.n_actions, p=action_distribution.detach().numpy())
+                action = torch.distributions.Categorical(probs=action_distribution).sample()
                 sequence = self.step(i, sequence, action)
             
             sequences[seqN] = sequence

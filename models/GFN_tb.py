@@ -32,7 +32,7 @@ class TBModel(nn.Module):
   def __init__(self, num_hid):
     super().__init__()
     # The input dimension is 6 for the 6 patches.
-    self.mlp = nn.Sequential(nn.Linear(40, num_hid), nn.LeakyReLU(),
+    self.mlp = nn.Sequential(nn.Linear(32, num_hid), nn.LeakyReLU(),
                              # We now output 10 numbers, 5 for P_F and 5 for P_B
                              nn.Linear(num_hid, 8))
     # log Z is just a single number
@@ -41,7 +41,7 @@ class TBModel(nn.Module):
 
     
   def forward(self, x):
-    logits = self.mlp(x)
+    logits = self.mlp(x) # TODO: should it be .exp()?
     # Slice the logits, and mask invalid actions (since we're predicting 
     # log-values), we use -100 since exp(-100) is tiny, but we don't want -inf)
     P_F = logits[..., :4] * -100
@@ -56,7 +56,7 @@ class TBModel(nn.Module):
             token = F.one_hot(token.to(torch.int64), num_classes=5).flatten()
             token = token.float()
         else:
-            token = torch.zeros(40).float()
+            token = torch.zeros(32).float()
         return token  
 
 model = TBModel(512)
