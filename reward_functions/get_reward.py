@@ -86,4 +86,4 @@ if __name__ == "__main__":
 
     SAVE_PATH_AND_NAME = "models/saved_models/tfbind_reward_earlystopping"
 
-    train_tfbind_reward(20,X_train,y_train,X_test,y_test,save_as = SAVE_PATH_AND_NAME,patience=5)
+    train_tfbind_reward(30,X_train,y_train,X_test,y_test,save_as = SAVE_PATH_AND_NAME,patience=5)

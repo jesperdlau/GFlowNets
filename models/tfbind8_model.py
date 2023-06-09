@@ -6,17 +6,17 @@ import numpy as np
 class GFlowNet(nn.Module):
     def __init__(self, num_hid, n_hidden_layers = 0):
         super().__init__()
-        self.keys = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
-        self.n_actions = 4
+        self.keys         = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
+        self.n_actions    = 4
         self.len_sequence = 8
-        self.len_onehot = self.n_actions * self.len_sequence
+        self.len_onehot   = self.n_actions * self.len_sequence
 
         input_layer   = nn.Linear(self.len_onehot, num_hid)
         output_layer  = nn.Linear(num_hid, self.n_actions)
-        act_func = nn.LeakyReLU()
+        act_func      = nn.LeakyReLU()
         
         hidden_layers = []
-        for i in range(n_hidden_layers):
+        for _ in range(n_hidden_layers):
             hidden_layers.append(nn.Linear(num_hid, num_hid))
             hidden_layers.append(act_func)
 
