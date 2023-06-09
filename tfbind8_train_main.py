@@ -16,6 +16,7 @@ NUM_EPISODES = 100
 UPDATE_FREQ = 32
 VERBOSE = True
 HOT_START = False
+BETAS = (0.9, 0.999)
 
 # HPC
 # MODEL_PATH = "/zhome/2e/b/169155/GFlowNet/tfbind8/model/test_model_2048.tar"
@@ -28,7 +29,7 @@ REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
 # Initialize 
 device = help.set_device()
 model = GFlowNet(HIDDEN_SIZE)
-optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=BETAS)
 reward_func = TFBindReward1HOT()
 
 # Train model and save checkpoint to PATH
