@@ -133,8 +133,8 @@ def train_model_earlystopping(epochs:int, train_DL:DataLoader, test_DL:DataLoade
                 break
 
     if save_as:
-        #torch.save(best_model_state, save_as + ".pth")
+        #torch.save(best_model_state, save_as)
         state_dict = {k: v.cpu() for k, v in best_model_state.items()}
-        torch.save(state_dict, save_as + ".pth")
+        torch.save(state_dict, save_as)
     else:
         model.load_state_dict(best_model_state)

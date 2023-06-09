@@ -82,6 +82,6 @@ if __name__ == "__main__":
     X_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt")
     y_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt")
 
-    SAVE_PATH_AND_NAME = "models/saved_models/tfbind_reward_earlystopping"
+    SAVE_PATH_AND_NAME = "models/saved_models/tfbind_reward_earlystopping.pth"
 
     train_tfbind_reward(30,X_train,y_train,X_test,y_test,save_as = SAVE_PATH_AND_NAME,patience=5)
