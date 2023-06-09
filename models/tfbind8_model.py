@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 
 class GFlowNet(nn.Module):
-    def __init__(self, n_hid, n_hidden_layers = 0):
+    def __init__(self, n_hid = 2048, n_hidden_layers = 2):
         super().__init__()
         self.keys         = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
         self.n_actions    = 4
@@ -15,7 +15,7 @@ class GFlowNet(nn.Module):
 
         input_layer   = nn.Linear(self.len_onehot, self.n_hid)
         output_layer  = nn.Linear(self.n_hid, self.n_actions)
-        act_func      = nn.LeakyReLU()
+        act_func      = nn.ReLU()
         
         hidden_layers = []
         for _ in range(self.n_hidden_layers):
