@@ -48,7 +48,7 @@ def max_index():
 
 
 
-class MCMCSequenceSampler:
+class MCMCLightSequenceSampler:
     def __init__(self, burnin, std_dev):
         self.burnin = burnin
         self.perms = perms()  
@@ -66,7 +66,7 @@ class MCMCSequenceSampler:
 
             mu, sigma = self.index, self.std_dev
 
-            s = np.random.normal(mu, sigma, 2)
+            s = np.random.normal(mu, sigma, 1)
 
             samples = [int(sample.round()) for sample in s]
 
@@ -74,7 +74,7 @@ class MCMCSequenceSampler:
                 if sample < 0:
                     samples[samples.index(sample)] = 0
                 if sample > len(self.perms):
-                    samples[samples.index(sample)] = len(samples)
+                    samples[samples.index(sample)] = len(self.perms-1)
 
             initial_sequences = {i:self.perms[i] for i in samples}
 
@@ -112,7 +112,8 @@ class MCMCSequenceSampler:
 
 if __name__ == "__main__":
     n = 128
-    burnin = 1
-    sampler = MCMCSequenceSampler(n, burnin)
-    samples = sampler.sample()
+    burnin = 1000
+
+    sampler = MCMCSequenceSampler(burnin)
+    samples = sampler.sample(n)
     print(samples)

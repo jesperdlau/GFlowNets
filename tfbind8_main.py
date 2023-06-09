@@ -12,6 +12,7 @@ from reward_functions import torch_helperfunctions as help
 from utilities.loss_plot import loss_plot
 from evaluation.evaluation import evaluate_modelsampling
 from utilities.transformer import Transformer
+from MCMC_light_sampler import MCMCLightSequenceSampler
 
 
 # Hyperparameters

@@ -10,13 +10,16 @@ from scipy.stats import pearsonr
 
 from torch_helperfunctions import set_device, MinMaxScaler
 
-def evaluate_model(dataloader, model, loss_fn):
-    size = len(dataloader.dataset)
-    num_batches = len(dataloader)
+def evaluate_model(X_test,y_test, model):
+    testSet = TensorDataset(X_test,y_test)
+    test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
+    size = len(test_dataLoader.dataset)
+    num_batches = len(test_dataLoader)
     test_loss, correct = 0, 0
+    loss_fn = nn.MSELoss() 
 
     with torch.no_grad():
-        for X, y in dataloader:
+        for X, y in test_dataLoader:
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
             # correct += (pred.argmax(1) == y).type(torch.float).sum().item()
@@ -63,23 +66,19 @@ if __name__ == "__main__":
     device = set_device()
 
     # # TFBIND EVALUTAITON
-    # X_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt")
-    # y_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt")    
-    # model = TFBindReward1HOT()
-    # model_name = "TFBind_1hot_test.pth"
+    X_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt")
+    y_test  = torch.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt")    
+    model = TFBindReward1HOT()
+    model_name = "models/saved_models/tfbind_reward_earlystopping.pth"
 
     # GFP EVALUTATION
-    X_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_X_test.pt")
-    y_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_y_test.pt")
-    y_test = MinMaxScaler(y_test,0,1)
-    model = GFPReward()
-    model_name = "GFP_1hot.pth"
+    # X_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_X_test.pt")
+    # y_test  = torch.load(DATA_FOLDER + "gfp/gfp_1hot_y_test.pt")
+    # y_test = MinMaxScaler(y_test,0,1)
+    # model = GFPReward()
+    # model_name = "GFP_1hot.pth"
 
-    loss = nn.MSELoss() 
     model.load_state_dict(torch.load(model_name))
-    testSet = TensorDataset(X_test,y_test)
 
-    test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
-
-    evaluate_model(test_dataLoader,model,loss)
+    evaluate_model(X_test,y_test,model)
     plot_fit_obs(model, X_test,y_test)
