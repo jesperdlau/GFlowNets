@@ -8,7 +8,7 @@ DATA_FOLDER = "GFlowNets/data/"
 DATA_FOLDER = "data/"
 
 SEED = 42
-TRAIN_SIZE = 4/5
+TRAIN_SIZE = 1/2
 
 X = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-x.npy")
 y = np.load(DATA_FOLDER + "tf_bind_8/SIX6_REF_R1/tf_bind_8-y.npy")
