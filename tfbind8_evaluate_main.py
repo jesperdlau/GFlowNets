@@ -52,7 +52,7 @@ random_samples_top20 = random_samples_sorted[:int(len(random_samples_sorted) * 0
 random_rewards_top20 = random_rewards_sorted[:int(len(random_rewards_sorted) * 0.2)]
 
 random_perf, random_div, random_novel = evaluate_modelsampling(X_train,random_samples_top20,random_rewards_top20, print_stats = False)
-random_metrics = np.array([{"Performance": random_perf.detach().numpy(), "Diversity": random_div.detach().numpy(), "Novelty": random_novel.detach().numpy()}])
+random_metrics = np.array([{"Performance": random_perf.detach().numpy().item(), "Diversity": random_div.detach().numpy().item(), "Novelty": random_novel.detach().numpy().item()}])
 
 # Get top 20% of MCMC samples, then evaluate
 # mask = torch.argsort(mcmc_rewards, dim=0, descending=True)
@@ -74,14 +74,14 @@ for i in range(len(gflow_samples)):
     gflow_samples_top20 = gflow_samples_sorted[:int(len(gflow_samples_sorted) * 0.2)]
     gflow_rewards_top20 = gflow_rewards_sorted[:int(len(gflow_rewards_sorted) * 0.2)]
     gflow_perf, gflow_div, gflow_novel = evaluate_modelsampling(X_train,gflow_samples_top20,gflow_rewards_top20, print_stats = False)
-    gflow_metrics.append({"Performance": gflow_perf.detach().numpy(), "Diversity": gflow_div.detach().numpy(), "Novelty": gflow_novel.detach().numpy()})
+    gflow_metrics.append({"Performance": gflow_perf.detach().numpy().item(), "Diversity": gflow_div.detach().numpy().item(), "Novelty": gflow_novel.detach().numpy().item()})
 gflow_metrics = np.array(gflow_metrics)
 
 
 
 # Save metrics
-np.save(RANDOM_METRICS_PATH, random_metrics)
-np.save(GFLOW_METRICS_PATH, gflow_metrics)
-#np.save(MCMC_METRICS_PATH, mcmc_metrics)
+np.save(RANDOM_METRICS_PATH, random_metrics, allow_pickle=True)
+np.save(GFLOW_METRICS_PATH, gflow_metrics, allow_pickle=True)
+#np.save(MCMC_METRICS_PATH, mcmc_metrics, allow_pickle=True)
 
 print("Evaluation complete. Saved metrics.")
