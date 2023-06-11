@@ -9,7 +9,7 @@ from models.train import train_flow_matching
 from models.tfbind8_model import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
-from utilities.loss_plot import loss_plot
+from utilities.plot_functions import loss_plot
 from evaluation.evaluation import evaluate_modelsampling
 from utilities.transformer import Transformer
 
