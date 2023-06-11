@@ -3,7 +3,7 @@ import torch
 # Enable anomaly detection
 torch.autograd.set_detect_anomaly(True)
 
-def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False):
+def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False, evaluate = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
@@ -38,6 +38,7 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
 
     model.to(device)
     model.train()
+    models = []
 
     # If hot_start is true, load model and optimizer from checkpoint
     if hot_start:
@@ -107,9 +108,14 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
             minibatch_loss.backward()
             optimizer.step()
             
-            # Update losses and reset minibatch_loss
+            # Update losses and models 
             losses.append(minibatch_loss.item())
+            model_state_dict = model.state_dict().copy()
+            models.append({k: v.cpu() for k, v in model_state_dict.items()})
+
+            # Reset minibatch loss
             minibatch_loss = torch.zeros(1)
+
             if verbose:
                 print(f"Performed optimization step")
 
@@ -124,6 +130,7 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
                     'optimizer_state_dict': optimizer_state_dict,
                     'minibatch_loss': minibatch_loss.item(), # Is this necessary?
                     'losses': losses,
+                    'models': models,
                     'n_hid': model.n_hid,
                     'n_hidden_layers': model.n_hidden_layers
                     }, model_path)
