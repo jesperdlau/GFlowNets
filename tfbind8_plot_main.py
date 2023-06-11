@@ -66,7 +66,7 @@ model.to(device)
 perfs, divs, novels = [], [], []
 for model_state in models:
     model.load_state_dict(model_state)
-    Gflow_samples = model.sample(SAMPLE_SIZE)
+    Gflow_samples = model.sample(SAMPLE_SIZE) # TODO: This is the most time consuming step
     gflow_reward = reward_func(Gflow_samples)
     perf, div, novel = evaluate_modelsampling(X_train,Gflow_samples,gflow_reward, print_stats = False)
     perfs.append(perf.detach().numpy())
