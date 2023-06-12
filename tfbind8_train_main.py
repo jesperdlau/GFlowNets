@@ -11,8 +11,8 @@ from reward_functions import torch_helperfunctions as help
 SEQ_LEN = 8
 HIDDEN_SIZE = 2048
 N_HIDDEN_LAYERS = 2
-LEARNING_RATE = 10e-4
-NUM_EPISODES = 100
+LEARNING_RATE = 10e-5
+NUM_EPISODES = 100 # Should be 5000
 UPDATE_FREQ = 32
 VERBOSE = True
 HOT_START = False
