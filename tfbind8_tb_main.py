@@ -28,6 +28,7 @@ SAMPLE_SIZE = 100
 BURNIN = 10
 DELTA = 0.001
 BETA = 3
+LOGZ_LEARNING_RATE = 10^-3
 
 DATA_FOLDER = "data/"
 
@@ -36,6 +37,7 @@ device = help.set_device()
 
 # Load model and optimizer
 model = GFlowNet()
+logz_optmizer = torch.optim.Adam([model.logZ], LOGZ_LEARNING_RATE)
 optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
 
 # Load reward function

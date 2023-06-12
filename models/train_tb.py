@@ -112,7 +112,12 @@ def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:
             optimizer.zero_grad()
             minibatch_loss.backward()
             optimizer.step()
-            
+            '''
+            # Update logZ
+            logz_optmizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            '''
             # Update losses and reset minibatch_loss
             losses.append(minibatch_loss.item())
             minibatch_loss = torch.zeros(1)
