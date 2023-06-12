@@ -12,12 +12,13 @@ NAME_OF_RUN = "100mc_test"
 NUM_EPISODES = 100 # Should be 5000
 VERBOSE = True
 
-#SEQ_LEN = 8
 HIDDEN_SIZE = 2048
 N_HIDDEN_LAYERS = 2
-LEARNING_RATE = 10e-5
+LEARNING_RATE = 10**-5
 UPDATE_FREQ = 32
-BETAS = (0.9, 0.999)
+DELTA = 0.001 # Uniform Policy Coefficient
+BETA = 3 # Reward Exponent
+OPT_BETAS = (0.9, 0.999)
 HOT_START = False
 
 # HPC
@@ -33,19 +34,20 @@ MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 # Initialize 
 device = help.set_device()
 model = GFlowNet(HIDDEN_SIZE)
-optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=BETAS)
+optimizer = torch.optim.Adam(model.parameters(), lr=LEARNING_RATE, betas=OPT_BETAS)
 reward_func = TFBindReward1HOT()
 
 # Train model and save checkpoint to PATH
-train_flow_matching(model, 
-                    optimizer, 
-                    reward_func, 
-                    SEQ_LEN, 
-                    NUM_EPISODES, 
-                    UPDATE_FREQ, 
-                    MODEL_PATH, 
-                    REWARD_PATH, 
-                    device, 
+train_flow_matching(model=model, 
+                    optimizer=optimizer, 
+                    reward_func=reward_func, 
+                    num_episodes=NUM_EPISODES, 
+                    update_freq=UPDATE_FREQ, 
+                    delta=DELTA,
+                    beta=BETA,
+                    model_path=MODEL_PATH, 
+                    reward_path=REWARD_PATH, 
+                    device=device, 
                     hot_start=HOT_START, 
                     verbose=VERBOSE)
 
