@@ -3,7 +3,9 @@ import torch
 # Enable anomaly detection
 torch.autograd.set_detect_anomaly(True)
 
-def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4, delta:float = 0., beta:int = 3,model_path = None, reward_path = None, device = "cpu", hot_start:bool = False, verbose:bool = False):
+def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4,
+                         delta:float = 0., beta:int = 3,model_path = None, reward_path = None,
+                           device = "cpu", hot_start:bool = False, verbose:bool = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
@@ -11,6 +13,7 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
     - model: a PyTorch model used for training
     - optimizer: a PyTorch optimizer used for training
     - reward_func: a function that calculates the reward for a given state
+    - seq_len: an int representing the length of each sequence
     - num_episodes: an int representing the number of episodes to train for
     - update_freq: an int representing the frequency of updating the model
     - delta: a float representing the exploration rate
