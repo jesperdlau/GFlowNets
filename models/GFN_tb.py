@@ -44,8 +44,8 @@ class TBModel(nn.Module):
     logits = self.mlp(x) # TODO: should it be .exp()?
     # Slice the logits, and mask invalid actions (since we're predicting 
     # log-values), we use -100 since exp(-100) is tiny, but we don't want -inf)
-    P_F = logits[..., :4] * -100
-    P_B = logits[..., 4:] * -100
+    P_F = logits[..., :4]
+    P_B = logits[..., 4:]
     return P_F, P_B
 
   def seq_to_one_hot(self, sequence):
@@ -73,6 +73,7 @@ minibatch_loss = 0
 update_freq = 2
 
 logZs = []
+
 log_reward_fractions = []
 reward_fractions = []
 log_backward_probabilities = []
