@@ -3,7 +3,7 @@ import torch
 # Enable anomaly detection
 torch.autograd.set_detect_anomaly(True)
 
-def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False):
+def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4, delta:float = 0., beta:int = 3,model_path = None, reward_path = None, device = "cpu", hot_start:bool = False, verbose:bool = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
@@ -11,9 +11,10 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
     - model: a PyTorch model used for training
     - optimizer: a PyTorch optimizer used for training
     - reward_func: a function that calculates the reward for a given state
-    - seq_len: an int representing the length of each sequence
     - num_episodes: an int representing the number of episodes to train for
     - update_freq: an int representing the frequency of updating the model
+    - delta: a float representing the exploration rate
+    - beta: 
     - device: a PyTorch device to use for training
     - model_path: a string representing the path to save the model to, or load from if hot_start
     - reward_path: a string representing the path to load the reward function from
@@ -56,18 +57,22 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
 
     for episode in range(start_episode + 1, start_episode + num_episodes + 1):
         # Initialize empty state (as one-hot) and trajectory flow
-        state = torch.zeros(32, dtype=torch.float, device=device)
+        state = torch.zeros(model.len_onehot, dtype=torch.float, device=device)
         trajectory_flow = []
 
         # Predict edge flow from initial state
         edge_flow_prediction = model(state)
 
-        for i in range(seq_len):
+        for i in range(model.len_sequence):
             # Get policy in the current state
             policy = edge_flow_prediction / edge_flow_prediction.sum()
 
+            # Adding uniform distribution to policy, delta controls exploration
+            policy = torch.mul(policy, (1-delta))
+            policy = torch.add(policy, delta * 1/model.n_actions)   
+            
             # Sample action from policy
-            action = Categorical(probs=policy).sample() 
+            action = Categorical(probs=policy).sample()   # TODO: Probs or logits?
             # action.to(device) # TODO: Is it necessary to send action to device?
 
             # Take action and get new state
@@ -79,15 +84,15 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
             trajectory_flow.append(parent_edge_flow_pred)
         
             # While building the sequence, reward is zero and flow is predicted
-            if i < seq_len: 
+            if i < model.len_sequence: 
                 reward = 0
                 edge_flow_prediction = model(new_state)
                 
             # When sequence is complete, get reward and set flow prediction to zero
             else:
-                reward = reward_func(new_state) 
+                reward = reward_func(new_state).pow(beta) 
                 terminal_rewards.append(reward)
-                edge_flow_prediction = torch.zeros(4)
+                edge_flow_prediction = torch.zeros(model.n_actions)
                 
             # Calculate the error
             flow_mismatch = (parent_edge_flow_pred - edge_flow_prediction.sum() - reward).pow(2)
