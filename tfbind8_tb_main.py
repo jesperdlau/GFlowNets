@@ -22,7 +22,7 @@ LEARNING_RATE = 10e-4
 NUM_EPISODES = 100
 UPDATE_FREQ = 32
 MODEL_PATH = "models/saved_models/test_model_3.tar"
-REWARD_PATH = "models/saved_models/tfbind_reward_earlystopping.pth"
+REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
 PLOT_PATH = "models/test_loss_plot_3.png" # TODO: Organize model into model folder, reward into reward folder and plot into plot folder???
 SAMPLE_SIZE = 100
 BURNIN = 10
@@ -35,7 +35,7 @@ DATA_FOLDER = "data/"
 device = help.set_device()
 
 # Load model and optimizer
-model = GFlowNet(100,1)
+model = GFlowNet()
 optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
 
 # Load reward function
@@ -53,7 +53,7 @@ loss_plot(MODEL_PATH, save_path=PLOT_PATH)
 
 # random_samples = Transformer.list_list_int_to_tensor_one_hot(random_sampler.sample(SAMPLE_SIZE))
 #MCMC_samples = transformer.list_list_int_to_tensor_one_hot(MCMC_sampler.sample(SAMPLE_SIZE, BURNIN))
-Gflow_samples = Transformer.list_list_int_to_tensor_one_hot(model.sample(SAMPLE_SIZE))
+Gflow_samples = model.sample(SAMPLE_SIZE)
 
 #predict
 
