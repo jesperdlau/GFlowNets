@@ -6,7 +6,7 @@ torch.autograd.set_detect_anomaly(True)
 
 
 # TODO: Slet ikke færdig, bare kopiret fra den anden train funktion
-def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4, delta:float = 0., beta:int = 3,model_path = None, reward_path = None, device = "cpu", hot_start:bool = False, verbose:bool = False):
+def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4, delta:float = 0.001, beta:int = 3,model_path = None, reward_path = None, device = "cpu", hot_start:bool = False, verbose:bool = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
