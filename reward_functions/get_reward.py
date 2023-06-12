@@ -6,8 +6,8 @@ from .tf_bind_reward_1hot import TFBindReward1HOT
 from .torch_helperfunctions import train_model, set_device, MinMaxScaler, train_model_earlystopping
 from .gfp_reward_1hot import GFPReward
 
-def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.001, 
-                        n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
+def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.0001, 
+                        n_hid = 2048, n_hidden_layers = 2, betas = (0.9, 0.999), save_as = None, patience = 5, verbose = True):
     """
 	Trains a TFBindReward1HOT model using the provided training and testing data. 
 
@@ -29,7 +29,7 @@ def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size 
     model = TFBindReward1HOT(n_hid = n_hid, n_hidden_layers = n_hidden_layers)
     loss = nn.MSELoss()
 
-    opt = optim.Adam(model.parameters(), learning_rate)
+    opt = optim.Adam(model.parameters(), lr = learning_rate, betas = betas)
     
     trainSet = TensorDataset(X_train,y_train)
     testSet = TensorDataset(X_test,y_test)
