@@ -5,19 +5,19 @@ import torch.nn as nn
 torch.autograd.set_detect_anomaly(True)
 
 
-
 # TODO: Slet ikke færdig, bare kopiret fra den anden train funktion
-def train_tb(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, update_freq = 4, model_path = None, reward_path = None, device = "cpu", hot_start = False, verbose = False):
+def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:int = 4, delta:float = 0.001, beta:int = 3,model_path = None, reward_path = None, device = "cpu", hot_start:bool = False, verbose:bool = False):
     """
     Trains a given model using policy gradient with a given reward function.
 
     Args:
-    - model: a PyTorch model used for training
+    - model: a PyTorch GFlow model used for training
     - optimizer: a PyTorch optimizer used for training
     - reward_func: a function that calculates the reward for a given state
-    - seq_len: an int representing the length of each sequence
     - num_episodes: an int representing the number of episodes to train for
     - update_freq: an int representing the frequency of updating the model
+    - delta: a float representing the exploration rate
+    - beta: int representing the exponent of reward
     - device: a PyTorch device to use for training
     - model_path: a string representing the path to save the model to, or load from if hot_start
     - reward_path: a string representing the path to load the reward function from
@@ -29,8 +29,8 @@ def train_tb(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, upd
     - None
     """
     sampled_sequences = []
-    terminal_rewards = []
-    total_trajectory_flow = []
+    # terminal_rewards = []
+    # total_trajectory_flow = []
 
     losses = []
     minibatch_loss = torch.zeros(1)
@@ -43,6 +43,7 @@ def train_tb(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, upd
 
     model.to(device)
     model.train()
+    models = []
 
     # If hot_start is true, load model and optimizer from checkpoint
     if hot_start:
@@ -61,46 +62,46 @@ def train_tb(model, optimizer, reward_func, seq_len = 8, num_episodes = 100, upd
 
     for episode in range(start_episode + 1, start_episode + num_episodes + 1):
         # Initialize empty state (as one-hot) and trajectory flow
-        state = torch.zeros(32, dtype=torch.float, device=device)
+        state = torch.zeros(model.len_onehot, dtype=torch.float, device=device)
         trajectory_flow = []
 
         # Predict edge flow from initial state
-        edge_flow_prediction = model(state)
+        P_F_s, P_B_s  = model(state)
+        total_P_F = 0
+        total_P_B = 0
 
-        for i in range(seq_len):
+
+        for i in range(model.len_sequence):
             # Get policy in the current state
-            policy = edge_flow_prediction / edge_flow_prediction.sum()
+            policy = P_F_s
+
+            # Adding uniform distribution to policy, delta controls exploration
+            policy = torch.mul(policy, (1-delta))
+            policy = torch.add(policy, delta * (1/model.n_actions))   
 
             # Sample action from policy
-            action = Categorical(probs=policy).sample() 
-            # action.to(device) # TODO: Is it necessary to send action to device?
+            distribution = Categorical(logits=policy)
+            action = distribution.sample()
 
-            # Take action and get new state
+            total_P_F += distribution.log_prob(action)
+            # action.to(device) # TODO: Is it necessary to send action to device?
             new_state = model.step(i, state, action)
             new_state.to(device)
 
-            # Get the flow from old state to new state
-            parent_edge_flow_pred = edge_flow_prediction[action]
-            trajectory_flow.append(parent_edge_flow_pred)
-        
-            # While building the sequence, reward is zero and flow is predicted
-            if i < seq_len: 
-                reward = 0
-                edge_flow_prediction = model(new_state)
-                
-            # When sequence is complete, get reward and set flow prediction to zero
-            else:
-                reward = reward_func(new_state) 
-                terminal_rewards.append(reward)
-                edge_flow_prediction = torch.zeros(4)
-                
-            # Calculate the error
-            flow_mismatch = (parent_edge_flow_pred - edge_flow_prediction.sum() - reward).pow(2)
-            minibatch_loss += flow_mismatch.cpu()  # Accumulate
+            if i == model.len_sequence - 1:
+                reward = reward_func(new_state)
+
+            P_F_s, P_B_s = model(new_state)
+            # Take action and get new state
+            total_P_B += Categorical(logits=P_B_s).log_prob(action)
+            
             # Continue iterating
             state = new_state
 
-        total_trajectory_flow.append(sum(trajectory_flow))
+        loss = (model.logZ + total_P_F - torch.log(reward).clip(-20) - total_P_B).pow(2)
+        minibatch_loss += loss.cpu()
+        
+        # total_trajectory_flow.append(sum(trajectory_flow))
         sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
 
         if verbose:
