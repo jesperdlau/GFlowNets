@@ -39,6 +39,7 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
 
     model.to(device)
     model.train()
+    models = []
 
     # If hot_start is true, load model and optimizer from checkpoint
     if hot_start:
@@ -66,7 +67,6 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
         for i in range(model.len_sequence):
             # Get policy in the current state
             policy = edge_flow_prediction / edge_flow_prediction.sum()
-
             # Adding uniform distribution to policy, delta controls exploration
             policy = torch.mul(policy, (1-delta))
             policy = torch.add(policy, delta * 1/model.n_actions)   
@@ -112,9 +112,14 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
             minibatch_loss.backward()
             optimizer.step()
             
-            # Update losses and reset minibatch_loss
+            # Update losses and models 
             losses.append(minibatch_loss.item())
+            model_state_dict = model.state_dict().copy()
+            models.append({k: v.cpu() for k, v in model_state_dict.items()})
+
+            # Reset minibatch loss
             minibatch_loss = torch.zeros(1)
+
             if verbose:
                 print(f"Performed optimization step")
 
@@ -129,6 +134,7 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
                     'optimizer_state_dict': optimizer_state_dict,
                     'minibatch_loss': minibatch_loss.item(), # Is this necessary?
                     'losses': losses,
+                    'models': models,
                     'n_hid': model.n_hid,
                     'n_hidden_layers': model.n_hidden_layers
                     }, model_path)

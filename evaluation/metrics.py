@@ -77,6 +77,14 @@ def novelty2(X_sampled, X_0):
 
     return result
 
+def novelty_torch(X_sampled, X_0, device = "cpu"):
+    dist_m = torch.cdist(X_sampled.to(device), X_0.to(device), p=1) # https://pytorch.org/docs/stable/generated/torch.cdist.html
+    min_values = torch.min(dist_m, dim=1).values
+    values_sum = torch.sum(min_values)
+    result = values_sum / len(X_sampled)
+    return result
+
+
 if __name__ == "__main__":
     DATA_FOLDER = "GFlowNets/data/"
 
@@ -102,12 +110,16 @@ if __name__ == "__main__":
     
     # d = diversity2(X_test[:100])
     # d_par = diversity_par(X_test[:100])
-    n = novelty(X_test[:100],X_train)
-    n2 = novelty2(X_test[:100],X_train)
+    #n = novelty(X_test[:100],X_train)
+    #print(n)
+    nov_torch = novelty_torch(X_test[:100],X_train)
+    print(f"{nov_torch=}")
+
+    #n2 = novelty2(X_test[:100],X_train)
     # print(f"Performance = {p}")
     # print(f"Diversity = {d_par}")
     # print(f"Diversity = {d}")
-    print(f"Novelty = {n}")
-    print(f"Novelty2 = {n2}")
+    #print(f"Novelty = {n}")
+    #print(f"Novelty2 = {n2}")
 
 

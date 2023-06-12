@@ -13,6 +13,7 @@ class GFlowNet(nn.Module):
         self.len_onehot   = self.n_actions * self.len_sequence
         self.n_hid        = n_hid
         self.n_hidden_layers = n_hidden_layers
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         input_layer   = nn.Linear(self.len_onehot, self.n_hid)
         output_layer  = nn.Linear(self.n_hid, self.n_actions)
