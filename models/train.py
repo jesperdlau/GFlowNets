@@ -100,7 +100,7 @@ def train_flow_matching(model, optimizer, reward_func, seq_len = 8, num_episodes
         sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
 
         if verbose:
-            print(f"{episode=},\t {minibatch_loss.item()=:.2f}")
+            print(f"#{episode},\t Loss: {minibatch_loss.item()}")
 
         # Perform training step
         if episode % update_freq == 0 and episode != 0:
