@@ -37,7 +37,7 @@ PLOT_NOVELTY_PATH = "plots/tfbind8_novelty_plot_" + NAME_OF_RUN + ".png"
 # Load losses
 device = help.set_device()
 model_dict = torch.load(MODEL_PATH, map_location=device)
-losses = model_dict["losses"]
+losses = model_dict["minibatch_loss"]
 
 # Load metrics
 random_metrics = np.load(RANDOM_METRICS_PATH, allow_pickle=True)
