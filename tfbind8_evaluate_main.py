@@ -16,11 +16,11 @@ from evaluation.evaluation import evaluate_modelsampling, get_top20percent, eval
 
 
 # Hyperparameters
-NAME_OF_RUN = "100mc_test"
+NAME_OF_RUN = "100tb_test"
 VERBOSE = True
 
 # Data
-X_TRAIN_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt"
+X_TRAIN_PATH = "data/tfbind8/tfbind8_X_train.pt"
 
 # Load paths # TODO: Import from shared config script?
 RANDOM_SAMPLES_PATH = "inference/tfbind8_random_samples_" + NAME_OF_RUN + ".pt"

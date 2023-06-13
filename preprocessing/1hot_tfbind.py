@@ -23,8 +23,8 @@ X = torch.tensor(X, dtype=torch.int64)
 y = torch.tensor(y, dtype=torch.float32).reshape(-1, 1)
 X_train = torch.tensor(X_train, dtype=torch.int64)
 y_train = torch.tensor(y_train, dtype=torch.float32).reshape(-1, 1)
-X_valid = torch.tensor(X_test, dtype=torch.int64)
-y_valid = torch.tensor(y_test, dtype=torch.float32).reshape(-1, 1)
+X_valid = torch.tensor(X_valid, dtype=torch.int64)
+y_valid = torch.tensor(y_valid, dtype=torch.float32).reshape(-1, 1)
 
 # 1hot encoding
 X_train = torch.nn.functional.one_hot(X_train,4).flatten(start_dim=1)
@@ -50,3 +50,5 @@ torch.save(X_train,"data/tfbind8/tfbind8_X_train.pt")
 torch.save(y_train,"data/tfbind8/tfbind8_y_train.pt")
 torch.save(X_valid,"data/tfbind8/tfbind8_X_valid.pt")
 torch.save(y_valid,"data/tfbind8/tfbind8_y_valid.pt")
+
+print("1-hot preprocessing complete")

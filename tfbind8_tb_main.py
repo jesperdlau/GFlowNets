@@ -3,22 +3,18 @@ import torch
 import numpy as np
 
 # Import scripts
-from MCMC_sampler import MCMCSequenceSampler
-from models.random_sampler import SequenceSampler
 from models.train_tb import train_tb
 from models.tfbind8_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
-from utilities.loss_plot import loss_plot
-from evaluation.evaluation import evaluate_modelsampling
-from utilities.transformer import Transformer
-from MCMC_light_sampler import MCMCLightSequenceSampler
 
 
 # Hyperparameters
+NAME_OF_RUN = "100tb_test"
+
 HIDDEN_SIZE = 2048
 LEARNING_RATE = 10**-5
-NUM_EPISODES = 100
+NUM_EPISODES = 100 # Should be 5000 for tfbind8
 UPDATE_FREQ = 32
 DELTA = 0.001
 BETA = 3
@@ -28,10 +24,10 @@ HOT_START = False
 VERBOSE = True
 
 # Load path
-REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
+REWARD_PATH = "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
 
 # Save path
-MODEL_PATH = "models/saved_models/test_model_3.tar"
+MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 
 # Set device
 device = help.set_device()

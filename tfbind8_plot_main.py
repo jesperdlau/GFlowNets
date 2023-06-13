@@ -14,12 +14,11 @@ from utilities.plot_functions import loss_plot, eval_plot, combined_loss_eval_pl
 #from utilities.transformer import Transformer
 
 
-
-NAME_OF_RUN = "100mc_test"
+# Hyperparameters
+NAME_OF_RUN = "100tb_test"
 
 # Model path (For loading losses)
-MODEL_PATH = "/home/jesper/saved_models/tfbind8_model_1000_m5.tar"
-#MODEL_PATH = "/home/jesper/saved_models/tfbind8_model_" + NAME_OF_RUN + ".tar"
+MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 
 # Load paths TODO: Import from shared config script?
 RANDOM_METRICS_PATH = "inference/tfbind8_random_metrics_" + NAME_OF_RUN + ".npy"

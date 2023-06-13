@@ -17,7 +17,7 @@ from utilities.transformer import Transformer
 
 
 # Hyperparameters
-NAME_OF_RUN = "100mc_test"
+NAME_OF_RUN = "100tb_test"
 SAMPLE_SIZE = 100 # Default for tfbind8 is K*t or 128*5 = 640
 NUMBER_OF_MCMC_RANDOM = 10
 VERBOSE = True
