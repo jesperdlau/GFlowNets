@@ -8,7 +8,8 @@ import time
 from models.random_sampler import SequenceSampler
 from MCMC_sampler import MCMCSequenceSampler
 #from models.train import train_flow_matching
-from models.tfbind8_model import GFlowNet
+#from models.tfbind8_model import GFlowNet
+from models.tfbind8_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
 #from utilities.plot_functions import loss_plot, eval_plot, combined_loss_eval_plot, combined_loss_eval_plot_flex
@@ -28,7 +29,7 @@ MCMC_STD = 1000 # Default 1000 from own experience
 ALPHABET = ['A', 'C', 'G', 'T']
 
 # Load paths TODO: Import from shared config script?
-X_TRAIN_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt"
+X_TRAIN_PATH = "data/tfbind8/tfbind8_X_train.pt"
 # MODEL_PATH = "models/saved_models/test_model_2048_1000_m5.tar"
 # REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
 MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
@@ -48,7 +49,7 @@ start_time = time.time()
 now = start_time
 X_train = torch.load(X_TRAIN_PATH)
 model_dict = torch.load(MODEL_PATH, map_location=device)
-models = model_dict["models"]
+models = model_dict["model_state_dict"]
 
 # Setup reward function # TODO: Possibly replace reward function with oracle
 reward_func = TFBindReward1HOT()
