@@ -16,9 +16,13 @@ from reward_functions import torch_helperfunctions as help
 #from evaluation.evaluation import evaluate_modelsampling
 from utilities.transformer import Transformer
 
+# Import Hyperparameters
+import config
+NAME_OF_RUN = config.NAME_OF_RUN
+PWD = config.PWD
+PWD_WORK = config.PWD_WORK
 
 # Hyperparameters
-NAME_OF_RUN = "100tb_test"
 SAMPLE_SIZE = 100 # Default for tfbind8 is K*t or 128*5 = 640
 NUMBER_OF_MCMC_RANDOM = 10
 VERBOSE = True
@@ -28,20 +32,18 @@ BURNIN = 1000 # Default 1000 from own experience
 MCMC_STD = 1000 # Default 1000 from own experience
 ALPHABET = ['A', 'C', 'G', 'T']
 
-# Load paths TODO: Import from shared config script?
-X_TRAIN_PATH = "data/tfbind8/tfbind8_X_train.pt"
-# MODEL_PATH = "models/saved_models/test_model_2048_1000_m5.tar"
-# REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
+# Load paths
+X_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_train.pt"
 MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 REWARD_PATH = "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
 
-# Save paths TODO: Import from shared config script?
-RANDOM_SAMPLES_PATH = "inference/tfbind8_random_samples_" + NAME_OF_RUN + ".pt"
-RANDOM_REWARDS_PATH = "inference/tfbind8_random_rewards_" + NAME_OF_RUN + ".pt"
-GFLOW_SAMPLES_PATH = "inference/tfbind8_gflow_samples_" + NAME_OF_RUN + ".pt"
-GFLOW_REWARDS_PATH = "inference/tfbind8_gflow_rewards_" + NAME_OF_RUN + ".pt"
-MCMC_SAMPLES_PATH = "inference/tfbind8_mcmc_samples_" + NAME_OF_RUN + ".pt"
-MCMC_REWARDS_PATH = "inference/tfbind8_mcmc_rewards_" + NAME_OF_RUN + ".pt"
+# Save paths
+RANDOM_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_random_samples_" + NAME_OF_RUN + ".pt"
+RANDOM_REWARDS_PATH = PWD_WORK + "inference/tfbind8_random_rewards_" + NAME_OF_RUN + ".pt"
+GFLOW_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_gflow_samples_" + NAME_OF_RUN + ".pt"
+GFLOW_REWARDS_PATH = PWD_WORK + "inference/tfbind8_gflow_rewards_" + NAME_OF_RUN + ".pt"
+MCMC_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_mcmc_samples_" + NAME_OF_RUN + ".pt"
+MCMC_REWARDS_PATH = PWD_WORK + "inference/tfbind8_mcmc_rewards_" + NAME_OF_RUN + ".pt"
 
 # Initialize
 device = help.set_device()

@@ -14,26 +14,27 @@ from reward_functions import torch_helperfunctions as help
 from evaluation.evaluation import evaluate_modelsampling, get_top20percent, evaluate_batches
 #from utilities.transformer import Transformer
 
-
-# Hyperparameters
-NAME_OF_RUN = "100tb_test"
-VERBOSE = True
+# Import Hyperparameters
+import config
+NAME_OF_RUN = config.NAME_OF_RUN
+PWD = config.PWD
+PWD_WORK = config.PWD_WORK
 
 # Data
-X_TRAIN_PATH = "data/tfbind8/tfbind8_X_train.pt"
+X_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_train.pt"
 
-# Load paths # TODO: Import from shared config script?
-RANDOM_SAMPLES_PATH = "inference/tfbind8_random_samples_" + NAME_OF_RUN + ".pt"
-RANDOM_REWARDS_PATH = "inference/tfbind8_random_rewards_" + NAME_OF_RUN + ".pt"
-GFLOW_SAMPLES_PATH = "inference/tfbind8_gflow_samples_" + NAME_OF_RUN + ".pt"
-GFLOW_REWARDS_PATH = "inference/tfbind8_gflow_rewards_" + NAME_OF_RUN + ".pt"
-MCMC_SAMPLES_PATH = "inference/tfbind8_mcmc_samples_" + NAME_OF_RUN + ".pt"
-MCMC_REWARDS_PATH = "inference/tfbind8_mcmc_rewards_" + NAME_OF_RUN + ".pt"
+# Load paths 
+RANDOM_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_random_samples_" + NAME_OF_RUN + ".pt"
+RANDOM_REWARDS_PATH = PWD_WORK + "inference/tfbind8_random_rewards_" + NAME_OF_RUN + ".pt"
+GFLOW_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_gflow_samples_" + NAME_OF_RUN + ".pt"
+GFLOW_REWARDS_PATH = PWD_WORK + "inference/tfbind8_gflow_rewards_" + NAME_OF_RUN + ".pt"
+MCMC_SAMPLES_PATH = PWD_WORK + "inference/tfbind8_mcmc_samples_" + NAME_OF_RUN + ".pt"
+MCMC_REWARDS_PATH = PWD_WORK + "inference/tfbind8_mcmc_rewards_" + NAME_OF_RUN + ".pt"
 
-# Save paths TODO: Import from shared config script?
-RANDOM_METRICS_PATH = "inference/tfbind8_random_metrics_" + NAME_OF_RUN + ".npy"
-GFLOW_METRICS_PATH = "inference/tfbind8_gflow_metrics_" + NAME_OF_RUN + ".npy"
-MCMC_METRICS_PATH = "inference/tfbind8_mcmc_metrics_" + NAME_OF_RUN + ".npy"
+# Save paths 
+RANDOM_METRICS_PATH = PWD + "inference/tfbind8_random_metrics_" + NAME_OF_RUN + ".npy"
+GFLOW_METRICS_PATH = PWD + "inference/tfbind8_gflow_metrics_" + NAME_OF_RUN + ".npy"
+MCMC_METRICS_PATH = PWD + "inference/tfbind8_mcmc_metrics_" + NAME_OF_RUN + ".npy"
 
 # Setup
 device = help.set_device()

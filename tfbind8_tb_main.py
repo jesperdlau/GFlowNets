@@ -8,10 +8,13 @@ from models.tfbind8_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
 
+# Import Hyperparameters
+import config
+NAME_OF_RUN = config.NAME_OF_RUN
+PWD = config.PWD
+PWD_WORK = config.PWD_WORK
 
 # Hyperparameters
-NAME_OF_RUN = "100tb_test"
-
 HIDDEN_SIZE = 2048
 LEARNING_RATE = 10**-5
 NUM_EPISODES = 20 # Should be 5000 for tfbind8
@@ -25,10 +28,10 @@ HOT_START = False
 VERBOSE = True
 
 # Load path
-REWARD_PATH = "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
+REWARD_PATH = PWD_WORK + "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
 
 # Save path
-MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
+MODEL_PATH = PWD_WORK + "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 
 # Set device
 device = help.set_device()

@@ -2,9 +2,13 @@ import torch
 # from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions.get_reward import train_tfbind_reward
 
-# Hyperparameters
-NAME_OF_RUN = "100tb_test"
+# Import Hyperparameters
+import config
+NAME_OF_RUN = config.NAME_OF_RUN
+PWD = config.PWD
+PWD_WORK = config.PWD_WORK
 
+# Hyperparameters
 BATCH_SIZE = 256
 LEARNING_RATE = 10**-4
 EPOCHS = 30
@@ -14,26 +18,14 @@ BETAS = (0.9, 0.999)
 PATIENCE = 5
 VERBOSE = True
 
-# HPC
-# X_TRAIN_PATH = "/zhome/2e/b/169155/GFlowNet/tfbind8/data/tf_bind_1hot_X_train.pt"
-# Y_TRAIN_PATH = "/zhome/2e/b/169155/GFlowNet/tfbind8/data/tf_bind_1hot_y_train.pt"
-# X_TEST_PATH = "/zhome/2e/b/169155/GFlowNet/tfbind8/data/tf_bind_1hot_X_test.pt"
-# Y_TEST_PATH = "/zhome/2e/b/169155/GFlowNet/tfbind8/data/tf_bind_1hot_y_test.pt" 
-# SAVE_PATH_AND_NAME = "/zhome/2e/b/169155/GFlowNet/tfbind8/reward/tfbind_reward_model_1.pt"
-
-# Load path - Shoud be the same
-# X_TRAIN_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_train.pt"
-# Y_TRAIN_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_train.pt"
-# X_TEST_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt"
-# Y_TEST_PATH = "data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt" 
-
-X_TRAIN_PATH = "data/tfbind8/tfbind8_X_train.pt"
-Y_TRAIN_PATH = "data/tfbind8/tfbind8_y_train.pt"
-X_VALID_PATH = "data/tfbind8/tfbind8_X_valid.pt"
-Y_VALID_PATH = "data/tfbind8/tfbind8_y_valid.pt"
+# Load path
+X_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_train.pt"
+Y_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_y_train.pt"
+X_VALID_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_valid.pt"
+Y_VALID_PATH = PWD_WORK + "data/tfbind8/tfbind8_y_valid.pt"
 
 # Save path
-REWARD_PATH = "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
+REWARD_PATH = PWD_WORK + "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
 
 # Load data
 X_train = torch.load(X_TRAIN_PATH)

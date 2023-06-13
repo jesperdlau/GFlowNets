@@ -3,36 +3,32 @@ import numpy as np
 import scipy.stats as st
 
 # Import scripts
-#from MCMC_sampler import MCMCSequenceSampler
-#from models.random_sampler import SequenceSampler
-#from models.train import train_flow_matching
-#from models.tfbind8_model import GFlowNet
-#from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
 from utilities.plot_functions import loss_plot, eval_plot, combined_loss_eval_plot, combined_loss_eval_plot_flex, performance_plot, diversity_plot, novelty_plot, combined_plot
-#from evaluation.evaluation import evaluate_modelsampling
-#from utilities.transformer import Transformer
 
-
-# Hyperparameters
-NAME_OF_RUN = "100tb_test"
+# Import Hyperparameters
+import config
+NAME_OF_RUN = config.NAME_OF_RUN
+PWD = config.PWD
+PWD_WORK = config.PWD_WORK
 
 # Model path (For loading losses)
-MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
+MODEL_PATH = PWD + "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 
 # Load paths TODO: Import from shared config script?
-RANDOM_METRICS_PATH = "inference/tfbind8_random_metrics_" + NAME_OF_RUN + ".npy"
-GFLOW_METRICS_PATH = "inference/tfbind8_gflow_metrics_" + NAME_OF_RUN + ".npy"
-MCMC_METRICS_PATH = "inference/tfbind8_mcmc_metrics_" + NAME_OF_RUN + ".npy"
+RANDOM_METRICS_PATH = PWD + "inference/tfbind8_random_metrics_" + NAME_OF_RUN + ".npy"
+GFLOW_METRICS_PATH = PWD + "inference/tfbind8_gflow_metrics_" + NAME_OF_RUN + ".npy"
+MCMC_METRICS_PATH = PWD + "inference/tfbind8_mcmc_metrics_" + NAME_OF_RUN + ".npy"
 
 # Save paths for plots
 # PLOT_LOSS_PATH = "plots/tfbind8_loss_plot_" + NAME_OF_RUN + ".png"
 # PLOT_EVALUATION_PATH = "plots/tfbind8_eval_plot_" + NAME_OF_RUN + ".png"
 # PLOT_COMBINED_PATH = "plots/tfbind8_combined_plot_" + NAME_OF_RUN + ".png"
 
-PLOT_PERFORMANCE_PATH = "plots/tfbind8_performance_plot_" + NAME_OF_RUN + ".png"
-PLOT_DIVERSITY_PATH = "plots/tfbind8_diversity_plot_" + NAME_OF_RUN + ".png"
-PLOT_NOVELTY_PATH = "plots/tfbind8_novelty_plot_" + NAME_OF_RUN + ".png"
+# Save paths
+PLOT_PERFORMANCE_PATH = PWD + "plots/tfbind8_performance_plot_" + NAME_OF_RUN + ".png"
+PLOT_DIVERSITY_PATH = PWD + "plots/tfbind8_diversity_plot_" + NAME_OF_RUN + ".png"
+PLOT_NOVELTY_PATH = PWD + "plots/tfbind8_novelty_plot_" + NAME_OF_RUN + ".png"
 
 # Load losses
 device = help.set_device()
