@@ -7,7 +7,7 @@ NAME_OF_RUN = "100tb_test"
 
 BATCH_SIZE = 256
 LEARNING_RATE = 10**-4
-EPOCS = 30
+EPOCHS = 30
 N_HID = 2048
 N_HIDDEN_LAYERS = 2
 BETAS = (0.9, 0.999)
@@ -43,7 +43,7 @@ y_valid  = torch.load(Y_VALID_PATH)
 
 # Train reward function and save model dict to save path
 # Note: Validation set is passed to test set
-train_tfbind_reward(epochs=EPOCS,
+train_tfbind_reward(epochs=EPOCHS,
                     X_train = X_train,
                     y_train = y_train,
                     X_test = X_valid,
