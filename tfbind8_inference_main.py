@@ -7,13 +7,10 @@ import time
 # Import scripts
 from models.random_sampler import SequenceSampler
 from MCMC_sampler import MCMCSequenceSampler
-#from models.train import train_flow_matching
 #from models.tfbind8_model import GFlowNet
 from models.tfbind8_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
-#from utilities.plot_functions import loss_plot, eval_plot, combined_loss_eval_plot, combined_loss_eval_plot_flex
-#from evaluation.evaluation import evaluate_modelsampling
 from utilities.transformer import Transformer
 
 # Import Hyperparameters

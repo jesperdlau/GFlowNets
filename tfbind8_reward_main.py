@@ -19,10 +19,10 @@ PATIENCE = 5
 VERBOSE = True
 
 # Load path
-X_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_train.pt"
-Y_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_y_train.pt"
-X_VALID_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_valid.pt"
-Y_VALID_PATH = PWD_WORK + "data/tfbind8/tfbind8_y_valid.pt"
+X_TRAIN_PATH = PWD + "data/tfbind8/tfbind8_X_train.pt"
+Y_TRAIN_PATH = PWD + "data/tfbind8/tfbind8_y_train.pt"
+X_VALID_PATH = PWD + "data/tfbind8/tfbind8_X_valid.pt"
+Y_VALID_PATH = PWD + "data/tfbind8/tfbind8_y_valid.pt"
 
 # Save path
 REWARD_PATH = PWD_WORK + "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
