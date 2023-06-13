@@ -3,7 +3,8 @@ import numpy as np
 import pickle as pkl
 from tf_bind_8_oracle import tf_bind_8_oracle
 from scipy.stats import norm
-import matplotlib.pyplot as plt
+
+PERMUTATION_PATH = "tests/permutation_index.pkl"
 
 def string_to_list_int(string):
         sequence = []
@@ -24,7 +25,7 @@ def bounds(integer):
 
 def perms():
     # with open('tests\\permutation_index.pkl', 'rb') as mp: # Only windows? 
-    with open("tests/permutation_index.pkl", 'rb') as mp:
+    with open(PERMUTATION_PATH, 'rb') as mp:
             index_to_permutation = pkl.load(mp)
             #print('Permutation Index Dictionary Loaded')
     return index_to_permutation
