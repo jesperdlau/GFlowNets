@@ -43,6 +43,7 @@ def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:
 
     model.to(device)
     model.train()
+    models = []
 
     # If hot_start is true, load model and optimizer from checkpoint
     if hot_start:
@@ -98,7 +99,7 @@ def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:
             state = new_state
 
         loss = (model.logZ + total_P_F - torch.log(reward).clip(-20) - total_P_B).pow(2)
-        minibatch_loss += loss
+        minibatch_loss += loss.cpu()
         
         # total_trajectory_flow.append(sum(trajectory_flow))
         sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
@@ -111,7 +112,12 @@ def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:
             optimizer.zero_grad()
             minibatch_loss.backward()
             optimizer.step()
-            
+            '''
+            # Update logZ
+            logz_optmizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            '''
             # Update losses and reset minibatch_loss
             losses.append(minibatch_loss.item())
             minibatch_loss = torch.zeros(1)

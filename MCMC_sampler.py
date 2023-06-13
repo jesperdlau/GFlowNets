@@ -23,9 +23,10 @@ def bounds(integer):
     return [lower,upper]
 
 def perms():
-    with open('tests\\permutation_index.pkl', 'rb') as mp:
+    # with open('tests\\permutation_index.pkl', 'rb') as mp: # Only windows? 
+    with open("tests/permutation_index.pkl", 'rb') as mp:
             index_to_permutation = pkl.load(mp)
-            print('Permutation Index Dictionary Loaded')
+            #print('Permutation Index Dictionary Loaded')
     return index_to_permutation
 
 def max_index():
@@ -83,7 +84,7 @@ class MCMCSequenceSampler:
             sequence_preds = {index:self.oracle.predict(list_int) for index, list_int in initial_sequences_int.items()}
 
             p = max(sequence_preds, key=sequence_preds.get)
-            print(all_sequences)
+            # print(all_sequences)
 
             if string_to_list_int(self.perms[p]) not in all_sequences:
                 
@@ -100,7 +101,7 @@ class MCMCSequenceSampler:
 
                     burn_in_counter += 1
 
-                    print(burn_in_counter)
+                    #print(burn_in_counter)
 
                     if burn_in_counter > self.burnin:
                         
@@ -114,5 +115,5 @@ if __name__ == "__main__":
     n = 128
     burnin = 1
     sampler = MCMCSequenceSampler(n, burnin)
-    samples = sampler.sample()
+    samples = sampler.sample(1)
     print(samples)

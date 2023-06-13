@@ -40,7 +40,7 @@ class GFlowNet(nn.Module):
         return next_state
     
     def forward(self, x):
-        F = self.mlp(x).exp()
+        F = self.mlp(x)
         P_F = F[...,:self.n_actions]
         P_B = F[...,self.n_actions:]
         return P_F, P_B
@@ -53,7 +53,7 @@ class GFlowNet(nn.Module):
             
             for i in range(self.len_sequence):
                 P_F_s, _ = self.forward(sequence)
-                action = torch.distributions.Categorical(probs=P_F_s).sample()
+                action = torch.distributions.Categorical(logits=P_F_s).sample()
                 sequence = self.step(i, sequence, action)
             
             sequences[seqN] = sequence
