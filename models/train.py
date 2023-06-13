@@ -14,7 +14,7 @@ def train_flow_matching(model, optimizer, reward_func, num_episodes:int = 100, u
     - num_episodes: an int representing the number of episodes to train for
     - update_freq: an int representing the frequency of updating the model
     - delta: a float representing the exploration rate
-    - beta: 
+    - beta: int representing the exponent of reward
     - device: a PyTorch device to use for training
     - model_path: a string representing the path to save the model to, or load from if hot_start
     - reward_path: a string representing the path to load the reward function from
