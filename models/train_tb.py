@@ -88,7 +88,7 @@ def train_tb(model, optimizer, reward_func, num_episodes:int = 100, update_freq:
             new_state.to(device)
 
             if i == model.len_sequence - 1:
-                reward = reward_func(new_state)
+                reward = reward_func(new_state).pow(beta)
 
             P_F_s, P_B_s = model(new_state)
             # Take action and get new state
