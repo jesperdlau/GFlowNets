@@ -14,10 +14,7 @@ from reward_functions import torch_helperfunctions as help
 from utilities.transformer import Transformer
 
 # Import Hyperparameters
-import config
-NAME_OF_RUN = config.NAME_OF_RUN
-PWD = config.PWD
-PWD_WORK = config.PWD_WORK
+from config.config import NAME_OF_RUN, PWD, PWD_WORK
 
 # Hyperparameters
 SAMPLE_SIZE = 100 # Default for tfbind8 is K*t or 128*5 = 640

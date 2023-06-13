@@ -7,10 +7,7 @@ from reward_functions import torch_helperfunctions as help
 from utilities.plot_functions import loss_plot, eval_plot, combined_loss_eval_plot, combined_loss_eval_plot_flex, performance_plot, diversity_plot, novelty_plot, combined_plot
 
 # Import Hyperparameters
-import config
-NAME_OF_RUN = config.NAME_OF_RUN
-PWD = config.PWD
-PWD_WORK = config.PWD_WORK
+from config.config import NAME_OF_RUN, PWD, PWD_WORK
 
 # Model path (For loading losses)
 MODEL_PATH = PWD + "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"

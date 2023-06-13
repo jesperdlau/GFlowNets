@@ -15,10 +15,7 @@ from evaluation.evaluation import evaluate_modelsampling, get_top20percent, eval
 #from utilities.transformer import Transformer
 
 # Import Hyperparameters
-import config
-NAME_OF_RUN = config.NAME_OF_RUN
-PWD = config.PWD
-PWD_WORK = config.PWD_WORK
+from config.config import NAME_OF_RUN, PWD, PWD_WORK
 
 # Data
 X_TRAIN_PATH = PWD_WORK + "data/tfbind8/tfbind8_X_train.pt"

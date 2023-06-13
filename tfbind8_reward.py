@@ -3,10 +3,7 @@ import torch
 from reward_functions.get_reward import train_tfbind_reward
 
 # Import Hyperparameters
-import config
-NAME_OF_RUN = config.NAME_OF_RUN
-PWD = config.PWD
-PWD_WORK = config.PWD_WORK
+from config.config import NAME_OF_RUN, PWD, PWD_WORK
 
 # Hyperparameters
 BATCH_SIZE = 256
