@@ -8,7 +8,7 @@ from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
 
 # Hyperparameters
-NAME_OF_RUN = "100mc_test"
+NAME_OF_RUN = "100tb_test"
 NUM_EPISODES = 100 # Should be 5000
 VERBOSE = True
 

@@ -16,6 +16,8 @@ from MCMC_light_sampler import MCMCLightSequenceSampler
 
 
 # Hyperparameters
+NAME_OF_RUN = "100tb_test"
+
 HIDDEN_SIZE = 2048
 LEARNING_RATE = 10**-5
 NUM_EPISODES = 100
@@ -28,10 +30,10 @@ HOT_START = False
 VERBOSE = True
 
 # Load path
-REWARD_PATH = "models/saved_models/tfbind_reward_model_1.pt"
+REWARD_PATH = "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
 
 # Save path
-MODEL_PATH = "models/saved_models/test_model_3.tar"
+MODEL_PATH = "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN + ".tar"
 
 # Set device
 device = help.set_device()
