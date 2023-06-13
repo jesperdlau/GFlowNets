@@ -4,12 +4,12 @@ import torch.nn.functional as F
 import numpy as np
 
 class GFlowNet(nn.Module):
-    def __init__(self, n_hid = 2048, n_hidden_layers = 2):
+    def __init__(self, n_hid = 2048, n_hidden_layers = 2, n_actions = 4, len_sequence = 8):
         super().__init__()
         
         self.keys         = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
-        self.n_actions    = 4
-        self.len_sequence = 8
+        self.n_actions    = n_actions
+        self.len_sequence = len_sequence
         self.len_onehot   = self.n_actions * self.len_sequence
         self.n_hid        = n_hid
         self.n_hidden_layers = n_hidden_layers
