@@ -43,9 +43,10 @@ X       = X.type("torch.FloatTensor")
 # torch.save(X_test,"data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_X_test.pt")
 # torch.save(y_test,"data/tf_bind_8/SIX6_REF_R1/tf_bind_1hot_y_test.pt")
 
+# Save
 torch.save(X,"data/tfbind8/tfbind8_X.pt")
 torch.save(y,"data/tfbind8/tfbind8_y.pt")
 torch.save(X_train,"data/tfbind8/tfbind8_X_train.pt")
 torch.save(y_train,"data/tfbind8/tfbind8_y_train.pt")
-torch.save(X_test,"data/tfbind8/tfbind8_X_valid.pt")
-torch.save(y_test,"data/tfbind8/tfbind8_y_valid.pt")
+torch.save(X_valid,"data/tfbind8/tfbind8_X_valid.pt")
+torch.save(y_valid,"data/tfbind8/tfbind8_y_valid.pt")
