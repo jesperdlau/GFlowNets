@@ -40,7 +40,7 @@ for name, param in model.named_parameters():
     if name != 'logZ':
         parameters_to_optimize.append(param)
 
-logz_optmizer = torch.optim.Adam(params=[model.logZ], lr=LOGZ_LEARNING_RATE)
+logz_optimizer = torch.optim.Adam(params=[model.logZ], lr=LOGZ_LEARNING_RATE)
 optimizer = torch.optim.Adam(params=parameters_to_optimize, lr=LEARNING_RATE, betas=OPT_BETAS)
 
 # Load reward function
