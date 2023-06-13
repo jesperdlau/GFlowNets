@@ -49,7 +49,7 @@ reward_func = TFBindReward1HOT()
 # Train model and save checkpoint to PATH
 train_tb(model = model, 
          optimizer = optimizer, 
-         logz_optimizer = logz_optmizer,
+         logz_optimizer = logz_optimizer,
          reward_func = reward_func, 
          num_episodes = NUM_EPISODES, 
          update_freq = UPDATE_FREQ, 
