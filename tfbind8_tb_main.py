@@ -37,8 +37,14 @@ device = help.set_device()
 
 # Load model and optimizer
 model = GFlowNet()
+
+parameters_to_optimize = []
+for name, param in model.named_parameters():
+    if name != 'logZ':
+        parameters_to_optimize.append(param)
+
 logz_optmizer = torch.optim.Adam([model.logZ], LOGZ_LEARNING_RATE)
-optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
+optimizer = torch.optim.Adam(parameters_to_optimize, LEARNING_RATE)
 
 # Load reward function
 reward_func = TFBindReward1HOT()
