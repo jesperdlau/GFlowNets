@@ -181,18 +181,17 @@ def combined_plot(losses, random_mean, random_ci, mcmc_mean, mcmc_ci, gflow_data
     x_axis = np.arange(1, len(losses)+1, 1)
     fig, ax1 = plt.subplots()
 
-    color = 'black'
-    ax1.set_ylabel('Log-Loss', color=color)
+    ax1.set_ylabel('Log-Loss', color="black")
     ax1.set_yscale("log")
-    ax1.plot(x_axis, losses, color=color, label="Log-Loss", linestyle="--")
+    ax1.plot(x_axis, losses, color="black", label="Log-Loss", linestyle="--")
     #ax1.tick_params(axis='y', labelcolor=color)
 
     ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
     
     ax2.plot(x_axis, gflow_data, label="GFlow", color="red")
     ax2.axhline(y=random_mean, color="blue", label="Random")
-    ax2.axhline(y=mcmc_mean, color="blue", label="MCMC")
-    ax2.fill_between(x_axis, mcmc_ci[0], mcmc_ci[1], color="blue", alpha=0.2)
+    ax2.axhline(y=mcmc_mean, color="cyan", label="MCMC")
+    ax2.fill_between(x_axis, mcmc_ci[0], mcmc_ci[1], color="cyan", alpha=0.2)
     ax2.fill_between(x_axis, random_ci[0], random_ci[1], color="blue", alpha=0.2)
 
     ax2.set_ylabel(ylabel=plot_type, color="blue")  # we already handled the x-label with ax1
