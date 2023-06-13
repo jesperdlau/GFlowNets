@@ -1,6 +1,5 @@
 
 import torch
-import numpy as np
 
 # Import scripts
 from models.train_tb import train_tb
