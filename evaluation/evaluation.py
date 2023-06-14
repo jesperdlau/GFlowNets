@@ -1,4 +1,4 @@
-from evaluation.metrics import diversity_par, novelty, performance, novelty_torch
+from evaluation.metrics import diversity_par, novelty, performance, novelty_torch, novelty_torch_p2
 import torch
 import numpy as np
 
@@ -22,6 +22,7 @@ def evaluate_modelsampling(X_train,X_sampled,y_sampled, print_stats = True):
     perf = performance(y_sampled)
     div  = diversity_par(X_sampled)
     nov  = novelty_torch(X_sampled, X_train)
+    nov_p2 = novelty_torch_p2(X_sampled, X_train)
 
     if print_stats:
         print(f"Performance: {perf}")
@@ -29,7 +30,7 @@ def evaluate_modelsampling(X_train,X_sampled,y_sampled, print_stats = True):
         print(f"Novelty: {nov}")
     
     else:
-        return perf.cpu(), div.cpu(), nov.cpu()
+        return perf.cpu(), div.cpu(), nov.cpu(), nov_p2.cpu()
     
 def get_top20percent(X, y):
     mask = torch.argsort(y, dim=0, descending=True)
@@ -43,10 +44,11 @@ def evaluate_batches(X_sampled, y_sampled, X_train, print_stats = False):
     metrics_list = []
     for X, y in zip(X_sampled, y_sampled):
         X_top20, y_top20 = get_top20percent(X, y)
-        perf, div, nov = evaluate_modelsampling(X_train, X_top20, y_top20, print_stats=print_stats)
+        perf, div, nov, nov_p2 = evaluate_modelsampling(X_train, X_top20, y_top20, print_stats=print_stats)
         metrics_list.append({"Performance": perf.detach().numpy().item(), 
                              "Diversity": div.detach().numpy().item(), 
-                             "Novelty": nov.detach().numpy().item()})
+                             "Novelty": nov.detach().numpy().item(),
+                             "Novelty_p2": nov_p2.detach().numpy().item()})
     return np.array(metrics_list)
 
 

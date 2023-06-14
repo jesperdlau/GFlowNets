@@ -6,7 +6,8 @@ from itertools import combinations
 # Distance measure between two sequences
 def distance(tensor1,tensor2):
     # return torch.mean(abs(tensor1 - tensor2))
-    return torch.sum(abs(tensor1-tensor2))
+    return (torch.sum(abs(tensor1-tensor2)))/2
+
     # pdist = torch.nn.PairwiseDistance(p=2) 
     # return pdist(tensor1,tensor2)
 
@@ -79,6 +80,13 @@ def novelty2(X_sampled, X_0):
 
 def novelty_torch(X_sampled, X_0, device = "cpu"):
     dist_m = torch.cdist(X_sampled.to(device), X_0.to(device), p=1) # https://pytorch.org/docs/stable/generated/torch.cdist.html
+    min_values = torch.min(dist_m, dim=1).values
+    values_sum = torch.sum(min_values)
+    result = values_sum / len(X_sampled)
+    return result
+
+def novelty_torch_p2(X_sampled, X_0, device = "cpu"):
+    dist_m = torch.cdist(X_sampled.to(device), X_0.to(device), p=2) # https://pytorch.org/docs/stable/generated/torch.cdist.html
     min_values = torch.min(dist_m, dim=1).values
     values_sum = torch.sum(min_values)
     result = values_sum / len(X_sampled)
