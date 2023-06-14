@@ -3,7 +3,7 @@ import torch
 from reward_functions.get_reward import train_tfbind_reward
 
 # Import Hyperparameters
-from config.config import NAME_OF_RUN, PWD, PWD_WORK
+from config.config import NAME_OF_RUN, PWD, PWD_WORK, NAME_OF_REWARD
 
 # Hyperparameters
 BATCH_SIZE = 256
@@ -22,7 +22,7 @@ X_VALID_PATH = PWD + "data/tfbind8/tfbind8_X_valid.pt"
 Y_VALID_PATH = PWD + "data/tfbind8/tfbind8_y_valid.pt"
 
 # Save path
-REWARD_PATH = PWD_WORK + "models/saved_models/tfbind8_reward_model_" + NAME_OF_RUN + ".pt"
+REWARD_PATH = PWD_WORK + "models/saved_models/tfbind8_reward_model_" + NAME_OF_REWARD + ".pt"
 
 # Load data
 X_train = torch.load(X_TRAIN_PATH)
