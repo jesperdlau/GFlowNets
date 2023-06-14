@@ -41,7 +41,7 @@ def train_tfbind_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size 
                               save_as = save_as, patience=patience, verbose=verbose)
 
 def train_gfp_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 75, learning_rate = 0.001, 
-                        n_hid = 2048,n_hidden_layers = 2,save_as = None, patience = 5, verbose = True):
+                        n_hid = 2048,n_hidden_layers = 2,betas = (0.9, 0.999),save_as = None, patience = 5, verbose = True):
     """
     Trains a GFPReward model for a given number of epochs using the provided training and testing data. 
 
@@ -63,7 +63,7 @@ def train_gfp_reward(epochs:int, X_train, y_train, X_test, y_test,batch_size = 7
     y_train = MinMaxScaler(y_train,0,1)
     y_test = MinMaxScaler(y_test,0,1)
 
-    opt = optim.Adam(model.parameters(), learning_rate)
+    opt = optim.Adam(model.parameters(), learning_rate, betas = betas)
     
     trainSet = TensorDataset(X_train,y_train)
     testSet = TensorDataset(X_test,y_test)
