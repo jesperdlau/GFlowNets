@@ -3,7 +3,7 @@ import torch
 
 # Import scripts
 from models.train_tb import train_tb
-from models.tfbind8_model_tb import GFlowNet
+from models.gflownet_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
 
@@ -11,11 +11,15 @@ from reward_functions import torch_helperfunctions as help
 from config.config import NAME_OF_RUN, PWD, PWD_WORK, NAME_OF_REWARD
 
 # Hyperparameters
-HIDDEN_SIZE = 2048
-LEARNING_RATE = 10**-5
 NUM_EPISODES = 20 # Should be 5000 for tfbind8
 MINIBATCH_SIZE = 10 # Should be 32 for tfbind8
 CHECKPOINT_FREQ = 5 # Should be 50?
+
+HIDDEN_SIZE = 2048
+N_HIDDEN_LAYERS = 2
+N_ACTIONS = 4
+LEN_SEQUENCE = 8
+LEARNING_RATE = 10**-5
 DELTA = 0.001
 BETA = 3
 OPT_BETAS = (0.9, 0.999)
@@ -33,7 +37,11 @@ MODEL_PATH = PWD_WORK + "models/saved_models/tfbind8_gflow_model_" + NAME_OF_RUN
 device = help.set_device()
 
 # Load model and optimizer
-model = GFlowNet()
+model = GFlowNet(num_hidden=HIDDEN_SIZE, 
+                 n_hidden_layers=N_HIDDEN_LAYERS, 
+                 n_actions=N_ACTIONS, 
+                 len_sequence=LEN_SEQUENCE, 
+                 delta=DELTA)
 
 parameters_to_optimize = []
 for name, param in model.named_parameters():
