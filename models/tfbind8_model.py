@@ -4,15 +4,15 @@ import torch.nn.functional as F
 import numpy as np
 
 class GFlowNet(nn.Module):
-    def __init__(self, n_hid = 2048, n_hidden_layers = 2, n_actions = 4, len_sequence = 8):
+    def __init__(self, n_hid = 2048, n_hidden_layers = 2, n_actions = 4, len_sequence = 8, delta = 0.001):
         super().__init__()
         
-        self.keys         = ['A', 'C', 'G', 'T'] # Potential discrepency between this vocabular and the source?
         self.n_actions    = n_actions
         self.len_sequence = len_sequence
         self.len_onehot   = self.n_actions * self.len_sequence
         self.n_hid        = n_hid
         self.n_hidden_layers = n_hidden_layers
+        self.delta        = delta
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         input_layer   = nn.Linear(self.len_onehot, self.n_hid)
@@ -26,13 +26,6 @@ class GFlowNet(nn.Module):
 
         model_architecture = [input_layer, act_func, *hidden_layers, output_layer]
         self.mlp = nn.Sequential(*model_architecture)
-       
-    def seq_to_one_hot(self, sequence):
-        one_hot = torch.zeros(self.len_onehot, dtype=torch.float)
-        for i, letter in enumerate(sequence):
-            action = self.keys.index(letter) 
-            one_hot[(self.n_actions * i + action)] = 1.
-        return one_hot
     
     def step(self, i, state, action):
         next_state = state.clone() # If not .clone, raises "RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation:"
@@ -52,6 +45,8 @@ class GFlowNet(nn.Module):
             for i in range(self.len_sequence):
                 edge_flow_prediction = self.forward(sequence)
                 action_distribution = edge_flow_prediction / torch.sum(edge_flow_prediction) 
+                action_distribution = torch.mul(action_distribution, (1-self.delta))
+                action_distribution = torch.add(action_distribution, self.delta / self.n_actions)
                 # action = np.random.choice(self.n_actions, p=action_distribution.detach().numpy())
                 action = torch.distributions.Categorical(probs=action_distribution).sample()
                 sequence = self.step(i, sequence, action)
