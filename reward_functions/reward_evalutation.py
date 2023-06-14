@@ -59,7 +59,7 @@ def plot_fit_obs(X, y, model, save_path, MinMax = False):
     plt.xlim(0,1)
     plt.ylim(0,1)
     plt.title("Plot of the fitted and observed values")
-    plt.save(save_path)
+    plt.savefig(save_path)
     plt.close()
 
 if __name__ == "__main__":
