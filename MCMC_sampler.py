@@ -3,6 +3,9 @@ import numpy as np
 import pickle as pkl
 from tf_bind_8_oracle import tf_bind_8_oracle
 from scipy.stats import norm
+from models.random_sampler import SequenceSampler
+from scipy.stats import gamma
+import torch
 
 PERMUTATION_PATH = "tests/permutation_index.pkl"
 
@@ -110,11 +113,76 @@ class MCMCSequenceSampler:
         
         return all_sequences    
         
+class MCMCSequenceSamplerGFP:
+    def __init__(self, burnin):
+        self.burnin = burnin
+        self.random_sampler = SequenceSampler()
+        self.sequence = self.random_sampler.sample_onehot_gfp(1)
+        self.length = 237
+        self.alphabet = 20
+
+    def sample(self, n):
+
+        all_sequences = []
+
+        burn_in_counter = 0
+
+        while len(all_sequences) <= n-1:
+        
+            new_sequence = self.sequence.clone().detach()
+            
+            random_sequence_point = random.randint(0,self.length-1)
+            random_sequence_amino = random.randint(0,self.alphabet-1)
+
+            for i in range(self.alphabet):
+                if new_sequence[0][(random_sequence_point*self.alphabet)+i] == 1.:
+                    new_sequence[0][(random_sequence_point*self.alphabet)+i] = 0.
+
+            new_sequence[0][random_sequence_point*self.alphabet + random_sequence_amino] = 1.
+
+            changes = 1
+
+            for i in range(self.alphabet*self.length):
+                if new_sequence[0][i] == 1.:
+                    if new_sequence[0][i] != self.sequence[0][i]:
+                        changes += 1
+
+            a = 0.5
+            scale = 0.5
+
+            p_current = gamma.pdf(changes, a, scale)
+            p_new = gamma.pdf(changes+1, a, scale)
+
+            random_number = random.random()
+            
+            acceptance_crit = p_new / p_current
+
+            if acceptance_crit > random_number and burn_in_counter < self.burnin:
+
+                burn_in_counter += 1
+
+                self.sequence = new_sequence
+            
+            elif acceptance_crit > random_number and burn_in_counter >= self.burnin:
+
+                all_sequences.append(new_sequence[0])
+
+                self.sequence = new_sequence
+
+            print(len(all_sequences))
+
+        return torch.stack(all_sequences, dim=0)
+
+
+        
+        
+        
+
         
 
 if __name__ == "__main__":
     n = 128
     burnin = 1
-    sampler = MCMCSequenceSampler(n, burnin)
-    samples = sampler.sample(1)
+    sampler = MCMCSequenceSamplerGFP(burnin)
+    samples = sampler.sample(20)
     print(samples)
