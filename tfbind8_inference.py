@@ -7,11 +7,9 @@ import time
 # Import scripts
 from models.random_sampler import SequenceSampler
 from MCMC_sampler import MCMCSequenceSampler
-#from models.tfbind8_model import GFlowNet
 from models.tfbind8_model_tb import GFlowNet
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions import torch_helperfunctions as help
-from utilities.transformer import Transformer
 
 # Import Hyperparameters
 from config.config import NAME_OF_RUN, PWD, PWD_WORK, NAME_OF_REWARD
@@ -23,7 +21,7 @@ VERBOSE = True
 
 # Hyperparameters for mcmc
 BURNIN = 1000 # Default 1000 from own experience
-MCMC_STD = 1000 # Default 1000 from own experience
+#MCMC_STD = 1000 # Default 1000 from own experience
 ALPHABET = ['A', 'C', 'G', 'T']
 
 # Load paths
@@ -74,10 +72,8 @@ for i in range(NUMBER_OF_MCMC_RANDOM):
     if VERBOSE: 
         print(f"MCMC#{i+1} / {NUMBER_OF_MCMC_RANDOM} \t Iter time:{time.time() - now:.2f} s \t Time since beginning:{time.time() - start_time:.2f} s")
         now = time.time()
-    mcmc_sampler = MCMCSequenceSampler(burnin=BURNIN, std_dev=MCMC_STD)
-    mcmc_sample_list = mcmc_sampler.sample(SAMPLE_SIZE)
-    mcmc_helper = Transformer(alphabet=ALPHABET)
-    mcmc_samples = mcmc_helper.list_list_int_to_tensor_one_hot(mcmc_sample_list)
+    mcmc_sampler = MCMCSequenceSampler(burnin=BURNIN)
+    mcmc_samples = mcmc_sampler.sample(SAMPLE_SIZE)
     mcmc_samples = mcmc_samples.to(device)
     mcmc_rewards = reward_func(mcmc_samples)
     mcmc_samples_list.append(mcmc_samples.cpu())
