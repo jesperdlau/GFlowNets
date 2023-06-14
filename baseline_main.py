@@ -1,11 +1,11 @@
 import torch
-from models.random_sampler import SequenceSampler
+from inference.random_sampler import SequenceSampler
 from utilities.transformer import Transformer
 from evaluation.metrics import diversity, performance, diversity_par
 from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 import time
 from evaluation.evaluation import evaluate_modelsampling
-from MCMC_sampler import MCMCSequenceSampler
+from inference.MCMC_sampler import MCMCSequenceSampler
 from MCMC_light_sampler import MCMCLightSequenceSampler
 
 DATA_FOLDER = "data/"

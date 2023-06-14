@@ -1,5 +1,5 @@
-from MCMC_sampler import MCMCSequenceSampler
-from models.random_sampler import SequenceSampler
+from inference.MCMC_sampler import MCMCSequenceSampler
+from inference.random_sampler import SequenceSampler
 from tf_bind_8_oracle import tf_bind_8_oracle
 import numpy as np
 import pickle as pkl
