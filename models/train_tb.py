@@ -67,6 +67,7 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
                 'logZ': [],
                 'logz_optimizer_state_dict': [],
                 'minibatch_loss': [],
+                'average_loss': [],
                 'n_hid': model.n_hid,
                 'n_hidden_layers': model.n_hidden_layers
                 }
@@ -134,6 +135,9 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
         logz_optimizer.step()
         #print("Performed optimization")
 
+        # Average loss for step
+        average_step_loss = minibatch_loss.item() / minibatch_size
+
         # Save checkpoint
         if model_path and (training_step+1) % checkpoint_freq == 0:
             model_state_dict = model.state_dict().copy()
@@ -148,6 +152,7 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
             checkpoint['logZ'].append(logZ)
             checkpoint['logz_optimizer_state_dict'].append(logz_optimizer_state_dict)
             checkpoint['minibatch_loss'].append(minibatch_loss.item())
+            checkpoint['average_loss'].append(average_step_loss)
 
             torch.save(checkpoint, model_path)
             print(f"Saved model checkpoint")
