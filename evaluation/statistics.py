@@ -53,9 +53,9 @@ def compare_models(gflow, mcmc, random):
     result = np.zeros((3,3))
 
     for i in range(3):
-        gfn_mcmc    = ttest_ind(gflow[i], mcmc[i]).pvalue
-        gfn_random  = ttest_ind(gflow[i], random[i]).pvalue
-        mcmc_random = ttest_ind(mcmc[i], random[i]).pvalue
+        gfn_mcmc    = ttest_ind(gflow[i], mcmc[i],   equal_var = False).pvalue
+        gfn_random  = ttest_ind(gflow[i], random[i], equal_var = False).pvalue
+        mcmc_random = ttest_ind(mcmc[i], random[i],  equal_var = False).pvalue
         result[i,0] = gfn_mcmc
         result[i,1] = gfn_random
         result[i,2] = mcmc_random
