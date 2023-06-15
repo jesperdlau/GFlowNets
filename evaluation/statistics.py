@@ -2,11 +2,12 @@ import numpy as np
 from scipy.stats import t
 
 
-def get_stats(data, alpha = 0.5):
+def get_stats(data, alpha = 0.5, n_comparison = 3):
     performances = np.array([])
     diversities = np.array([])
     novelties = np.array([])
     N = len(data)
+    alpha /= 3
 
     for model in data:
         performances = np.append(performances, model[-1]["Performance"])
@@ -43,8 +44,7 @@ if __name__ == "__main__":
 
     data = [data1, data2, data4, data6]
 
-    p_CI, d_CI, n_CI = get_stats(data, alpha = 0.05)
+    print(get_stats(data, alpha = 0.05,n_comparison=3))
 
-    print()
 
     
