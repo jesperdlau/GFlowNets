@@ -10,7 +10,10 @@ from scipy.stats import pearsonr
 
 from torch_helperfunctions import set_device, MinMaxScaler
 
-def evaluate_model(X_test,y_test, model):
+def evaluate_model(X_test,y_test, model, MinMaxScale = False, verbose = False):
+    if MinMaxScale:
+        y_test = MinMaxScaler(y_test,0,1)
+
     testSet = TensorDataset(X_test,y_test)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
     size = len(test_dataLoader.dataset)
@@ -18,27 +21,32 @@ def evaluate_model(X_test,y_test, model):
     test_loss, correct = 0, 0
     loss_fn = nn.MSELoss() 
 
+    # labels = torch.tensor([model(X) for X in X_test])
+
     with torch.no_grad():
         for X, y in test_dataLoader:
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
             # correct += (pred.argmax(1) == y).type(torch.float).sum().item()
 
-    print(f"Mean squared error: {test_loss / size}")
+    if verbose:
+        print(f"Mean squared error: {test_loss / size}")
+
+    return test_loss / size
+
+    
 
 
-def plot_fit_obs(model, X, y):
+def plot_fit_obs(X, y, model, save_path, MinMax = False):
     
     model.eval()
-    # dataloader.batch_size = len(dataloader.dataset)
-    # s = [(model(X), y) for X, y in dataloader]
-
-    # preds = []
-    # labels = []
 
     with torch.no_grad():
         preds, labels = model(X), y
      
+    if MinMax:
+        labels = MinMaxScaler(labels,0,1)
+
     preds = preds.squeeze().numpy()
     labels = labels.squeeze().numpy()
 
@@ -52,7 +60,8 @@ def plot_fit_obs(model, X, y):
     plt.xlim(0,1)
     plt.ylim(0,1)
     plt.title("Plot of the fitted and observed values")
-    plt.show()
+    plt.savefig(save_path)
+    plt.close()
 
 if __name__ == "__main__":
 
@@ -81,4 +90,4 @@ if __name__ == "__main__":
     model.load_state_dict(torch.load(model_name))
 
     evaluate_model(X_test,y_test,model)
-    plot_fit_obs(model, X_test,y_test)
+    plot_fit_obs(X_test,y_test, model, "plots/plot_fit_obs.png")

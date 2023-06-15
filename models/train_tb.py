@@ -116,7 +116,8 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
                 # Continue iterating
                 state = new_state
 
-            loss = (model.logZ + total_P_F - torch.log(reward).clip(-20) - total_P_B).pow(2)
+            reward = torch.nan_to_num(torch.log(reward).clip(-20), -20) # clips reward to at least -20, even if it is nan
+            loss = (model.logZ + total_P_F - reward - total_P_B).pow(2)
             minibatch_loss += loss.cpu()
             
             # total_trajectory_flow.append(sum(trajectory_flow))

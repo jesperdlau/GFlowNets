@@ -1,5 +1,4 @@
 import torch
-# from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 from reward_functions.get_reward import train_tfbind_reward
 
 # Import Hyperparameters
