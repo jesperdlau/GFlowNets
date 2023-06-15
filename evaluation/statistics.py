@@ -35,12 +35,12 @@ def get_stats(data, episode=-1, alpha = 0.5, n_comparison = 3):
     return p_mean, d_mean, n_mean, p_CI, d_CI, n_CI
 
 
-# Runs f.eks: liste.. ["1", "2", "4", "6"]
-# base_path f.eks: string.. tfbind8_gflow_metrics_
+# Runs e.g.: list of strings: ["1", "2", "4", "6"]
+# base_path e.g.: string: "tfbind8_gflow_metrics_"
 def get_stats_over_runs(runs, base_path):
   data_list = []
   for run in runs:
-    data = np.load(PWD + "evaluation/" + base_path + run + ".npy", allow_pickle=True)
+    data = np.load("evaluation/" + base_path + run + ".npy", allow_pickle=True)
     data_list.append(data)
   p_mean_list, d_mean_list, n_mean_list = [], [], []
   p_CI_list, d_CI_list, n_CI_list = [], [], []
