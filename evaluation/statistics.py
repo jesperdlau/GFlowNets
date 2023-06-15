@@ -90,7 +90,7 @@ def correct_pvalues(result):
 def get_stats_over_runs(runs, base_path):
   data_list = []
   for run in runs:
-    data = np.load("evaluation/" + base_path + run + ".npy", allow_pickle=True)
+    data = np.load(base_path + run + ".npy", allow_pickle=True)
     data_list.append(data)
   p_mean_list, d_mean_list, n_mean_list = [], [], []
   p_CI_list, d_CI_list, n_CI_list = [], [], []
