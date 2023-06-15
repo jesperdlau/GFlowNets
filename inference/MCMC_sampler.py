@@ -3,6 +3,9 @@ from random_sampler import SequenceSampler
 from scipy.stats import gamma
 import torch
 
+def target_distribution(x): 
+        return torch.sum(torch.exp(-0.5 * x**2))
+
 class MCMCSequenceSampler:
     def __init__(self, burnin, a=0.5, scale=0.5):
         self.burnin = burnin
@@ -13,7 +16,6 @@ class MCMCSequenceSampler:
         self.length = 8
         self.alphabet = 4
         
-
     def sample(self, n):
 
         all_sequences = []
@@ -23,32 +25,31 @@ class MCMCSequenceSampler:
         while len(all_sequences) <= n-1:
         
             new_sequence = self.sequence.clone().detach()
-            
-            random_sequence_point = random.randint(0,self.length-1)
-            random_sequence_amino = random.randint(0,self.alphabet-1)
-
-            for i in range(self.alphabet):
-                if new_sequence[0][(random_sequence_point*self.alphabet)+i] == 1.:
-                    new_sequence[0][(random_sequence_point*self.alphabet)+i] = 0.
-
-            new_sequence[0][random_sequence_point*self.alphabet + random_sequence_amino] = 1.
 
             changes = 1
-
-            for i in range(self.alphabet*self.length):
-                if new_sequence[0][i] == 1.:
-                    if new_sequence[0][i] != self.sequence[0][i]:
-                        changes += 1
 
             a = self.a
             scale = self.scale
 
-            p_current = gamma.pdf(changes, a, scale)
-            p_new = gamma.pdf(changes+1, a, scale)
+            changes += int(gamma.rvs(a, scale))
+
+            for _ in range(changes):
+            
+                random_sequence_point = random.randint(0,self.length-1)
+                random_sequence_amino = random.randint(0,self.alphabet-1)
+
+                for i in range(self.alphabet):
+                    if new_sequence[0][(random_sequence_point*self.alphabet)+i] == 1.:
+                        new_sequence[0][(random_sequence_point*self.alphabet)+i] = 0.
+
+                new_sequence[0][random_sequence_point*self.alphabet + random_sequence_amino] = 1.
+
+            p_current = target_distribution(self.sequence[0])
+            p_new = target_distribution(new_sequence[0])
 
             random_number = random.random()
             
-            acceptance_crit = p_new / p_current
+            acceptance_crit = min(1.0, p_new / p_current)
 
             if acceptance_crit > random_number and burn_in_counter < self.burnin:
 
@@ -83,32 +84,31 @@ class MCMCSequenceSamplerGFP:
         while len(all_sequences) <= n-1:
         
             new_sequence = self.sequence.clone().detach()
-            
-            random_sequence_point = random.randint(0,self.length-1)
-            random_sequence_amino = random.randint(0,self.alphabet-1)
-
-            for i in range(self.alphabet):
-                if new_sequence[0][(random_sequence_point*self.alphabet)+i] == 1.:
-                    new_sequence[0][(random_sequence_point*self.alphabet)+i] = 0.
-
-            new_sequence[0][random_sequence_point*self.alphabet + random_sequence_amino] = 1.
 
             changes = 1
-
-            for i in range(self.alphabet*self.length):
-                if new_sequence[0][i] == 1.:
-                    if new_sequence[0][i] != self.sequence[0][i]:
-                        changes += 1
 
             a = self.a
             scale = self.scale
 
-            p_current = gamma.pdf(changes, a, scale)
-            p_new = gamma.pdf(changes+1, a, scale)
+            changes += int(gamma.rvs(a, scale))
+
+            for _ in range(changes):
+            
+                random_sequence_point = random.randint(0,self.length-1)
+                random_sequence_amino = random.randint(0,self.alphabet-1)
+
+                for i in range(self.alphabet):
+                    if new_sequence[0][(random_sequence_point*self.alphabet)+i] == 1.:
+                        new_sequence[0][(random_sequence_point*self.alphabet)+i] = 0.
+
+                new_sequence[0][random_sequence_point*self.alphabet + random_sequence_amino] = 1.
+
+            p_current = target_distribution(self.sequence[0])
+            p_new = target_distribution(new_sequence[0])
 
             random_number = random.random()
             
-            acceptance_crit = p_new / p_current
+            acceptance_crit = min(1.0, p_new / p_current)
 
             if acceptance_crit > random_number and burn_in_counter < self.burnin:
 
