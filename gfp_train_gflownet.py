@@ -12,8 +12,8 @@ from config.config import NAME_OF_RUN, PWD, PWD_WORK, NAME_OF_REWARD
 
 # Hyperparameters
 NUM_EPISODES = 20 # Should be 20000 for gfp
-MINIBATCH_SIZE = 10 # Should be 32 for gfp
-CHECKPOINT_FREQ = 5 # Should be 200 perhaps for gfp for 100 data points. 
+MINIBATCH_SIZE = 32 # Should be 32 for gfp
+CHECKPOINT_FREQ = 50 # Should be 200 perhaps for gfp for 100 data points. 
 
 HIDDEN_SIZE = 2048
 N_HIDDEN_LAYERS = 2
@@ -37,7 +37,7 @@ MODEL_PATH = PWD_WORK + "models/saved_models/gfp_gflow_model_" + NAME_OF_RUN + "
 device = help.set_device()
 
 # Load model and optimizer
-model = GFlowNet(num_hidden=HIDDEN_SIZE, 
+model = GFlowNet(n_hid=HIDDEN_SIZE, 
                  n_hidden_layers=N_HIDDEN_LAYERS, 
                  n_actions=N_ACTIONS, 
                  len_sequence=LEN_SEQUENCE, 
