@@ -3,7 +3,8 @@ from scipy.stats import t
 from scipy.stats import ttest_ind
 from statsmodels.stats.multitest import multipletests 
 
-def get_stats(data, alpha = 0.05, n_comparison = 1):
+
+def get_stats(data, episode=-1, alpha = 0.05, n_comparison = 3):
     performances = np.array([])
     diversities = np.array([])
     novelties = np.array([])
@@ -11,9 +12,9 @@ def get_stats(data, alpha = 0.05, n_comparison = 1):
     alpha /= n_comparison
 
     for model in data:
-        performances = np.append(performances, model[-1]["Performance"])
-        diversities  = np.append(diversities, model[-1]["Diversity"])
-        novelties    = np.append(novelties, model[-1]["Novelty"])
+        performances = np.append(performances, model[episode]["Performance"])
+        diversities  = np.append(diversities, model[episode]["Diversity"])
+        novelties    = np.append(novelties, model[episode]["Novelty"])
 
     p_mean = performances.mean()
     d_mean = diversities.mean()
@@ -83,6 +84,26 @@ def correct_pvalues(result):
     pvals = pvals.reshape(*shape)
 
     return pvals, reject
+
+# Runs e.g.: list of strings: ["1", "2", "4", "6"]
+# base_path e.g.: string: "tfbind8_gflow_metrics_"
+def get_stats_over_runs(runs, base_path):
+  data_list = []
+  for run in runs:
+    data = np.load("evaluation/" + base_path + run + ".npy", allow_pickle=True)
+    data_list.append(data)
+  p_mean_list, d_mean_list, n_mean_list = [], [], []
+  p_CI_list, d_CI_list, n_CI_list = [], [], []
+  for episode in range(100):
+    p_mean, d_mean, n_mean, p_CI, d_CI, n_CI = get_stats(data_list, episode=episode, alpha=0.05, n_comparison=1)
+    p_mean_list.append(p_mean)
+    d_mean_list.append(d_mean)
+    n_mean_list.append(n_mean)
+    p_CI_list.append(p_CI)
+    d_CI_list.append(d_CI)
+    n_CI_list.append(n_CI)
+  return p_mean_list, d_mean_list, n_mean_list, p_CI_list, d_CI_list, n_CI_list
+
 
 if __name__ == "__main__":
 
