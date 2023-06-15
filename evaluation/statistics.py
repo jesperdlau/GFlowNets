@@ -31,7 +31,7 @@ def get_stats(data, alpha = 0.5):
     d_CI = [d_mean - t_value * d_std_error, d_mean + t_value * d_std_error]
     n_CI = [n_mean - t_value * n_std_error, n_mean + t_value * n_std_error]
     
-    return p_CI, d_CI, n_CI
+    return p_mean, d_mean, n_mean, p_CI, d_CI, n_CI
 
 
 if __name__ == "__main__":
@@ -45,6 +45,6 @@ if __name__ == "__main__":
 
     p_CI, d_CI, n_CI = get_stats(data, alpha = 0.05)
 
-    print
+    print()
 
     
