@@ -28,7 +28,7 @@ class SequenceSampler:
         for _ in range(n):
             one_hot = torch.zeros(self.state, dtype=torch.float)
             for i in range(self.length):
-                action = np.random.randint(0, 21)
+                action = np.random.randint(0, 20)
                 one_hot[(self.alpha*i + action)] = 1.
             samples.append(one_hot)
         return torch.stack(samples, dim=0)
