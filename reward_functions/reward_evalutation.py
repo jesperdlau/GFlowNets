@@ -12,7 +12,7 @@ from torch_helperfunctions import set_device, MinMaxScaler
 
 def evaluate_model(X_test,y_test, model, MinMaxScale = False, verbose = False):
     if MinMaxScale:
-        y_test = MinMaxScaler(y_test)
+        y_test = MinMaxScaler(y_test,0,1)
 
     testSet = TensorDataset(X_test,y_test)
     test_dataLoader =  DataLoader(testSet,batch_size=BATCH_SIZE,shuffle=True)
@@ -20,6 +20,8 @@ def evaluate_model(X_test,y_test, model, MinMaxScale = False, verbose = False):
     num_batches = len(test_dataLoader)
     test_loss, correct = 0, 0
     loss_fn = nn.MSELoss() 
+
+    # labels = torch.tensor([model(X) for X in X_test])
 
     with torch.no_grad():
         for X, y in test_dataLoader:
@@ -43,11 +45,10 @@ def plot_fit_obs(X, y, model, save_path, MinMax = False):
         preds, labels = model(X), y
      
     if MinMax:
-        labels = MinMaxScaler(labels)
+        labels = MinMaxScaler(labels,0,1)
 
     preds = preds.squeeze().numpy()
     labels = labels.squeeze().numpy()
-
 
     # cor = np.corrcoef(preds,labels)
     cor = pearsonr(preds,labels)
