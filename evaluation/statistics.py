@@ -2,7 +2,7 @@ import numpy as np
 from scipy.stats import t
 
 
-def get_stats(data, alpha = 0.5, n_comparison = 3):
+def get_stats(data, episode=-1, alpha = 0.5, n_comparison = 3):
     performances = np.array([])
     diversities = np.array([])
     novelties = np.array([])
@@ -10,9 +10,9 @@ def get_stats(data, alpha = 0.5, n_comparison = 3):
     alpha /= 3
 
     for model in data:
-        performances = np.append(performances, model[-1]["Performance"])
-        diversities  = np.append(diversities, model[-1]["Diversity"])
-        novelties    = np.append(novelties, model[-1]["Novelty"])
+        performances = np.append(performances, model[episode]["Performance"])
+        diversities  = np.append(diversities, model[episode]["Diversity"])
+        novelties    = np.append(novelties, model[episode]["Novelty"])
 
     p_mean = performances.mean()
     d_mean = diversities.mean()
