@@ -11,10 +11,16 @@ def get_stats(data, episode=-1, alpha = 0.05, n_comparison = 3):
     N = len(data)
     alpha /= n_comparison
 
-    for model in data:
-        performances = np.append(performances, model[episode]["Performance"])
-        diversities  = np.append(diversities, model[episode]["Diversity"])
-        novelties    = np.append(novelties, model[episode]["Novelty"])
+    if episode != None:
+        for model in data:
+            performances = np.append(performances, model[episode]["Performance"])
+            diversities  = np.append(diversities, model[episode]["Diversity"])
+            novelties    = np.append(novelties, model[episode]["Novelty"])
+    else:
+        for model in data:
+            performances = np.append(performances, model["Performance"])
+            diversities  = np.append(diversities, model["Diversity"])
+            novelties    = np.append(novelties, model["Novelty"])
 
     p_mean = performances.mean()
     d_mean = diversities.mean()
