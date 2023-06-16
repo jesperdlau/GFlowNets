@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import t
-from scipy.stats import ttest_ind
+from scipy.stats import ttest_ind, mannwhitneyu
 from statsmodels.stats.multitest import multipletests 
 
 
@@ -37,12 +37,13 @@ def get_stats(data, episode=-1, alpha = 0.05, n_comparison = 3):
     return p_mean, d_mean, n_mean, p_CI, d_CI, n_CI
 
 
-def compare_models(gflow, mcmc, random):
+def compare_models(gflow, mcmc, random, parametric = False):
     """
 	Compares the statistical significance of three sets of data using the t-test. 
 	:param gflow: A 3xN numpy array representing one set of data.
 	:param mcmc: A 3xN numpy array representing a second set of data.
 	:param random: A 3xN numpy array representing a third set of data.
+    :parametric: if True, perform a parametric t-test. If false, perform mannwhitneyu test.
 	:return: A 3x3 numpy array representing the p-values of the t-tests.
 
     returns =     np.array([[p_gfn_mcmc, p_gfn_random, p_mcmc_random],
@@ -53,9 +54,16 @@ def compare_models(gflow, mcmc, random):
     result = np.zeros((3,3))
 
     for i in range(3):
-        gfn_mcmc    = ttest_ind(gflow[i], mcmc[i],   equal_var = False).pvalue
-        gfn_random  = ttest_ind(gflow[i], random[i], equal_var = False).pvalue
-        mcmc_random = ttest_ind(mcmc[i], random[i],  equal_var = False).pvalue
+        if parametric:
+            gfn_mcmc    = ttest_ind(gflow[i], mcmc[i],   equal_var = False).pvalue
+            gfn_random  = ttest_ind(gflow[i], random[i], equal_var = False).pvalue
+            mcmc_random = ttest_ind(mcmc[i], random[i],  equal_var = False).pvalue
+
+        else:
+            gfn_mcmc    = mannwhitneyu(gflow[i], mcmc[i], method = "exact").pvalue
+            gfn_random  = mannwhitneyu(gflow[i], random[i], method = "exact").pvalue
+            mcmc_random = mannwhitneyu(mcmc[i], random[i], method = "exact").pvalue
+    
         result[i,0] = gfn_mcmc
         result[i,1] = gfn_random
         result[i,2] = mcmc_random
@@ -108,21 +116,40 @@ def get_stats_over_runs(runs, base_path):
     return p_mean_list, d_mean_list, n_mean_list, p_CI_list, d_CI_list, n_CI_list
 
 
+
+# from: https://stackoverflow.com/questions/17129290/numpy-2d-and-1d-array-to-latex-bmatrix
+def bmatrix(a):
+    """Returns a LaTeX bmatrix
+
+    :a: numpy array
+    :returns: LaTeX bmatrix as a string
+    """
+    if len(a.shape) > 2:
+        raise ValueError('bmatrix can at most display two dimensions')
+    lines = str(a).replace('[', '').replace(']', '').splitlines()
+    rv = [r'\begin{bmatrix}']
+    rv += ['  ' + ' & '.join(l.split()) + r'\\' for l in lines]
+    rv +=  [r'\end{bmatrix}']
+    return '\n'.join(rv)
+
+
+
 if __name__ == "__main__":
 
-    # data1 = np.load("evaluation/tfbind8_gflow_metrics_1.npy", allow_pickle=True)
-    # data2 = np.load("evaluation/tfbind8_gflow_metrics_2.npy", allow_pickle=True)
-    # data4 = np.load("evaluation/tfbind8_gflow_metrics_4.npy", allow_pickle=True)
-    # data6 = np.load("evaluation/tfbind8_gflow_metrics_6.npy", allow_pickle=True)
+    data1 = np.load("evaluation/tfbind8_gflow_metrics_1.npy", allow_pickle=True)
+    data2 = np.load("evaluation/tfbind8_gflow_metrics_2.npy", allow_pickle=True)
+    data4 = np.load("evaluation/tfbind8_gflow_metrics_4.npy", allow_pickle=True)
+    data6 = np.load("evaluation/tfbind8_gflow_metrics_6.npy", allow_pickle=True)
 
-    # data = [data1, data2, data4, data6]
+    data = [data1, data2, data4, data6]
 
-    # print(get_stats(data, alpha = 0.05,n_comparison=1))
+    print(get_stats(data, alpha = 0.05,n_comparison=1))
 
-    a = np.random.rand(3,3)
-    pvals, reject = correct_pvalues(a)
+    # a = np.random.rand(3,3)
+    # print(a)
+    # pvals, reject = correct_pvalues(a)
 
-    print(pvals)
-    print(reject)
-    # print(correct_pvalues(a))
+    # print(pvals)
+    # print(reject)
+    # print(bmatrix(pvals))
     
