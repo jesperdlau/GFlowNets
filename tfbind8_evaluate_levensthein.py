@@ -42,5 +42,7 @@ mcmc = np.vstack((mcmc_p, mcmc_d, mcmc_n))
 results = compare_models(gflow=gflow, mcmc=mcmc, random=random)
 correct_results = correct_pvalues(results)
 
-
+print(f"Results:\n{results}")
+print(f"Corrected Results:\n{correct_results[0]}")
+print(f"{correct_results[1]}")
 print("Comparison complete.")
