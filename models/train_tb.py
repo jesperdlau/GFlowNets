@@ -5,8 +5,6 @@ import time
 # Enable anomaly detection
 torch.autograd.set_detect_anomaly(True)
 
-
-# TODO: Slet ikke færdig, bare kopiret fra den anden train funktion
 def train_tb(model, optimizer, logz_optimizer, reward_func, 
              minibatch_size:int = 32, num_episodes:int = 100, checkpoint_freq:int = 50,
              delta:float = 0.001, beta:int = 3,
@@ -32,33 +30,12 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
     Returns:
     - None
     """
-    sampled_sequences = []
-    # terminal_rewards = []
-    # total_trajectory_flow = []
-
-    # logZ = nn.Parameter(torch.ones(1))
-
     # Move model and reward function to device
     reward_func.to(device)
     reward_func.load_state_dict(torch.load(reward_path, map_location=device))
-
     model.to(device)
     model.train()
 
-    # If hot_start is true, load model and optimizer from checkpoint
-    # if hot_start: # TODO: Needs to be modified if needed
-    #     try:
-    #         checkpoint = torch.load(model_path)
-    #         model_state_dict = checkpoint['model_state_dict']
-    #         model.load_state_dict(model_state_dict)
-    #         optimizer_state_dict = checkpoint['optimizer_state_dict']
-    #         optimizer.load_state_dict(optimizer_state_dict)
-    #         start_episode = checkpoint['episode'] 
-    #         minibatch_loss = checkpoint['minibatch_loss']
-    #         losses = checkpoint['losses']
-    #     except:
-    #         print("Could not load checkpoint. Starting from scratch.")
-    
     # Setup dictionary for saving checkpoints during run
     checkpoint = {
                 'checkpoint_step': [],
@@ -101,31 +78,35 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
                 distribution = Categorical(logits=policy)
                 action = distribution.sample()
 
-                total_P_F += distribution.log_prob(action)
-                # action.to(device) # TODO: Is it necessary to send action to device?
+                # Get new state from current state and action
                 new_state = model.step(i, state, action)
                 new_state.to(device)
 
+                # If sequence is complete, calculate reward
                 if i == model.len_sequence - 1:
                     reward = reward_func(new_state).pow(beta)
 
+                # Predict edge flow
                 P_F_s, P_B_s = model(new_state)
-                # Take action and get new state
+
+                # Accumulate flow
+                total_P_F += distribution.log_prob(action)
                 total_P_B += Categorical(logits=P_B_s).log_prob(action)
                 
                 # Continue iterating
                 state = new_state
-
+            
+            # Calculate loss
             reward = torch.nan_to_num(torch.log(reward).clip(-20), -20) # clips reward to at least -20, even if it is nan
             loss = (model.logZ + total_P_F - reward - total_P_B).pow(2)
+
+            # Accumulate loss
             minibatch_loss += loss.cpu()
-            
-            # total_trajectory_flow.append(sum(trajectory_flow))
-            sampled_sequences.append(state) # TODO: Possibly go from one-hot to id/char? (And save both one-hot and chars..?)
 
         # Print log
         if verbose:
             print(f"Step:[{training_step+1:>4}]/[{num_episodes}] \t Time:[{time.time() - start_time:>8.0f}s] \t Loss:[{minibatch_loss.item():>14.8f}]")
+        
         # Perform optimization
         optimizer.zero_grad()
         logz_optimizer.zero_grad()
@@ -134,7 +115,6 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
 
         optimizer.step()
         logz_optimizer.step()
-        #print("Performed optimization")
 
         # Average loss for step
         average_step_loss = minibatch_loss.item() / minibatch_size
