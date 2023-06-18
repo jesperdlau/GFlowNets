@@ -1,0 +1,273 @@
+760b502 - lohmann94, 3 days ago : small change
+841eb56 - lohmann94, 3 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+c76a497 - lohmann94, 3 days ago : Updated internal metrics to MCMC
+11ed964 - RasmusTorp, 3 days ago : minmaxscale change
+f0344cb - RasmusTorp, 3 days ago : indentation fix
+4ae23f3 - RasmusTorp, 3 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+4a60b5e - RasmusTorp, 3 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+665e27f - RasmusTorp, 3 days ago : stats compare
+7e4e64d - jesperdlau, 3 days ago : changed path
+2e221e4 - jesperdlau, 3 days ago : fixed path
+933c51f - jesperdlau, 3 days ago : added function to use in plots
+ce626b4 - jesperdlau, 3 days ago : added episode argument
+8c9e361 - RasmusTorp, 3 days ago : bonferroni
+1316141 - RasmusTorp, 3 days ago : output mean aswell
+025d79d - RasmusTorp, 3 days ago : stats
+c49910a - jesperdlau, 3 days ago : Evaluation metrics for tfbind8 gflownet
+3fe226a - jesperdlau, 3 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+292c5e3 - jesperdlau, 3 days ago : fixed bug leading to nan in calculation of reward
+a7cf7a2 - jesperdlau, 3 days ago : corrected details
+9878941 - jesperdlau, 3 days ago : removed  wrong preprocess
+3991b93 - RasmusTorp, 4 days ago : Sample size estimation
+219f9d1 - RasmusTorp, 4 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+18d44cc - RasmusTorp, 4 days ago : 0 and 1 as argument to minmaxscale
+171c9c0 - jesperdlau, 4 days ago : fixed save func
+bea781f - RasmusTorp, 4 days ago : gfp reward and eval
+0e9f750 - jesperdlau, 4 days ago : gfp versions of main scripts
+74f447c - jesperdlau, 4 days ago : name change
+9b280dd - jesperdlau, 4 days ago : name change
+3fecf34 - lohmann94, 4 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+d22da5d - lohmann94, 4 days ago : MCMC and random moved and minimized
+7a0bffd - jesperdlau, 4 days ago : name change and corrected sample
+43e975f - jesperdlau, 4 days ago : added numpy .npy
+7f35d32 - jesperdlau, 4 days ago : Added minibatch average to checkpoint
+8ef5436 - jesperdlau, 4 days ago : changed save path
+de6b1b8 - jesperdlau, 4 days ago : Tidy up
+2b7f129 - jesperdlau, 4 days ago : fixed mcmc loop
+5595650 - jesperdlau, 4 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+978cfad - jesperdlau, 4 days ago : testing novelty
+a2b4842 - lohmann94, 4 days ago : tf_bind MCMC sampler altered for equal probs
+31e435f - lohmann94, 4 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+acccc49 - lohmann94, 4 days ago : new MCMC sampler for GFP
+40b1331 - jesperdlau, 4 days ago : Added reward name
+427779d - jesperdlau, 4 days ago : Added delta distribution to sample
+1e9d06b - jesperdlau, 5 days ago : changed path of config
+6e6c3ec - jesperdlau, 5 days ago : changed config import
+efea75f - jesperdlau, 5 days ago : Included test
+bca8d36 - jesperdlau, 5 days ago : Renaming
+87a65ea - lohmann94, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+5fb8c3a - lohmann94, 5 days ago : random sampler for GFP implemented
+6e50373 - jesperdlau, 5 days ago : Fixed path
+f38255b - jesperdlau, 5 days ago : tidy up
+d950f05 - jesperdlau, 5 days ago : inference placeholder
+e879af4 - jesperdlau, 5 days ago : added path var
+181aecf - jesperdlau, 5 days ago : Implemented use of config file
+8aac6b9 - jesperdlau, 5 days ago : Fixed import of correct model
+5229c27 - jesperdlau, 5 days ago : Fixed loading of losses
+c2abdbf - jesperdlau, 5 days ago : Fixed color
+bc4de4e - jesperdlau, 5 days ago : Changed to work with updated train_tb
+519039e - jesperdlau, 5 days ago : Changed checkpoint and prints
+0763b59 - lohmann94, 5 days ago : small changes
+95b82ce - lohmann94, 5 days ago : logz parameter update code finalized
+3189a25 - lohmann94, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+85a2957 - lohmann94, 5 days ago : small changes.. sorry
+6238f93 - jesperdlau, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+2ec6b4b - jesperdlau, 5 days ago : typing error
+0d664df - RasmusTorp, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+700ca8a - jesperdlau, 5 days ago : Fixed path
+980494f - RasmusTorp, 5 days ago : Genarilize to GFP data case
+a8dcc24 - jesperdlau, 5 days ago : Removed unused imports
+4609d03 - jesperdlau, 5 days ago : Tidy up of paths
+d8322ad - RasmusTorp, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+51e0aeb - RasmusTorp, 5 days ago : doc string
+453fbb9 - RasmusTorp, 5 days ago : adding beta
+8ba1ff1 - jesperdlau, 5 days ago : tidy up of parameters
+6894562 - jesperdlau, 5 days ago : corrected path
+eb699df - jesperdlau, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+4a17ae3 - jesperdlau, 5 days ago : changed split to train: 50/50, valid: 10% of train
+d97af80 - lohmann94, 5 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+c43efb6 - lohmann94, 5 days ago : drew out logz from overall optimizer to seperate
+e0dfa7b - jesperdlau, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+740fb0e - jesperdlau, 6 days ago : Added short description
+689ad7c - lohmann94, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+b8f6d40 - lohmann94, 6 days ago : Initial code for logz parameter tuning
+1071c7e - jesperdlau, 6 days ago : Added betas to optimizer
+05d272a - jesperdlau, 6 days ago : Fixed input to optimizer
+d8d42ac - jesperdlau, 6 days ago : Fixed learning rate
+d04781a - jesperdlau, 6 days ago : Small changes
+db59023 - jesperdlau, 6 days ago : Added general combined plot with ci
+585c3f4 - jesperdlau, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+4dccca5 - jesperdlau, 6 days ago : Changed print statement
+4a52ffe - jesperdlau, 6 days ago : Overhaul and simplification
+8375379 - jesperdlau, 6 days ago : Outcommented print statement
+b95350f - jesperdlau, 6 days ago : Overhaul and simplification
+ff04deb - jesperdlau, 6 days ago : Improved evaluation scripts
+eaba878 - jesperdlau, 6 days ago : added name_of_run to simplify
+03bde7f - lohmann94, 6 days ago : trajectory balance main implemented
+a472ca4 - RasmusTorp, 6 days ago : trajectory train and model
+24016a1 - RasmusTorp, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+942d085 - RasmusTorp, 6 days ago : tb gflow
+08284a0 - lohmann94, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+39118fc - lohmann94, 6 days ago : Trajectory balance model implemented
+314d73e - RasmusTorp, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+2c1e232 - RasmusTorp, 6 days ago : changing split
+2448aee - RasmusTorp, 6 days ago : generalizing train funcftion
+ee43456 - jesperdlau, 6 days ago : added device
+ea52947 - jesperdlau, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+17ec783 - lohmann94, 6 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+1c97fde - lohmann94, 6 days ago : changed probability measure of TB
+91c361c - jesperdlau, 6 days ago : fixed LR
+d5ba1a3 - jesperdlau, 7 days ago : Overhaul to work with metrics pipeline
+14528ed - jesperdlau, 7 days ago : Small change to data save
+2bf20e1 - jesperdlau, 7 days ago : Isolation of evaluation - loads and saves
+97d4890 - jesperdlau, 7 days ago : Initial commit
+5470f2e - jesperdlau, 7 days ago : saving model at each optimization step
+5b9da40 - jesperdlau, 7 days ago : note on run time
+3ee4eb5 - jesperdlau, 7 days ago : changed import
+3a7ea1e - jesperdlau, 7 days ago : Initial commit
+08631d9 - jesperdlau, 8 days ago : initial commit
+7c6740e - jesperdlau, 8 days ago : added novelty_torch for speed up
+3067bfd - jesperdlau, 9 days ago : included optimizer betas
+b6bc5c4 - jesperdlau, 9 days ago : Initial commit
+c02aae9 - jesperdlau, 9 days ago : Small correction
+542a0eb - jesperdlau, 9 days ago : changed train size to 1/2
+a4d39fd - jesperdlau, 9 days ago : added punktum
+a2d0140 - RasmusTorp, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+69e75aa - RasmusTorp, 9 days ago : batchsize added
+2703f70 - jesperdlau, 9 days ago : Changed save path
+0627413 - RasmusTorp, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+02ab5c9 - RasmusTorp, 9 days ago : to relu act func
+93703e6 - RasmusTorp, 9 days ago : generalize reward function
+46735fb - jesperdlau, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+1e03376 - jesperdlau, 9 days ago : shuffling of functions
+5466578 - jesperdlau, 9 days ago : Added layer info to model dict
+b3a89ea - jesperdlau, 9 days ago : Changed LeakyReLU to ReLU
+bca65ae - RasmusTorp, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+bf30fe6 - RasmusTorp, 9 days ago : ikke færdig funktion til træning af tbmodel
+80686f1 - RasmusTorp, 9 days ago : ændring af input og lidt kommentarer
+a06cc39 - lohmann94, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+cbed076 - lohmann94, 9 days ago : MCMC_light created and initial grid search done
+0e9b928 - jesperdlau, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+b81ce79 - jesperdlau, 9 days ago : added stats to model fields
+a8cbb8a - RasmusTorp, 9 days ago : change function name
+493bdae - RasmusTorp, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+567274c - RasmusTorp, 9 days ago : small changes
+00ee493 - jesperdlau, 9 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+1f48f4d - jesperdlau, 9 days ago : introduced one hot sampler
+b278557 - RasmusTorp, 9 days ago : renaming
+1027137 - RasmusTorp, 9 days ago : adding hyperparamter options
+4ec42af - lohmann94, 9 days ago : tf_bind_oracle to pt
+72c470d - lohmann94, 10 days ago : tfbind8 code for dryrun evaluation implemented
+0b29c40 - lohmann94, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+54635d1 - lohmann94, 10 days ago : Extended tf_bind main evaluation of samples
+16cf45b - jesperdlau, 10 days ago : Fixed correct device for error calc
+4b0f590 - jesperdlau, 10 days ago : fixed data to device
+fef0745 - jesperdlau, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+579a620 - jesperdlau, 10 days ago : Moved reward_func state init to train
+929e4ec - jesperdlau, 10 days ago : Minor fixes relevant to device, verbose, load
+8690e7a - jesperdlau, 10 days ago : Included .to(device) for relevant parts.
+4101c79 - RasmusTorp, 10 days ago : uncomment
+7907327 - RasmusTorp, 10 days ago : gfn sample function
+5aa0b8a - RasmusTorp, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+adab77c - RasmusTorp, 10 days ago : small print change
+5bcafa9 - RasmusTorp, 10 days ago : Earlystopping implemented
+7ee3cd1 - RasmusTorp, 10 days ago : Streamlined reward training
+dd81ac5 - lohmann94, 10 days ago : continued evaluation script
+4b3b22a - RasmusTorp, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+8bcfb5a - RasmusTorp, 10 days ago : move from folder
+01fa59f - RasmusTorp, 10 days ago : renaming
+bb821de - lohmann94, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+0a965cb - lohmann94, 10 days ago : Baseline initialized
+1068f85 - jesperdlau, 10 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+55122e0 - jesperdlau, 10 days ago : fixed input dim
+aae7210 - jesperdlau, 10 days ago : Updated helper functions of class
+34f23ea - RasmusTorp, 10 days ago : change directory of saved models
+e8d5e2a - RasmusTorp, 10 days ago : ignore .tar files
+ad4632f - RasmusTorp, 10 days ago : ignore images
+2822b69 - RasmusTorp, 10 days ago : moving datadownload into data folder
+31b354b - RasmusTorp, 10 days ago : moving into data folder
+8e1a050 - RasmusTorp, 10 days ago : evaluation script
+ed05c0d - RasmusTorp, 10 days ago : small changes
+da0f2df - RasmusTorp, 10 days ago : moving metrics into evaluation folder
+e58e1ac - lohmann94, 10 days ago : added evaluation script and MCMC func
+bb173c1 - jesperdlau, 11 days ago : moved import to "if main"
+00e39bb - jesperdlau, 11 days ago : fixed model load
+dce311b - jesperdlau, 11 days ago : added simple loss plot
+97cbd39 - jesperdlau, 11 days ago : Rolled changes back due to dimensions
+472bc63 - jesperdlau, 11 days ago : A working main for testing
+d09fe79 - jesperdlau, 11 days ago : Fixed a nasty bug raised by gradient computation
+d5fe303 - jesperdlau, 11 days ago : Moved import to if __name__ == "__main__"
+922dfbf - jesperdlau, 11 days ago : Implemented save feature
+8ec1f72 - jesperdlau, 11 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+9bee5ed - jesperdlau, 11 days ago : General training loop-function
+e4e6820 - jesperdlau, 11 days ago : Isolated model with helper functions
+8128ee4 - lohmann94, 11 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+d30dd54 - lohmann94, 11 days ago : Added MCMC metropolis hasting func
+8a6c4ec - RasmusTorp, 11 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+d58b7d8 - RasmusTorp, 11 days ago : some optimizations
+f2a520f - RasmusTorp, 11 days ago : minor changes
+c2dab7b - RasmusTorp, 11 days ago : xgboost
+1d9a823 - lohmann94, 12 days ago : updated MCMC structure
+b28627d - lohmann94, 13 days ago : added reward proportionality measure for flow matching
+6d3f212 - RasmusTorp, 13 days ago : renaming
+ba6f5ac - lohmann94, 13 days ago : added output to tb
+d99f8d9 - lohmann94, 13 days ago : Added proportionality for TB
+ce67b70 - RasmusTorp, 13 days ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+1bdd50b - RasmusTorp, 13 days ago : minor changes
+5534d53 - RasmusTorp, 13 days ago : 1 hot gfp reward
+0f65a67 - RasmusTorp, 13 days ago : added helper function
+e03e29b - RasmusTorp, 13 days ago : helper function to train models
+82775b2 - RasmusTorp, 13 days ago : move metrics to main folder
+93a4e91 - RasmusTorp, 13 days ago : 1 hot for gfp
+9a61062 - lohmann94, 2 weeks ago : Added TB balance func
+f3e8da3 - jesperdlau, 2 weeks ago : Fixed keys
+b8cc116 - jesperdlau, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+db4b967 - jesperdlau, 2 weeks ago : Isolated reward class document
+78a2061 - jesperdlau, 2 weeks ago : Added plotting
+425b3cd - lohmann94, 2 weeks ago : initial TB model struct
+f214932 - jesperdlau, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+372f233 - jesperdlau, 2 weeks ago : changed dimensions
+6aa4fa4 - jesperdlau, 2 weeks ago : changed dimensions
+767ee76 - jesperdlau, 2 weeks ago : Initial GFN
+b71c043 - lohmann94, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+5d12e03 - lohmann94, 2 weeks ago : smiley trial finalized
+5aa148b - jesperdlau, 2 weeks ago : Changed path
+388a340 - RasmusTorp, 2 weeks ago : performance metrics
+8f99747 - RasmusTorp, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+c4ff742 - RasmusTorp, 2 weeks ago : Minor changes
+e62b200 - RasmusTorp, 2 weeks ago : reward with one hot encoding
+0da1741 - RasmusTorp, 2 weeks ago : Name change
+c77af5b - lohmann94, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+b1bdec8 - lohmann94, 2 weeks ago : Added init smiley flow for tf-bind
+3bc7d2e - RasmusTorp, 2 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+6443e97 - RasmusTorp, 2 weeks ago : 1hot encoding of data
+5c6a18c - jesperdlau, 2 weeks ago : Tokenizer empty
+e3f5338 - RasmusTorp, 2 weeks ago : ignore tensors
+a204417 - RasmusTorp, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+4e857d2 - RasmusTorp, 7 weeks ago : removing spaces
+0a3e0dc - jesperdlau, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+83d14b2 - jesperdlau, 7 weeks ago : implemented seq2seq padding
+feac2bd - RasmusTorp, 7 weeks ago : Deletion of outcommented code
+be6ad40 - RasmusTorp, 7 weeks ago : scikitlearn version of reward function
+973bcd6 - RasmusTorp, 7 weeks ago : for evaluting performance of rewardfunctions
+6d299e9 - RasmusTorp, 7 weeks ago : fixed dataset bug
+acfe25b - RasmusTorp, 7 weeks ago : Fixed bug with dataset implemenation
+80b27cf - RasmusTorp, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+08e8eb2 - RasmusTorp, 7 weeks ago : ignore pickle models
+09578c1 - jesperdlau, 7 weeks ago : tidy up model/tokenizer load
+4a596c7 - jesperdlau, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+7662428 - jesperdlau, 7 weeks ago : Working transformer oracle for GFP
+98b5b56 - RasmusTorp, 7 weeks ago : Move rewards to folders
+5cd997e - RasmusTorp, 7 weeks ago : Small refactor
+905534f - RasmusTorp, 7 weeks ago : gfp reward first draft
+29d7c82 - RasmusTorp, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+e7f14db - RasmusTorp, 7 weeks ago : git ignore saved pytorch models
+d7cce66 - lohmann94, 7 weeks ago : Reward prop. calc impl. in test flow
+0535a42 - RasmusTorp, 7 weeks ago : Reward for TFBind First draft
+e0c6958 - lohmann94, 7 weeks ago : sampler + oracle int. 'r' props calculated
+95be040 - lohmann94, 7 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+9a6ca39 - RasmusTorp, 9 weeks ago : data_download væk fra gitignore
+cd75ab0 - RasmusTorp, 9 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+7582824 - RasmusTorp, 9 weeks ago : data download ignore
+987047b - jesperdlau, 9 weeks ago : Merge test
+c4d8974 - jesperdlau, 9 weeks ago : test overwrite
+a4e1179 - lohmann94, 9 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets into models
+21f0622 - RasmusTorp, 9 weeks ago : Merge branch 'main' of https://github.com/jesperdlau/GFlowNets
+1c23238 - RasmusTorp, 9 weeks ago : test
+ddc9153 - lohmann94, 9 weeks ago : Added models, random- MCMC- and initial struct for GFLOW_sampler
+6f52e62 - jesperdlau, 9 weeks ago : Working implementation of tfb8 oracle.
+b46bf19 - jesperdlau, 9 weeks ago : Added data folder
+1d2024c - jesperdlau, 9 weeks ago : Script for downloading TF_Bind_8 and GFP data
+3c7b8b7 - jesperdlau, 4 months ago : Updatering
+0cb918d - jesperdlau, 4 months ago : test commit
+a2455a8 - jesperdlau, 4 months ago : Initial commit
