@@ -79,24 +79,18 @@ def train_tb(model, optimizer, logz_optimizer, reward_func,
                 action = distribution.sample()
 
                 # Get new state from current state and action
-                new_state = model.step(i, state, action)
-                new_state.to(device)
-
-                # If sequence is complete, calculate reward
-                if i == model.len_sequence - 1:
-                    reward = reward_func(new_state).pow(beta)
+                state = model.step(i, state, action)
+                state.to(device)  
 
                 # Predict edge flow
-                P_F_s, P_B_s = model(new_state)
+                P_F_s, P_B_s = model(state)
 
                 # Accumulate flow
                 total_P_F += distribution.log_prob(action)
                 total_P_B += Categorical(logits=P_B_s).log_prob(action)
-                
-                # Continue iterating
-                state = new_state
-            
-            # Calculate loss
+
+            # Calculate reward and loss
+            reward = reward_func(state).pow(beta)
             reward = torch.nan_to_num(torch.log(reward).clip(-20), -20) # clips reward to at least -20, even if it is nan
             loss = (model.logZ + total_P_F - reward - total_P_B).pow(2)
 
