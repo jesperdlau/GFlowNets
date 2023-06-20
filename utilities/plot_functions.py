@@ -12,14 +12,14 @@ def loss_plot(losses, save_path):
     xticks = plt.xticks()[0]
     
     # Multiply the xticks by a scalar
-    new_labels = [int(label * 50) for label in xticks]
+    new_labels = [int(label * 100) for label in xticks]
     # Set the new xticks
     plt.xticks(xticks[1:-1], new_labels[1:-1])    
     
     plt.yscale("log")
     plt.xlabel("Training Step")
     plt.ylabel("Log-Loss")
-    plt.title("Mean Loss for 10 Training Runs")
+    plt.title("TFBind8 Log-Loss over 5000 Training Steps")
     plt.savefig(save_path)
     plt.close()
     print("Saved loss plot to", save_path)
