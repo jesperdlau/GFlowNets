@@ -6,7 +6,7 @@ from reward_functions.tf_bind_reward_1hot import TFBindReward1HOT
 import time
 from evaluation.evaluation import evaluate_modelsampling
 from inference.MCMC_sampler import MCMCSequenceSampler
-from MCMC_light_sampler import MCMCLightSequenceSampler
+from inference.MCMC_light_sampler import MCMCLightSequenceSampler
 
 DATA_FOLDER = "data/"
 
