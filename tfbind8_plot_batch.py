@@ -39,17 +39,17 @@ plot_avg_over_runs(gflow_mean=gflow_p_list, gflow_ci=[gflow_p_CI_y1, gflow_p_CI_
                    mcmc_mean=mcmc_p_mean, mcmc_ci= mcmc_p_CI, 
                    random_mean=random_p_mean, random_ci=random_p_CI,
                    save_path="plots/tfbind8_gflow_performance_plot_lev.png", 
-                   title="TFBind8 Performance over Minibatch", ylabel="Performance", running_mean=5)
+                   title="TFBind8 Performance over Training Steps", ylabel="Performance", running_mean=5)
 plot_avg_over_runs(gflow_mean=[num/2 for num in gflow_d_list], gflow_ci=[[num/2 for num in gflow_d_CI_y1], [num/2 for num in gflow_d_CI_y2]], 
                    mcmc_mean=mcmc_d_mean/2, mcmc_ci=[num/2 for num in mcmc_d_CI], 
                    random_mean=random_d_mean/2, random_ci=[num/2 for num in random_d_CI],
                    save_path="plots/tfbind8_gflow_diversity_plot_lev.png", 
-                   title="TFBind8 Diversity over Minibatch", ylabel="Diversity", running_mean=5)
+                   title="TFBind8 Diversity over Training Steps", ylabel="Diversity", running_mean=5)
 plot_avg_over_runs(gflow_mean=[num/2 for num in gflow_n_list], gflow_ci=[[num/2 for num in gflow_n_CI_y1], [num/2 for num in gflow_n_CI_y2]], 
                    mcmc_mean=mcmc_n_mean/2, mcmc_ci=[num/2 for num in mcmc_n_CI], 
                    random_mean=random_n_mean/2, random_ci=[num/2 for num in random_n_CI],
                    save_path="plots/tfbind8_gflow_novelty_plot_lev.png", 
-                   title="TFBind8 Novelty over Minibatch", ylabel="Novelty", running_mean=5)
+                   title="TFBind8 Novelty over Training Steps", ylabel="Novelty", running_mean=5)
 
 
 
