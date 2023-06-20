@@ -39,6 +39,7 @@ train_gfp_reward(epochs=EPOCHS,
                     batch_size=BATCH_SIZE,
                     n_hid=N_HID,
                     n_hidden_layers=N_HIDDEN_LAYERS,
+                    betas=BETAS,
                     save_as = REWARD_PATH,
                     patience = PATIENCE,
                     verbose=VERBOSE)
