@@ -155,3 +155,6 @@ GFlow_manual.py
 
 # VSCode 
 .vscode
+
+# Git log
+log.txt
