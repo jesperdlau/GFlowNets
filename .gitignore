@@ -133,7 +133,6 @@ dmypy.json
 data/
 *.npy
 
-
 # Pytorch models
 *.pth
 *.tar
@@ -154,7 +153,7 @@ GFlow_grid.py
 GFlow_manual.py
 
 # VSCode 
-.vscode
+*.vscode
 
 # Git log
 log.txt
